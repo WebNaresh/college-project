@@ -21,44 +21,15 @@ my-app
 │   └── next.svg
 │   └── vercel.svg
 └── app
-    ├── essential
-    │   └── favicon.ico
-    │   └── globals.css
-    ├── hooks
-    │   └── useAppCookies.jsx
-    │   └── useAppFunction.jsx
-    │   └── useAppState.jsx
-    ├── lib
-    │   └── globalUseEffect.jsx
-    ├── pages
-    │   └── About
-    │   │     └── components
-    │   │     │       └── component1.jsx
-    │   │     └── About.jsx
-    │   └── Home
-    │        └── components
-    │        │       └── component1.jsx
-    │        └── home.jsx
-    ├── utils
-    │   └── AppAlert
-    │   │     └── AppAlert.jsx
-    │   └── AppLoader
-    │   │     └── AppLoader.jsx
-    │   └── TopLoadingBar
-    │   │     └── TopLoadingBar.jsx
-    │   └── TopNav
-    │        └── TopNav.jsx
-    ├── App.jsx
-    ├── index.css
-    ├── main.jsx
-    ├── route.jsx
-    └── .env.local
-    └── eslintrc.cjs
-    └── .gitignore
-    └── index.html
-    └── package.json
-    └── postcss.config.js
-    └── README.md
-    └── tailwind.cofig.js
-    └── vite.cofig.js
+│    ├── essential
+│    │   └── favicon.ico
+│    │   └── globals.css
+│    ├── layout.tsx
+│    ├── loader.tsx
+│    └── page.tsx
+└── components
+│       └── ui(all related to shadcn ui)
+│       └──(You custom component)
+└── lib
+        └── utils.ts
 ```
