@@ -27,8 +27,8 @@ const Header: FC<HeaderProps> = ({ totalSteps, step, goToStep }) => {
           {index < totalSteps - 1 && (
             <div
               className={`w-full h-4 ${
-                step - 1 < index + 1 ? "bg-transparent" : "bg-primary"
-              } flex m-auto rounded-md border`}
+                step - 1 < index + 1 ? "bg-[#f973164a]" : "bg-primary"
+              } flex m-auto rounded-md`}
             ></div>
           )}
         </React.Fragment>
