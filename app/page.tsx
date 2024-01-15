@@ -6,7 +6,7 @@ export default function Home() {
     console.log("hello");
   }, 10000);
   return (
-    <Accordion type="single" collapsible className="w-full">
+    <Accordion type="single" collapsible className="w-full h-[150vh]">
       <Button>Button</Button>
     </Accordion>
   );

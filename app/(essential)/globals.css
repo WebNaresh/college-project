@@ -94,3 +94,11 @@
     transform: rotate(360deg);
   }
 }
+*::-webkit-scrollbar-thumb {
+  border-radius: 2em;
+  background: hsl(var(--primary));
+}
+*::-webkit-scrollbar {
+  width: 10px;
+  background: transparent;
+}

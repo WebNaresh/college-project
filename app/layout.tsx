@@ -1,7 +1,8 @@
+import NavBar from "@/components/Navbar/navbar";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { ThemeProvider } from "../wrappers/theme-provider";
 import "./(essential)/globals.css";
-import { ThemeProvider } from "./wrappers/theme-provider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -26,7 +27,8 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          {children}
+          <NavBar />
+          <div className="pt-[60px]">{children}</div>
         </ThemeProvider>
       </body>
     </html>

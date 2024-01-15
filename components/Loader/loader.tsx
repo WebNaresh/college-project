@@ -1,6 +1,6 @@
-export default function Loading() {
-  // Or a custom loading skeleton component
-  console.log("loading");
+type Props = {};
+
+const Loader = (props: Props) => {
   return (
     <div
       id="uniqueLoader"
@@ -12,4 +12,6 @@ export default function Loading() {
       </div>
     </div>
   );
-}
+};
+
+export default Loader;

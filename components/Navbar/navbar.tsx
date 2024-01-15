@@ -12,8 +12,15 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { AlignJustify, LogOut, User } from "lucide-react";
-import { useTheme } from "next-themes";
 import Link from "next/link";
+import {
+  Menubar,
+  MenubarContent,
+  MenubarItem,
+  MenubarMenu,
+  MenubarSeparator,
+  MenubarTrigger,
+} from "../ui/menubar";
 
 type Props = {};
 
@@ -25,10 +32,9 @@ const NavBar = (props: Props) => {
       icon: <AlignJustify />,
     },
   ];
-  const { setTheme, themes, theme, systemTheme } = useTheme();
 
   return (
-    <div className="h-[60px] w-full flex justify-between bg-primary items-center">
+    <div className="h-[60px] w-full flex justify-between bg-primary items-center fixed">
       <div className="flex gap-4 items-center">
         <Sheet>
           <SheetTrigger asChild>
@@ -76,9 +82,26 @@ const NavBar = (props: Props) => {
         </Sheet>
         <h2 className="text-white font-bold">Modern College MCA Department</h2>
       </div>
-      <Button>
-        <User className=" text-white" />
-      </Button>
+      <Menubar className="mx-2 rounded-full !h-10 !w-10 flex-shrink-0 justify-center ">
+        <MenubarMenu>
+          <MenubarTrigger className="rounded-full !h-full !w-full p-0 justify-center text-white active:text-primary">
+            <User className=" text-primary text-lg" />
+          </MenubarTrigger>
+          <MenubarContent>
+            <Link href={"/profile"}>
+              <MenubarItem>Profile</MenubarItem>
+            </Link>
+            <MenubarSeparator />
+            <Link href={"/login"}>
+              <MenubarItem>Login</MenubarItem>
+            </Link>
+            <MenubarSeparator />
+            <Link href={"/signup"}>
+              <MenubarItem>Signup</MenubarItem>
+            </Link>
+          </MenubarContent>
+        </MenubarMenu>
+      </Menubar>
     </div>
   );
 };
