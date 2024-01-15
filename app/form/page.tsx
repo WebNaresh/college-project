@@ -1,3 +1,4 @@
+"use client";
 import MultiStepForm from "./components/form";
 
 type Props = {};

@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import Bottom from "./bottom";
 import Header from "./header";
 
@@ -22,6 +23,9 @@ const StepForm = ({
   isLastStep,
   children,
 }: Props) => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [step]);
   return (
     <div className="p-8 flex flex-col gap-4 border border-primary m-4 rounded-lg">
       <Header {...{ goToStep, totalSteps, step }} />

@@ -1,7 +1,7 @@
 "use client";
 import StepForm from "@/components/step-form/form-wrapper";
 import useMultiStepForm from "@/custom-hooks/useStepForm";
-import { FC, useEffect } from "react";
+import { FC } from "react";
 import Step1 from "./Step1";
 import Step2 from "./Step2";
 import Step3 from "./Step3";
@@ -17,10 +17,6 @@ const MultiStepForm: FC = () => {
     totalSteps,
     goToStep,
   } = useMultiStepForm(7);
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [step]);
 
   const useSwitch = (step: number) => {
     switch (step) {
