@@ -39,9 +39,9 @@ model Session {
 
 model User {
   id               String             @id @default(cuid())
-  name             String?
-  email            String?            @unique
-  contact          Int
+  name             String
+  email            String             @unique
+  contact          String
   verified         Boolean
   profileImage     String             @default("/default-user.png")
   role             Role

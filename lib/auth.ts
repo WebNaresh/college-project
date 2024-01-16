@@ -3,7 +3,6 @@ import { compare } from "bcrypt";
 
 import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import GithubProvider from "next-auth/providers/github";
 import { prisma } from "./prisma";
 
 export const authOptions: NextAuthOptions = {
@@ -16,10 +15,6 @@ export const authOptions: NextAuthOptions = {
   },
   adapter: PrismaAdapter(prisma) as any,
   providers: [
-    GithubProvider({
-      clientId: process.env.GitHub_CLIENT_ID as string,
-      clientSecret: process.env.GitHub_CLIENT_SECRET as string,
-    }),
     CredentialsProvider({
       name: "Credentials",
       credentials: {
@@ -31,9 +26,9 @@ export const authOptions: NextAuthOptions = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials, req) {
+        console.log(`🚀 ~ credentials:`, credentials);
         if (!credentials?.email || !credentials?.password) {
-          // Any object returned will be saved in `user` property of the JWT
-          return null;
+          return Promise.reject(new Error("All fields are mandatory"));
         } else {
           const user = await prisma.user.findUnique({
             where: {
@@ -41,24 +36,31 @@ export const authOptions: NextAuthOptions = {
             },
           });
           if (!user) {
-            return null;
+            return Promise.reject(new Error("User not found."));
           } else {
             const comparePassword = await compare(
               credentials.password,
               user.password as string
             );
             if (comparePassword) {
-              return user;
+              if (!user.verified) {
+                return Promise.reject(
+                  new Error("User is not verified by system.")
+                );
+              } else {
+                return user;
+              }
+            } else {
+              return Promise.reject(new Error("Check your email or password"));
             }
-            return null;
           }
         }
       },
     }),
   ],
   callbacks: {
-    async jwt({ token, trigger, session }) {
-      console.log(`🚀 ~ trigger:`, trigger);
+    async jwt({ token, user, profile, account, trigger, session }) {
+      console.log(`🚀 ~ user:`, user);
       if (trigger === "update") {
         token.name == session.name;
         token.picture == session.image;
@@ -70,6 +72,25 @@ export const authOptions: NextAuthOptions = {
       return true;
     },
     async session({ session, token }) {
+      const user = await prisma.user.findUnique({
+        where: {
+          email: token.email as string,
+        },
+        select: {
+          name: true,
+          email: true,
+          password: false,
+          role: true,
+          contact: true,
+          profileImage: true,
+          verified: true,
+          professionalInfo: true,
+          id: true,
+          createdAt: true,
+          updatedAt: true,
+        },
+      });
+      session.user = user;
       return session;
     },
   },

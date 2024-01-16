@@ -102,3 +102,10 @@
   width: 10px;
   background: transparent;
 }
+.rdp-caption_dropdowns {
+  width: 100%;
+  justify-content: space-between;
+}
+.rdp-dropdown {
+  padding: 10px;
+}

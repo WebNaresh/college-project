@@ -1,7 +1,6 @@
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import Link from "next/link";
-import { LoginForm } from "./components/login-form";
 
 type Props = {};
 
@@ -23,14 +22,17 @@ const Page = (props: Props) => {
           <Link href={"/login"}>Login with Credentials</Link>
         </Button>
       </div>
-      <div className="col-span-1 px-4">
+      <div className="col-span-1 px-4 gap-4 grid">
         <h4>
           Welcome to{" "}
           <Link href={"/"} className="text-primary font-bold underline">
             Modern college MCA
           </Link>
         </h4>
-        <LoginForm />
+        <div className="flex items-center justify-center ">
+          <Image src={"/email.svg"} height={250} width={250} alt="Email" />
+        </div>
+        <Button>Waiting for Approval</Button>
       </div>
     </div>
   );

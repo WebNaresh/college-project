@@ -23,7 +23,7 @@ const Page = (props: Props) => {
           <Link href={"/login"}>Login with Credentials</Link>
         </Button>
       </div>
-      <div className="col-span-1 px-4">
+      <div className="col-span-1 px-4 flex flex-col gap-2">
         <h4>
           Welcome to{" "}
           <Link href={"/"} className="text-primary font-bold underline">
