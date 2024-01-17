@@ -79,17 +79,19 @@ const NavBar = (props: Props) => {
             )}
 
             <SheetFooter className="!justify-between">
-              <SheetClose asChild>
-                <Button
-                  variant={"secondary"}
-                  className="text-primary gap-2"
-                  type="submit"
-                  onClick={() => signOut({ redirect: false })}
-                >
-                  <LogOut size={18} />
-                  Log-out
-                </Button>
-              </SheetClose>
+              {session?.user && (
+                <SheetClose asChild>
+                  <Button
+                    variant={"secondary"}
+                    className="text-primary gap-2"
+                    type="submit"
+                    onClick={() => signOut({ redirect: false })}
+                  >
+                    <LogOut size={18} />
+                    Log-out
+                  </Button>
+                </SheetClose>
+              )}
               <SheetClose asChild>
                 <ThemeToggle />
               </SheetClose>
@@ -98,7 +100,7 @@ const NavBar = (props: Props) => {
         </Sheet>
         <h2 className="text-white font-bold">Modern College MCA Department</h2>
       </div>
-      <Menubar className="mx-2 rounded-full !h-10 !w-10 flex-shrink-0 justify-center ">
+      <Menubar className="mx-2 rounded-full !h-[28px] !w-[28px] flex-shrink-0 justify-center ">
         <MenubarMenu>
           <MenubarTrigger className="rounded-full !h-full !w-full p-0 justify-center text-white active:text-primary">
             <User className=" text-primary text-lg" />

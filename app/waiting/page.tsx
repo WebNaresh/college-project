@@ -8,13 +8,13 @@ const Page = (props: Props) => {
   return (
     <div className="border border-primary m-4 rounded-lg grid grid-cols-2 p-8">
       <div className="grid col-span-1 border-r border-primary relative justify-center items-center gap-4 ">
-        <div className="border-primary rounded-full p-20 h-[400px] w-[400px] grid items-center justify-center relative border-4">
+        <div className="border-primary rounded-full p-20 h-[300px] w-[300px] grid items-center justify-center relative border-4">
           <div className="absolute transform  translate-x-1/2 ">
             <Image
               alt="logo of modern college"
               src={"/biglogo.svg"}
-              height={200}
-              width={200}
+              height={150}
+              width={150}
             />
           </div>
         </div>
