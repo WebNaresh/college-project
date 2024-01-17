@@ -88,7 +88,7 @@ const MiniForm = (props: Props) => {
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
                   <SelectTrigger>
-                    <SelectValue placeholder="For Term II Previous Academic" />
+                    <SelectValue placeholder="For Term I Current Academic" />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
@@ -110,7 +110,7 @@ const MiniForm = (props: Props) => {
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
                   <SelectTrigger>
-                    <SelectValue placeholder="For Term II Previous Academic" />
+                    <SelectValue placeholder="For Term I Current Academic" />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
@@ -132,7 +132,7 @@ const MiniForm = (props: Props) => {
               <FormLabel>No. of Hours per Week</FormLabel>
               <Input
                 type="number"
-                placeholder="For Term II Previous Academic"
+                placeholder="For Term I Current Academic"
                 {...field}
                 value={field.value || ""} // Ensure the value is a string or an empty string
                 onChange={(e) => {
@@ -153,7 +153,7 @@ const MiniForm = (props: Props) => {
               <FormLabel>No. of Classes Conducted</FormLabel>
               <Input
                 type="number"
-                placeholder="For Term II Previous Academic"
+                placeholder="For Term I Current Academic"
                 {...field}
                 value={field.value || ""} // Ensure the value is a string or an empty string
                 onChange={(e) => {
@@ -174,7 +174,7 @@ const MiniForm = (props: Props) => {
               <FormLabel>Result</FormLabel>
               <Input
                 type="number"
-                placeholder="For Term II Previous Academic"
+                placeholder="For Term I Current Academic"
                 {...field}
                 value={field.value || ""} // Ensure the value is a string or an empty string
                 onChange={(e) => {

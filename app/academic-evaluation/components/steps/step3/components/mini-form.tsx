@@ -65,7 +65,7 @@ const MiniForm = (props: Props) => {
         className="space-y-8 flex-1 flex flex-col"
       >
         <div className="text-primary text-sm font-bold underline">
-          Term I of Current Academic Year (2021-22)
+          Term II of Current Academic Year (2021-22)
         </div>
         <FormField
           control={form.control}
@@ -88,7 +88,7 @@ const MiniForm = (props: Props) => {
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
                   <SelectTrigger>
-                    <SelectValue placeholder="For Term II Previous Academic" />
+                    <SelectValue placeholder="For Term II Current Academic" />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
@@ -110,7 +110,7 @@ const MiniForm = (props: Props) => {
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
                   <SelectTrigger>
-                    <SelectValue placeholder="For Term II Previous Academic" />
+                    <SelectValue placeholder="For Term II Current Academic" />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
@@ -132,7 +132,7 @@ const MiniForm = (props: Props) => {
               <FormLabel>No. of Hours per Week</FormLabel>
               <Input
                 type="number"
-                placeholder="For Term II Previous Academic"
+                placeholder="For Term II Current Academic"
                 {...field}
                 value={field.value || ""} // Ensure the value is a string or an empty string
                 onChange={(e) => {
@@ -153,7 +153,7 @@ const MiniForm = (props: Props) => {
               <FormLabel>No. of Classes Conducted</FormLabel>
               <Input
                 type="number"
-                placeholder="For Term II Previous Academic"
+                placeholder="For Term II Current Academic"
                 {...field}
                 value={field.value || ""} // Ensure the value is a string or an empty string
                 onChange={(e) => {
@@ -174,7 +174,7 @@ const MiniForm = (props: Props) => {
               <FormLabel>Result</FormLabel>
               <Input
                 type="number"
-                placeholder="For Term II Previous Academic"
+                placeholder="For Term II Current Academic"
                 {...field}
                 value={field.value || ""} // Ensure the value is a string or an empty string
                 onChange={(e) => {

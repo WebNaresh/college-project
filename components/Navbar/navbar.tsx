@@ -11,7 +11,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { AlignJustify, LogOut, User } from "lucide-react";
+import { AlignJustify, GraduationCap, LogOut, User } from "lucide-react";
 import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
@@ -29,9 +29,9 @@ type Props = {};
 const NavBar = (props: Props) => {
   let array: { link: string; title: string; icon: JSX.Element }[] = [
     {
-      link: "/test",
-      title: "test",
-      icon: <AlignJustify />,
+      link: "/academic-evaluation",
+      title: "Academic Evaluation",
+      icon: <GraduationCap />,
     },
   ];
   const { data: session, status } = useSession();

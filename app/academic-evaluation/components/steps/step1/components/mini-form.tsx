@@ -25,11 +25,11 @@ const levelEnum = z.enum(["UG", "PG"]);
 const courseHeadEnum = z.enum(["TH", "PR", "T"]);
 const termEnum = z.enum(["I", "II"]);
 const yearEnum = z.enum(["Current", "Previous"]);
-const formSchema = z.object({
+export const step1formSchema = z.object({
   subjectName: z.string(),
   level: levelEnum,
   courseHead: courseHeadEnum,
-  noOfHrsWeekEnum: z.number(),
+  noOfHrsWeek: z.number(),
   noOfClassesConducted: z.number(),
   result: z
     .number()
@@ -39,13 +39,13 @@ const formSchema = z.object({
   year: yearEnum,
 });
 const MiniForm = (props: Props) => {
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
+  const form = useForm<z.infer<typeof step1formSchema>>({
+    resolver: zodResolver(step1formSchema),
+    defaultValues: {  
       subjectName: "",
       level: undefined,
       courseHead: undefined,
-      noOfHrsWeekEnum: undefined,
+      noOfHrsWeek: undefined,
       noOfClassesConducted: undefined,
       result: undefined,
       term: "II",
@@ -54,7 +54,7 @@ const MiniForm = (props: Props) => {
   });
   form.getValues();
 
-  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+  const onSubmit = async (values: z.infer<typeof step1formSchema>) => {
     // Handle form submission
     console.log("Form values:", values);
     // Add your logic to process the form data or make API calls
@@ -127,7 +127,7 @@ const MiniForm = (props: Props) => {
 
         <FormField
           control={form.control}
-          name="noOfHrsWeekEnum"
+          name="noOfHrsWeek"
           render={({ field }) => (
             <FormItem>
               <FormLabel>No. of Hours per Week</FormLabel>
@@ -189,7 +189,7 @@ const MiniForm = (props: Props) => {
         />
         <Button
           type="submit"
-          className="flex mx-auto rounded-full p-6 h-auto"
+          className="flex mx-auto rounded-full p-4 h-auto"
           variant={"outline"}
         >
           <Plus className=" text-xl text-primary" />

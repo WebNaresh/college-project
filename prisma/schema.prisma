@@ -88,7 +88,7 @@ model TeachingAndLearning {
   subjectName          String
   level                levelEnum
   courseHead           courseHeadEnum
-  noOfHrsWeekEnum      Int
+  noOfHrsWeek          Int
   noOfClassesConducted Int
   result               Int
   term                 termEnum

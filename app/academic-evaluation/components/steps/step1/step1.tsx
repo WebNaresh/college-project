@@ -1,6 +1,8 @@
 "use client";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
+import { columns, data } from "./components/column";
+import { DataTable } from "./components/data-table";
 import MiniForm from "./components/mini-form";
 
 type Props = {
@@ -21,8 +23,9 @@ const Step1 = ({ onNext }: Props) => {
   };
   const query = useQuery({ queryKey: ["todos"], queryFn: fetchFormDetails });
   return (
-    <div>
+    <div className="flex flex-col gap-4">
       <MiniForm />
+      <DataTable columns={columns} data={data} />
     </div>
   );
 };
