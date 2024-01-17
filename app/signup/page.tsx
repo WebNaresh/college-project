@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import Link from "next/link";
-import { LoginForm } from "./components/login-form";
+import { LoginForm } from "./components/signup-form";
 
 type Props = {};
 

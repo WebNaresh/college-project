@@ -1,22 +1,13 @@
 import { Button } from "@/components/ui/button";
 import {
   Form,
-  FormControl,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Plus } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -26,30 +17,19 @@ const courseHeadEnum = z.enum(["TH", "PR", "T"]);
 const termEnum = z.enum(["I", "II"]);
 const yearEnum = z.enum(["Current", "Previous"]);
 const formSchema = z.object({
-  subjectName: z.string(),
-  level: levelEnum,
-  courseHead: courseHeadEnum,
-  noOfHrsWeekEnum: z.number(),
-  noOfClassesConducted: z.number(),
-  result: z
-    .number()
-    .max(100, { message: "Value lies between 0 to 100 it is percentage" })
-    .positive(),
-  term: termEnum,
-  year: yearEnum,
+  term_I_current_year_student_feedback: z.number(),
+  term_II_previous_year_student_feedback: z.number(),
+  term_I_current_year_peer_feedback: z.number(),
+  term_II_previous_year_peer_feedback: z.number(),
 });
 const MiniForm = (props: Props) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      subjectName: "",
-      level: undefined,
-      courseHead: undefined,
-      noOfHrsWeekEnum: undefined,
-      noOfClassesConducted: undefined,
-      result: undefined,
-      term: "II",
-      year: "Previous",
+      term_I_current_year_student_feedback: undefined,
+      term_II_previous_year_student_feedback: undefined,
+      term_I_current_year_peer_feedback: undefined,
+      term_II_previous_year_peer_feedback: undefined,
     },
   });
   form.getValues();
@@ -70,70 +50,13 @@ const MiniForm = (props: Props) => {
         </div>
         <FormField
           control={form.control}
-          name="subjectName"
+          name="term_I_current_year_student_feedback"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Subject Name</FormLabel>
-              <Input placeholder="Enter Your Subject Name" {...field} />
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name="level"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Role</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
-                <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder="For Term II Previous Academic" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  <SelectItem value="PG">PG</SelectItem>
-                  <SelectItem value="UG">UG</SelectItem>
-                </SelectContent>
-              </Select>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name="courseHead"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Course Head</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
-                <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder="For Term II Previous Academic" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  <SelectItem value="TH">TH</SelectItem>
-                  <SelectItem value="PR">PR</SelectItem>
-                  <SelectItem value="T">T</SelectItem>
-                </SelectContent>
-              </Select>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name="noOfHrsWeekEnum"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>No. of Hours per Week</FormLabel>
+              <FormLabel>Student Feedback for Term I Current Year</FormLabel>
               <Input
                 type="number"
-                placeholder="For Term II Previous Academic"
+                placeholder="For Term I Current Academic"
                 {...field}
                 value={field.value || ""} // Ensure the value is a string or an empty string
                 onChange={(e) => {
@@ -145,16 +68,15 @@ const MiniForm = (props: Props) => {
             </FormItem>
           )}
         />
-
         <FormField
           control={form.control}
-          name="noOfClassesConducted"
+          name="term_II_previous_year_student_feedback"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>No. of Classes Conducted</FormLabel>
+              <FormLabel>Student Feedback for Term II Previous Year</FormLabel>
               <Input
                 type="number"
-                placeholder="For Term II Previous Academic"
+                placeholder="For Term I Current Academic"
                 {...field}
                 value={field.value || ""} // Ensure the value is a string or an empty string
                 onChange={(e) => {
@@ -166,16 +88,15 @@ const MiniForm = (props: Props) => {
             </FormItem>
           )}
         />
-
         <FormField
           control={form.control}
-          name="result"
+          name="term_I_current_year_peer_feedback"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Result</FormLabel>
+              <FormLabel>Peer Feedback for Term I Current Year</FormLabel>
               <Input
                 type="number"
-                placeholder="For Term II Previous Academic"
+                placeholder="For Term I Current Academic"
                 {...field}
                 value={field.value || ""} // Ensure the value is a string or an empty string
                 onChange={(e) => {
@@ -187,12 +108,28 @@ const MiniForm = (props: Props) => {
             </FormItem>
           )}
         />
-        <Button
-          type="submit"
-          className="flex mx-auto rounded-full p-6 h-auto"
-          variant={"outline"}
-        >
-          <Plus className=" text-xl text-primary" />
+        <FormField
+          control={form.control}
+          name="term_II_previous_year_peer_feedback"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Peer Feedback for Term II Previous Year</FormLabel>
+              <Input
+                type="number"
+                placeholder="For Term I Current Academic"
+                {...field}
+                value={field.value || ""} // Ensure the value is a string or an empty string
+                onChange={(e) => {
+                  const value = parseFloat(e.target.value);
+                  field.onChange(value);
+                }}
+              />
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <Button type="submit" className="flex mx-auto">
+          Submit
         </Button>
       </form>
     </Form>

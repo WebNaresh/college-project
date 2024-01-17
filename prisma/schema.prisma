@@ -38,29 +38,86 @@ model Session {
 // Student Related Info
 
 model User {
-  id               String             @id @default(cuid())
-  name             String
-  email            String             @unique
-  contact          String
-  verified         Boolean
-  profileImage     String             @default("/default-user.png")
-  role             Role
-  professionalInfo ProfesstionalInfo?
-  accounts         Account[]
-  sessions         Session[]
-  password         String
-  createdAt        DateTime           @default(now())
-  updatedAt        DateTime           @updatedAt
+  id                         String                       @id @default(cuid())
+  name                       String
+  email                      String                       @unique
+  contact                    String
+  verified                   Boolean
+  profileImage               String                       @default("/default-user.png")
+  role                       roleEnum
+  professionalInfo           ProfesstionalInfo?
+  accounts                   Account[]
+  sessions                   Session[]
+  password                   String
+  createdAt                  DateTime                     @default(now())
+  updatedAt                  DateTime                     @updatedAt
+  PerformanceEvalutationForm PerformanceEvalutationForm[]
 }
 
 model ProfesstionalInfo {
-  id             String   @id @default(cuid())
-  dateOfJoining  DateTime
-  facaultyName   String
-  designation    String
-  departmentName String
-  userId         String   @unique
-  User           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id                         String                       @id @default(cuid())
+  dateOfJoining              DateTime
+  facaultyName               String
+  designation                String
+  departmentName             String
+  userId                     String                       @unique
+  User                       User                         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  PerformanceEvalutationForm PerformanceEvalutationForm[]
+  createdAt                  DateTime                     @default(now())
+  updatedAt                  DateTime                     @updatedAt
+}
+
+model PerformanceEvalutationForm {
+  id                  String                @id @default(cuid())
+  userId              String
+  // modeling of inbuilt objects
+  teachingAndLearning TeachingAndLearning[]
+  feedbackDetails     FeedbackDetails[]
+  efforts             Efforts[]
+  isSubmitted         Boolean               @default(false)
+  createdAt           DateTime              @default(now())
+  updatedAt           DateTime              @updatedAt
+  User                User                  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  ProfesstionalInfo   ProfesstionalInfo?    @relation(fields: [professtionalInfoId], references: [id])
+  professtionalInfoId String?
+}
+
+model TeachingAndLearning {
+  id                   String                     @id @default(cuid())
+  formId               String                     @unique
+  subjectName          String
+  level                levelEnum
+  courseHead           courseHeadEnum
+  noOfHrsWeekEnum      Int
+  noOfClassesConducted Int
+  result               Int
+  term                 termEnum
+  year                 yearEnum
+  createdAt            DateTime                   @default(now())
+  updatedAt            DateTime                   @updatedAt
+  Form                 PerformanceEvalutationForm @relation(fields: [formId], references: [id])
+}
+
+model FeedbackDetails {
+  id                                     String                     @id @default(cuid())
+  formId                                 String                     @unique
+  term_I_current_year_student_feedback   Int
+  term_II_previous_year_student_feedback Int
+  term_I_current_year_peer_feedback      Int
+  term_II_previous_year_peer_feedback    Int
+  createdAt                              DateTime                   @default(now())
+  updatedAt                              DateTime                   @updatedAt
+  Form                                   PerformanceEvalutationForm @relation(fields: [formId], references: [id])
+}
+
+model Efforts {
+  id      String @id @default(cuid())
+  formId  String @unique
+  efforts String
+
+  createdAt DateTime                   @default(now())
+  updatedAt DateTime                   @updatedAt
+  Form      PerformanceEvalutationForm @relation(fields: [formId], references: [id])
 }
 
 model VerificationToken {
@@ -71,7 +128,28 @@ model VerificationToken {
   @@unique([identifier, token])
 }
 
-enum Role {
+enum roleEnum {
   Teacher
   HOD
+}
+
+enum levelEnum {
+  UG
+  PG
+}
+
+enum courseHeadEnum {
+  TH
+  PR
+  T
+}
+
+enum termEnum {
+  I
+  II
+}
+
+enum yearEnum {
+  Current
+  Previous
 }

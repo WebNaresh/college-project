@@ -16,7 +16,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Plus } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -48,8 +47,8 @@ const MiniForm = (props: Props) => {
       noOfHrsWeekEnum: undefined,
       noOfClassesConducted: undefined,
       result: undefined,
-      term: "II",
-      year: "Previous",
+      term: "I",
+      year: "Current",
     },
   });
   form.getValues();
@@ -66,7 +65,7 @@ const MiniForm = (props: Props) => {
         className="space-y-8 flex-1 flex flex-col"
       >
         <div className="text-primary text-sm font-bold underline">
-          Term II of previous Academic Year (2021-22)
+          Term I of Current Academic Year (2021-22)
         </div>
         <FormField
           control={form.control}
@@ -187,12 +186,8 @@ const MiniForm = (props: Props) => {
             </FormItem>
           )}
         />
-        <Button
-          type="submit"
-          className="flex mx-auto rounded-full p-6 h-auto"
-          variant={"outline"}
-        >
-          <Plus className=" text-xl text-primary" />
+        <Button type="submit" className="flex mx-auto">
+          Submit
         </Button>
       </form>
     </Form>
