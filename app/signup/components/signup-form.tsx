@@ -60,7 +60,6 @@ const formSchema = z.object({
 
 export function LoginForm() {
   const data = useSession();
-  console.log(`🚀 ~ data:`, data);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {

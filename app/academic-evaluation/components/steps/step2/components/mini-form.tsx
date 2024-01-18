@@ -15,48 +15,32 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import useAddProfileMutation from "@/hook/useProfileMutation";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Plus } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { step1formSchema } from "../../step1/components/mini-form";
 
 type Props = {};
-const levelEnum = z.enum(["UG", "PG"]);
-const courseHeadEnum = z.enum(["TH", "PR", "T"]);
-const termEnum = z.enum(["I", "II"]);
-const yearEnum = z.enum(["Current", "Previous"]);
-const formSchema = z.object({
-  subjectName: z.string(),
-  level: levelEnum,
-  courseHead: courseHeadEnum,
-  noOfHrsWeekEnum: z.number(),
-  noOfClassesConducted: z.number(),
-  result: z
-    .number()
-    .max(100, { message: "Value lies between 0 to 100 it is percentage" })
-    .positive(),
-  term: termEnum,
-  year: yearEnum,
-});
+
 const MiniForm = (props: Props) => {
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const mutate = useAddProfileMutation();
+  const form = useForm<z.infer<typeof step1formSchema>>({
+    resolver: zodResolver(step1formSchema),
     defaultValues: {
       subjectName: "",
       level: undefined,
       courseHead: undefined,
-      noOfHrsWeekEnum: undefined,
+      noOfHrsWeek: undefined,
       noOfClassesConducted: undefined,
       result: undefined,
       term: "I",
       year: "Current",
     },
   });
-  form.getValues();
-
-  const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    // Handle form submission
-    console.log("Form values:", values);
-    // Add your logic to process the form data or make API calls
+  const onSubmit = async (values: z.infer<typeof step1formSchema>) => {
+    mutate(values);
   };
   return (
     <Form {...form}>
@@ -126,7 +110,7 @@ const MiniForm = (props: Props) => {
 
         <FormField
           control={form.control}
-          name="noOfHrsWeekEnum"
+          name="noOfHrsWeek"
           render={({ field }) => (
             <FormItem>
               <FormLabel>No. of Hours per Week</FormLabel>
@@ -186,8 +170,12 @@ const MiniForm = (props: Props) => {
             </FormItem>
           )}
         />
-        <Button type="submit" className="flex mx-auto">
-          Submit
+        <Button
+          type="submit"
+          className="flex mx-auto rounded-full p-4 h-auto"
+          variant={"outline"}
+        >
+          <Plus className=" text-xl text-primary" />
         </Button>
       </form>
     </Form>

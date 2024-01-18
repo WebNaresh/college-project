@@ -26,7 +26,6 @@ export const authOptions: NextAuthOptions = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials, req) {
-        console.log(`🚀 ~ credentials:`, credentials);
         if (!credentials?.email || !credentials?.password) {
           return Promise.reject(new Error("All fields are mandatory"));
         } else {
@@ -60,7 +59,6 @@ export const authOptions: NextAuthOptions = {
   ],
   callbacks: {
     async jwt({ token, user, profile, account, trigger, session }) {
-      console.log(`🚀 ~ user:`, user);
       if (trigger === "update") {
         token.name == session.name;
         token.picture == session.image;

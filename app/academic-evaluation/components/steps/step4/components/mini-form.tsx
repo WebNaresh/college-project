@@ -8,14 +8,12 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useQuery } from "@tanstack/react-query";
+import axios, { AxiosResponse } from "axios";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 type Props = {};
-const levelEnum = z.enum(["UG", "PG"]);
-const courseHeadEnum = z.enum(["TH", "PR", "T"]);
-const termEnum = z.enum(["I", "II"]);
-const yearEnum = z.enum(["Current", "Previous"]);
 const formSchema = z.object({
   term_I_current_year_student_feedback: z.number(),
   term_II_previous_year_student_feedback: z.number(),
@@ -23,21 +21,34 @@ const formSchema = z.object({
   term_II_previous_year_peer_feedback: z.number(),
 });
 const MiniForm = (props: Props) => {
+  const fetchFeedback = async () => {
+    const config = { headers: { "Content-Type": "application/json" } };
+    let data: AxiosResponse = await axios.get(
+      `${process.env.NEXT_PUBLIC_ROUTE}/api/form/feedback`,
+
+      config
+    );
+    return data.data;
+  };
+  const { data } = useQuery({
+    queryKey: ["form-details-II-Previous"],
+    queryFn: fetchFeedback,
+  });
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      term_I_current_year_student_feedback: undefined,
-      term_II_previous_year_student_feedback: undefined,
-      term_I_current_year_peer_feedback: undefined,
-      term_II_previous_year_peer_feedback: undefined,
+      term_I_current_year_student_feedback:
+        data.feedback.term_I_current_year_student_feedback || undefined,
+      term_II_previous_year_student_feedback:
+        data.feedback.term_II_previous_year_student_feedback || undefined,
+      term_I_current_year_peer_feedback:
+        data.feedback.term_I_current_year_peer_feedback || undefined,
+      term_II_previous_year_peer_feedback:
+        data.feedback.term_II_previous_year_peer_feedback || undefined,
     },
   });
-  form.getValues();
-
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    // Handle form submission
     console.log("Form values:", values);
-    // Add your logic to process the form data or make API calls
   };
   return (
     <Form {...form}>

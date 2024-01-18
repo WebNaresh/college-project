@@ -84,7 +84,7 @@ model PerformanceEvalutationForm {
 
 model TeachingAndLearning {
   id                   String                     @id @default(cuid())
-  formId               String                     @unique
+  formId               String
   subjectName          String
   level                levelEnum
   courseHead           courseHeadEnum
@@ -101,10 +101,10 @@ model TeachingAndLearning {
 model FeedbackDetails {
   id                                     String                     @id @default(cuid())
   formId                                 String                     @unique
-  term_I_current_year_student_feedback   Int
-  term_II_previous_year_student_feedback Int
-  term_I_current_year_peer_feedback      Int
-  term_II_previous_year_peer_feedback    Int
+  term_I_current_year_student_feedback   Int                        @default(0)
+  term_II_previous_year_student_feedback Int                        @default(0)
+  term_I_current_year_peer_feedback      Int                        @default(0)
+  term_II_previous_year_peer_feedback    Int                        @default(0)
   createdAt                              DateTime                   @default(now())
   updatedAt                              DateTime                   @updatedAt
   Form                                   PerformanceEvalutationForm @relation(fields: [formId], references: [id])

@@ -11,7 +11,6 @@ import { NextResponse } from "next/server";
 export async function GET(req: NextApiRequest, res: NextApiResponse) {
   try {
     const session = await auth();
-    console.log(`🚀 ~ file: route.ts:13 ~ session:`, session);
     let form: PerformanceEvalutationForm | null = null;
     if (
       session?.user !== null &&
@@ -36,12 +35,18 @@ export async function GET(req: NextApiRequest, res: NextApiResponse) {
           },
         });
       }
-      console.log(`🚀 ~ file: route.ts:23 ~ form:`, form);
     }
+    let termIIPreviousData = await prisma.teachingAndLearning.findMany({
+      where: {
+        term: "II",
+        year: "Previous",
+      },
+    });
 
     return NextResponse.json({
       status: "success",
       form,
+      termIIPreviousData,
     });
   } catch (error: any) {
     console.error(`🚀 ~ file: route.ts:47 ~ error:`, error);

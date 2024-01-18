@@ -34,8 +34,7 @@ const NavBar = (props: Props) => {
       icon: <GraduationCap />,
     },
   ];
-  const { data: session, status } = useSession();
-  console.log(`🚀 ~ session:`, session);
+  const { data: session } = useSession();
 
   return (
     <div className="h-[60px] w-full flex justify-between bg-primary items-center fixed">

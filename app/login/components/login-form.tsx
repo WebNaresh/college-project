@@ -26,7 +26,6 @@ const formSchema = z.object({
 export function LoginForm() {
   const { data: session, status } = useSession();
   const router = useRouter();
-  console.log(`🚀 ~ data:`, session);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -43,7 +42,6 @@ export function LoginForm() {
         email: values.email,
         password: values.password,
       });
-      console.log(`🚀 ~ result:`, result);
 
       if (result?.error) {
         // Handle sign-in error

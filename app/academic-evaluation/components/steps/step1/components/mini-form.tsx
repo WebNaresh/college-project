@@ -1,3 +1,4 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -15,6 +16,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import useAddProfileMutation from "@/hook/useProfileMutation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Plus } from "lucide-react";
 import { useForm } from "react-hook-form";
@@ -39,9 +41,10 @@ export const step1formSchema = z.object({
   year: yearEnum,
 });
 const MiniForm = (props: Props) => {
+  const mutate = useAddProfileMutation();
   const form = useForm<z.infer<typeof step1formSchema>>({
     resolver: zodResolver(step1formSchema),
-    defaultValues: {  
+    defaultValues: {
       subjectName: "",
       level: undefined,
       courseHead: undefined,
@@ -52,12 +55,8 @@ const MiniForm = (props: Props) => {
       year: "Previous",
     },
   });
-  form.getValues();
-
   const onSubmit = async (values: z.infer<typeof step1formSchema>) => {
-    // Handle form submission
-    console.log("Form values:", values);
-    // Add your logic to process the form data or make API calls
+    mutate(values);
   };
   return (
     <Form {...form}>

@@ -1,8 +1,8 @@
 "use client";
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
-import { columns, data } from "./components/column";
-import { DataTable } from "./components/data-table";
+import axios, { AxiosResponse } from "axios";
+import { columns } from "../components/column";
+import { DataTable } from "../components/data-table";
 import MiniForm from "./components/mini-form";
 
 type Props = {
@@ -12,20 +12,24 @@ type Props = {
 const Step1 = ({ onNext }: Props) => {
   const fetchFormDetails = async () => {
     const config = { headers: { "Content-Type": "application/json" } };
-    axios
-      .get(`${process.env.NEXT_PUBLIC_ROUTE}/api/form`, config)
-      .catch((errors) => {
-        console.log(errors);
-      })
-      .then((response) => {
-        console.log(response);
-      });
+    let data: AxiosResponse = await axios.post(
+      `${process.env.NEXT_PUBLIC_ROUTE}/api/form/teaching-learning`,
+      {
+        term: "II",
+        year: "Previous",
+      },
+      config
+    );
+    return data.data;
   };
-  const query = useQuery({ queryKey: ["todos"], queryFn: fetchFormDetails });
+  const { data } = useQuery({
+    queryKey: ["form-details-II-Previous"],
+    queryFn: fetchFormDetails,
+  });
   return (
     <div className="flex flex-col gap-4">
       <MiniForm />
-      <DataTable columns={columns} data={data} />
+      <DataTable columns={columns} data={data?.termIIPreviousData || []} />
     </div>
   );
 };
