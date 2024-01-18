@@ -6,7 +6,6 @@ import Step1 from "./steps/step1/step1";
 import Step2 from "./steps/step2/step2";
 import Step3 from "./steps/step3/step3";
 import Step4 from "./steps/step4/step4";
-import Step5 from "./steps/step5/step5";
 
 const AcademicEvaluationForm: FC = () => {
   const {
@@ -17,7 +16,7 @@ const AcademicEvaluationForm: FC = () => {
     isLastStep,
     totalSteps,
     goToStep,
-  } = useMultiStepForm(5);
+  } = useMultiStepForm(4);
 
   const useSwitch = (step: number) => {
     switch (step) {
@@ -29,8 +28,6 @@ const AcademicEvaluationForm: FC = () => {
         return <Step3 onPrev={prevStep} onNext={nextStep} />;
       case 4:
         return <Step4 onPrev={prevStep} onNext={nextStep} />;
-      case 5:
-        return <Step5 onPrev={prevStep} onNext={nextStep} />;
       default:
         return null;
     }

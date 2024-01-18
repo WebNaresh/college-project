@@ -1,3 +1,4 @@
+"use client";
 // Header.tsx
 import { Button } from "@/components/ui/button";
 import React, { FC } from "react";

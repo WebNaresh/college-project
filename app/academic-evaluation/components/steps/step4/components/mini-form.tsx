@@ -1,3 +1,4 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -8,47 +9,64 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useQuery } from "@tanstack/react-query";
+import { FeedbackDetails } from "@prisma/client";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios, { AxiosResponse } from "axios";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-type Props = {};
-const formSchema = z.object({
-  term_I_current_year_student_feedback: z.number(),
-  term_II_previous_year_student_feedback: z.number(),
-  term_I_current_year_peer_feedback: z.number(),
-  term_II_previous_year_peer_feedback: z.number(),
+type Props = {
+  data: FeedbackDetails;
+};
+export const feedbackFormSchema = z.object({
+  term_I_current_year_student_feedback: z.number().max(100),
+  term_II_previous_year_student_feedback: z.number().max(100),
+  term_I_current_year_peer_feedback: z.number().max(100),
+  term_II_previous_year_peer_feedback: z.number().max(100),
+  id: z.string(),
+  formId: z.string(),
 });
-const MiniForm = (props: Props) => {
-  const fetchFeedback = async () => {
-    const config = { headers: { "Content-Type": "application/json" } };
-    let data: AxiosResponse = await axios.get(
-      `${process.env.NEXT_PUBLIC_ROUTE}/api/form/feedback`,
+const MiniForm = ({ data }: Props) => {
+  const queryClient = useQueryClient();
 
+  const addFeedBack = async (body: z.infer<typeof feedbackFormSchema>) => {
+    const config = { headers: { "Content-Type": "application/json" } };
+    let data: AxiosResponse = await axios.post(
+      `${process.env.NEXT_PUBLIC_ROUTE}/api/form/feedback`,
+      body,
       config
     );
     return data.data;
   };
-  const { data } = useQuery({
-    queryKey: ["form-details-II-Previous"],
-    queryFn: fetchFeedback,
-  });
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      term_I_current_year_student_feedback:
-        data.feedback.term_I_current_year_student_feedback || undefined,
-      term_II_previous_year_student_feedback:
-        data.feedback.term_II_previous_year_student_feedback || undefined,
-      term_I_current_year_peer_feedback:
-        data.feedback.term_I_current_year_peer_feedback || undefined,
-      term_II_previous_year_peer_feedback:
-        data.feedback.term_II_previous_year_peer_feedback || undefined,
+  const { mutate } = useMutation({
+    mutationFn: addFeedBack,
+    onSuccess: async (data) => {
+      // Invalidate the relevant queries in the queryClient after successful delete
+      await queryClient.invalidateQueries({
+        queryKey: [`form-feedback`],
+      });
     },
   });
-  const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    console.log("Form values:", values);
+
+  const form = useForm<z.infer<typeof feedbackFormSchema>>({
+    resolver: zodResolver(feedbackFormSchema),
+    defaultValues: {
+      term_I_current_year_student_feedback:
+        data?.term_I_current_year_student_feedback,
+      term_II_previous_year_student_feedback:
+        data?.term_II_previous_year_student_feedback,
+      term_I_current_year_peer_feedback:
+        data?.term_I_current_year_peer_feedback,
+      term_II_previous_year_peer_feedback:
+        data?.term_II_previous_year_peer_feedback,
+      formId: data?.formId,
+      id: data?.id,
+    },
+  });
+  console.log(`🚀 ~ file: mini-form.tsx:66 ~ form:`, form.formState.isLoading);
+
+  const onSubmit = async (values: z.infer<typeof feedbackFormSchema>) => {
+    mutate(values);
   };
   return (
     <Form {...form}>
@@ -57,7 +75,7 @@ const MiniForm = (props: Props) => {
         className="space-y-8 flex-1 flex flex-col"
       >
         <div className="text-primary text-sm font-bold underline">
-          Term II of previous Academic Year (2021-22)
+          Feedback Academic Year (2021-22)
         </div>
         <FormField
           control={form.control}
@@ -139,7 +157,11 @@ const MiniForm = (props: Props) => {
             </FormItem>
           )}
         />
-        <Button type="submit" className="flex mx-auto">
+        <Button
+          disabled={!form.formState.isDirty}
+          type="submit"
+          className="flex mx-auto"
+        >
           Submit
         </Button>
       </form>

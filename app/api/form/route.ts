@@ -1,5 +1,6 @@
 // import { hash } from "bcrypt";
 import { auth } from "@/lib/auth";
+import { User } from "@/lib/next-auth";
 import { prisma } from "@/lib/prisma";
 import { PerformanceEvalutationForm } from "@prisma/client";
 import { endOfYear, startOfYear } from "date-fns";
@@ -61,3 +62,26 @@ export async function GET(req: NextApiRequest, res: NextApiResponse) {
 }
 
 // Rest of your code
+export const getForm = async (
+  user: User
+): Promise<PerformanceEvalutationForm> => {
+  let form = await prisma.performanceEvalutationForm.findFirst({
+    where: {
+      userId: user?.id,
+      createdAt: {
+        gte: startOfYear(new Date()), // Start of the current year
+        lt: endOfYear(new Date()), // End of the current year
+      },
+      isSubmitted: false,
+    },
+  });
+  if (!form) {
+    form = await prisma.performanceEvalutationForm.create({
+      data: {
+        userId: user?.id,
+        professtionalInfoId: user.professionalInfo?.id,
+      },
+    });
+  }
+  return form;
+};

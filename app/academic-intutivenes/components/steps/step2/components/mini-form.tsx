@@ -23,9 +23,9 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { step1formSchema } from "../../step1/components/mini-form";
 
-type Props = {};
+type Props = { title: string };
 
-const MiniForm = (props: Props) => {
+const MiniForm = ({ title }: Props) => {
   const mutate = useAddProfileMutation();
   const form = useForm<z.infer<typeof step1formSchema>>({
     resolver: zodResolver(step1formSchema),
@@ -49,9 +49,7 @@ const MiniForm = (props: Props) => {
         onSubmit={form.handleSubmit(onSubmit)}
         className="space-y-8 flex-1 flex flex-col"
       >
-        <div className="text-primary text-sm font-bold underline">
-          Term I of Current Academic Year (2022-23)
-        </div>
+        <div className="text-primary text-sm font-bold underline">{title}</div>
         <FormField
           control={form.control}
           name="subjectName"

@@ -1,5 +1,4 @@
 "use client";
-import { FeedbackDetails } from "@prisma/client";
 import { useQuery } from "@tanstack/react-query";
 import axios, { AxiosResponse } from "axios";
 import MiniForm from "./components/mini-form";
@@ -25,7 +24,7 @@ const Step4 = (props: Props) => {
   });
   return (
     <div>
-      {!isFetching && <MiniForm data={data?.feedback as FeedbackDetails} />}
+      <MiniForm title="Publications in Journals/Conferences [Current Academic Year]" />
     </div>
   );
 };

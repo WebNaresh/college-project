@@ -11,7 +11,13 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { AlignJustify, GraduationCap, LogOut, User } from "lucide-react";
+import {
+  AlignJustify,
+  GraduationCap,
+  LogOut,
+  NotebookPen,
+  User,
+} from "lucide-react";
 import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
@@ -32,6 +38,11 @@ const NavBar = (props: Props) => {
       link: "/academic-evaluation",
       title: "Academic Evaluation",
       icon: <GraduationCap />,
+    },
+    {
+      link: "/academic-intutivenes",
+      title: "Academic Intutiveness",
+      icon: <NotebookPen />,
     },
   ];
   const { data: session } = useSession();

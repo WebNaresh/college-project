@@ -1,12 +1,11 @@
 // import { hash } from "bcrypt";
 import { step1formSchema } from "@/app/academic-evaluation/components/steps/step1/components/mini-form";
-import { User } from "@/lib/next-auth";
 import { prisma } from "@/lib/prisma";
-import { PerformanceEvalutationForm, termEnum, yearEnum } from "@prisma/client";
-import { endOfYear, startOfYear } from "date-fns";
+import { termEnum, yearEnum } from "@prisma/client";
 import { NextApiResponse } from "next";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
+import { getForm } from "../route";
 
 // Import necessary modules and types
 
@@ -114,28 +113,3 @@ export async function PUT(req: NextRequest, res: NextApiResponse) {
     );
   }
 }
-
-// Rest of your code
-export const getForm = async (
-  user: User
-): Promise<PerformanceEvalutationForm> => {
-  let form = await prisma.performanceEvalutationForm.findFirst({
-    where: {
-      userId: user?.id,
-      createdAt: {
-        gte: startOfYear(new Date()), // Start of the current year
-        lt: endOfYear(new Date()), // End of the current year
-      },
-      isSubmitted: false,
-    },
-  });
-  if (!form) {
-    form = await prisma.performanceEvalutationForm.create({
-      data: {
-        userId: user?.id,
-        professtionalInfoId: user.professionalInfo?.id,
-      },
-    });
-  }
-  return form;
-};

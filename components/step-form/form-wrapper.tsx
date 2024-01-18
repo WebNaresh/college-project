@@ -1,3 +1,4 @@
+"use client";
 import { useEffect } from "react";
 import Bottom from "./bottom";
 import Header from "./header";

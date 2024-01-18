@@ -71,15 +71,19 @@ model PerformanceEvalutationForm {
   id                  String                @id @default(cuid())
   userId              String
   // modeling of inbuilt objects
-  teachingAndLearning TeachingAndLearning[]
-  feedbackDetails     FeedbackDetails[]
-  efforts             Efforts[]
   isSubmitted         Boolean               @default(false)
   createdAt           DateTime              @default(now())
   updatedAt           DateTime              @updatedAt
   User                User                  @relation(fields: [userId], references: [id], onDelete: Cascade)
   ProfesstionalInfo   ProfesstionalInfo?    @relation(fields: [professtionalInfoId], references: [id])
   professtionalInfoId String?
+  teachingAndLearning TeachingAndLearning[]
+  feedbackDetails     FeedbackDetails[]
+  efforts             Efforts[]
+  Publication         Publication[]
+  Books               Books[]
+  kepAttended         kepAttended[]
+  kepOrganized        kepOrganized[]
 }
 
 model TeachingAndLearning {
@@ -111,13 +115,56 @@ model FeedbackDetails {
 }
 
 model Efforts {
-  id      String @id @default(cuid())
-  formId  String @unique
-  efforts String
-
+  id        String                     @id @default(cuid())
+  formId    String
+  efforts   String
   createdAt DateTime                   @default(now())
   updatedAt DateTime                   @updatedAt
   Form      PerformanceEvalutationForm @relation(fields: [formId], references: [id])
+}
+
+model Publication {
+  id            String                     @id @default(cuid())
+  formId        String
+  paperTitle    String
+  level         publicationLevel
+  nameOfJournal String
+  issnOrIssbnNo String
+  indexedIn     indexLevel
+  mainAuthor    Boolean
+  Performance   PerformanceEvalutationForm @relation(fields: [formId], references: [id], onDelete: Cascade)
+}
+
+model Books {
+  id                String                     @id @default(cuid())
+  bookTitle         String
+  titleWithPageNo   String
+  publisherName     String
+  editorName        String
+  issnOrIssbnNo     String
+  detailOfCoAuthors String
+  publishingMonth   monthEnum
+  publishingYear    String
+  formId            String
+  Performance       PerformanceEvalutationForm @relation(fields: [formId], references: [id], onDelete: Cascade)
+}
+
+model kepAttended {
+  id            String                      @id @default(cuid())
+  programmTitle String
+  duration      String
+  place         String
+  organizer     String
+  formId        String
+  Performance   PerformanceEvalutationForm? @relation(fields: [formId], references: [id], onDelete: Cascade)
+}
+
+model kepOrganized {
+  id            String                      @id @default(cuid())
+  programmTitle String
+  duration      String
+  Performance   PerformanceEvalutationForm? @relation(fields: [formId], references: [id], onDelete: Cascade)
+  formId        String
 }
 
 model VerificationToken {
@@ -138,6 +185,21 @@ enum levelEnum {
   PG
 }
 
+enum monthEnum {
+  January
+  February
+  March
+  April
+  May
+  June
+  July
+  August
+  September
+  October
+  November
+  December
+}
+
 enum courseHeadEnum {
   TH
   PR
@@ -152,4 +214,16 @@ enum termEnum {
 enum yearEnum {
   Current
   Previous
+}
+
+enum publicationLevel {
+  Current
+  Previous
+}
+
+enum indexLevel {
+  SCI
+  SCOUPUS
+  UGC_CARE
+  PEER_REVIEWED
 }
