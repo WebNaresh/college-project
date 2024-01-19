@@ -68,26 +68,30 @@ model ProfesstionalInfo {
 }
 
 model PerformanceEvalutationForm {
-  id                  String                @id @default(cuid())
-  userId              String
+  id                       String                     @id @default(cuid())
+  userId                   String
   // modeling of inbuilt objects
-  isSubmitted         Boolean               @default(false)
-  createdAt           DateTime              @default(now())
-  updatedAt           DateTime              @updatedAt
-  User                User                  @relation(fields: [userId], references: [id], onDelete: Cascade)
-  ProfesstionalInfo   ProfesstionalInfo?    @relation(fields: [professtionalInfoId], references: [id])
-  professtionalInfoId String?
-  teachingAndLearning TeachingAndLearning[]
-  feedbackDetails     FeedbackDetails[]
-  efforts             Efforts[]
-  Publication         Publication[]
-  Books               Books[]
-  kepAttended         kepAttended[]
-  kepOrganized        kepOrganized[]
-  iRG                 irg[]
-  copyRight           copyRight[]
-  tradeMark           tradeMark[]
-  patent              patent[]
+  isSubmitted              Boolean                    @default(false)
+  createdAt                DateTime                   @default(now())
+  updatedAt                DateTime                   @updatedAt
+  User                     User                       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  ProfesstionalInfo        ProfesstionalInfo?         @relation(fields: [professtionalInfoId], references: [id])
+  professtionalInfoId      String?
+  teachingAndLearning      TeachingAndLearning[]
+  feedbackDetails          FeedbackDetails[]
+  efforts                  Efforts[]
+  Publication              Publication[]
+  Books                    Books[]
+  kepAttended              kepAttended[]
+  kepOrganized             kepOrganized[]
+  iRG                      irg[]
+  copyRight                copyRight[]
+  tradeMark                tradeMark[]
+  patent                   patent[]
+  duties                   duties[]
+  responsibilityDepartment responsibilityDepartment[]
+  responsibilityInsitute   responsibilityInsitute[]
+  achievements             achievements[]
 }
 
 model TeachingAndLearning {
@@ -209,6 +213,39 @@ model tradeMark {
   formId            String
 }
 
+// ifsDuty Invigilation , flying squad duties/ any exam related duties
+// es Evaluation of Answer Scripts
+// qps Question Paper Setting
+model duties {
+  id          String                     @id @default(cuid())
+  ifsDuty     dutyEnum
+  esDuty      dutyEnum
+  qpsDuty     dutyEnum
+  Performance PerformanceEvalutationForm @relation(fields: [formId], references: [id], onDelete: Cascade)
+  formId      String
+}
+
+model responsibilityDepartment {
+  id             String                     @id @default(cuid())
+  responsibility String
+  Performance    PerformanceEvalutationForm @relation(fields: [formId], references: [id], onDelete: Cascade)
+  formId         String
+}
+
+model responsibilityInsitute {
+  id             String                     @id @default(cuid())
+  responsibility String
+  Performance    PerformanceEvalutationForm @relation(fields: [formId], references: [id], onDelete: Cascade)
+  formId         String
+}
+
+model achievements {
+  id           String                     @id @default(cuid())
+  achievements String
+  Performance  PerformanceEvalutationForm @relation(fields: [formId], references: [id], onDelete: Cascade)
+  formId       String
+}
+
 model VerificationToken {
   identifier String
   token      String   @unique
@@ -275,4 +312,9 @@ enum indexLevel {
 enum rigthStatusEnum {
   Applied
   Granted
+}
+
+enum dutyEnum {
+  University
+  Institute
 }
