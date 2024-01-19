@@ -16,31 +16,81 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import useAddProfileMutation from "@/hook/useProfileMutation";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import axios, { AxiosResponse } from "axios";
 import { Plus } from "lucide-react";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 import { z } from "zod";
-import { step1formSchema } from "../../step1/components/mini-form";
 
 type Props = { title: string };
-
+const publishingMonthEnum = z.enum([
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+]);
+const indexedInEnum = z.enum(["SCI", "SCOUPUS", "UGC_CARE", "PEER_REVIEWED"]);
+export const step1formSchema = z.object({
+  bookTitle: z.string(),
+  titleWithPageNo: z.string(),
+  publisherName: z.string(),
+  editorName: z.string(),
+  issnOrIssbnNo: z.string(),
+  detailOfCoAuthors: z.string(),
+  publishingYear: z.string().min(4).max(4),
+  publishingMonth: publishingMonthEnum,
+});
+const addProfile = async (data: z.infer<typeof step1formSchema>) => {
+  const config = { headers: { "Content-Type": "application/json" } };
+  const result: AxiosResponse = await axios.put(
+    `${process.env.NEXT_PUBLIC_ROUTE}/api/form/books`,
+    data,
+    config
+  );
+  return result.data;
+};
 const MiniForm = ({ title }: Props) => {
-  const mutate = useAddProfileMutation();
+  const queryClient = useQueryClient();
+  const { mutate } = useMutation({
+    mutationFn: addProfile,
+    onSuccess: async (data) => {
+      toast.success(data?.message);
+      await queryClient.invalidateQueries({
+        queryKey: [`form-details-books`],
+      });
+    },
+    onError: (data: any) => {
+      toast.error(data?.response?.data?.message);
+    },
+  });
+
   const form = useForm<z.infer<typeof step1formSchema>>({
     resolver: zodResolver(step1formSchema),
     defaultValues: {
-      subjectName: "",
-      level: undefined,
-      courseHead: undefined,
-      noOfHrsWeek: undefined,
-      noOfClassesConducted: undefined,
-      result: undefined,
-      term: "I",
-      year: "Current",
+      bookTitle: undefined,
+      titleWithPageNo: undefined,
+      publisherName: undefined,
+      editorName: undefined,
+      issnOrIssbnNo: undefined,
+      detailOfCoAuthors: undefined,
+      publishingMonth: undefined,
+      publishingYear: undefined,
     },
   });
+  console.log(form.getValues());
+
   const onSubmit = async (values: z.infer<typeof step1formSchema>) => {
+    console.log(`🚀 ~ file: mini-form.tsx:79 ~ values:`, values);
     mutate(values);
   };
   return (
@@ -52,11 +102,11 @@ const MiniForm = ({ title }: Props) => {
         <div className="text-primary text-sm font-bold underline">{title}</div>
         <FormField
           control={form.control}
-          name="subjectName"
+          name="bookTitle"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Subject Name</FormLabel>
-              <Input placeholder="Enter Your Subject Name" {...field} />
+              <FormLabel>Book Title</FormLabel>
+              <Input placeholder="Enter Your Book Title" {...field} />
               <FormMessage />
             </FormItem>
           )}
@@ -64,107 +114,97 @@ const MiniForm = ({ title }: Props) => {
 
         <FormField
           control={form.control}
-          name="level"
+          name="publishingMonth"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Role</FormLabel>
+              <FormLabel>Level</FormLabel>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
                   <SelectTrigger>
-                    <SelectValue placeholder="For Term I Current Academic" />
+                    <SelectValue placeholder="Publishing Month" />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  <SelectItem value="PG">PG</SelectItem>
-                  <SelectItem value="UG">UG</SelectItem>
+                  <SelectItem value="January">January</SelectItem>
+                  <SelectItem value="February">February</SelectItem>
+                  <SelectItem value="March">March</SelectItem>
+                  <SelectItem value="April">April</SelectItem>
+                  <SelectItem value="May">May</SelectItem>
+                  <SelectItem value="June">June</SelectItem>
+                  <SelectItem value="July">July</SelectItem>
+                  <SelectItem value="August">August</SelectItem>
+                  <SelectItem value="September">September</SelectItem>
+                  <SelectItem value="October">October</SelectItem>
+                  <SelectItem value="November">November</SelectItem>
+                  <SelectItem value="December">December</SelectItem>
                 </SelectContent>
               </Select>
               <FormMessage />
             </FormItem>
           )}
         />
-
         <FormField
           control={form.control}
-          name="courseHead"
+          name="titleWithPageNo"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Course Head</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
-                <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder="For Term I Current Academic" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  <SelectItem value="TH">TH</SelectItem>
-                  <SelectItem value="PR">PR</SelectItem>
-                  <SelectItem value="T">T</SelectItem>
-                </SelectContent>
-              </Select>
+              <FormLabel>Title with page no</FormLabel>
+              <Input placeholder="Enter Your Book Title" {...field} />
               <FormMessage />
             </FormItem>
           )}
         />
-
         <FormField
           control={form.control}
-          name="noOfHrsWeek"
+          name="publisherName"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>No. of Hours per Week</FormLabel>
-              <Input
-                type="number"
-                placeholder="For Term I Current Academic"
-                {...field}
-                value={field.value || ""} // Ensure the value is a string or an empty string
-                onChange={(e) => {
-                  const value = parseFloat(e.target.value);
-                  field.onChange(value);
-                }}
-              />
+              <FormLabel>Publisher Name</FormLabel>
+              <Input placeholder="Enter Your Publisher Name" {...field} />
               <FormMessage />
             </FormItem>
           )}
         />
-
         <FormField
           control={form.control}
-          name="noOfClassesConducted"
+          name="editorName"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>No. of Classes Conducted</FormLabel>
-              <Input
-                type="number"
-                placeholder="For Term I Current Academic"
-                {...field}
-                value={field.value || ""} // Ensure the value is a string or an empty string
-                onChange={(e) => {
-                  const value = parseFloat(e.target.value);
-                  field.onChange(value);
-                }}
-              />
+              <FormLabel>Editor Name</FormLabel>
+              <Input placeholder="Enter Your Editor Name" {...field} />
               <FormMessage />
             </FormItem>
           )}
         />
-
         <FormField
           control={form.control}
-          name="result"
+          name="issnOrIssbnNo"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Result</FormLabel>
-              <Input
-                type="number"
-                placeholder="For Term I Current Academic"
-                {...field}
-                value={field.value || ""} // Ensure the value is a string or an empty string
-                onChange={(e) => {
-                  const value = parseFloat(e.target.value);
-                  field.onChange(value);
-                }}
-              />
+              <FormLabel>ISSN / ISSBN</FormLabel>
+              <Input placeholder="Enter Your ISSN / ISSBN No" {...field} />
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="detailOfCoAuthors"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Enter Name of Co-Authors</FormLabel>
+              <Input placeholder="Enter Your Name of Co-Author" {...field} />
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="publishingYear"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Publishing Year</FormLabel>
+              <Input placeholder="Enter Your Publishing Year" {...field} />
               <FormMessage />
             </FormItem>
           )}

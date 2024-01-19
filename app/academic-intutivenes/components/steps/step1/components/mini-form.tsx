@@ -1,5 +1,6 @@
 "use client";
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Form,
   FormControl,
@@ -16,46 +17,69 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import useAddProfileMutation from "@/hook/useProfileMutation";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import axios, { AxiosResponse } from "axios";
 import { Plus } from "lucide-react";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 import { z } from "zod";
 
 type Props = { title: string };
-const levelEnum = z.enum(["UG", "PG"]);
-const courseHeadEnum = z.enum(["TH", "PR", "T"]);
-const termEnum = z.enum(["I", "II"]);
-const yearEnum = z.enum(["Current", "Previous"]);
+const publicationLevel = z.enum([
+  "Local",
+  "State",
+  "National",
+  "InterNational",
+]);
+const indexedInEnum = z.enum(["SCI", "SCOUPUS", "UGC_CARE", "PEER_REVIEWED"]);
 export const step1formSchema = z.object({
-  subjectName: z.string(),
-  level: levelEnum,
-  courseHead: courseHeadEnum,
-  noOfHrsWeek: z.number(),
-  noOfClassesConducted: z.number(),
-  result: z
-    .number()
-    .max(100, { message: "Value lies between 0 to 100 it is percentage" })
-    .positive(),
-  term: termEnum,
-  year: yearEnum,
+  level: publicationLevel,
+  paperTitle: z.string(),
+  nameOfJournal: z.string(),
+  issnOrIssbnNo: z.string(),
+  indexedIn: indexedInEnum,
+  mainAuthor: z.boolean(),
 });
+const addProfile = async (data: z.infer<typeof step1formSchema>) => {
+  const config = { headers: { "Content-Type": "application/json" } };
+  const result: AxiosResponse = await axios.put(
+    `${process.env.NEXT_PUBLIC_ROUTE}/api/form/publication`,
+    data,
+    config
+  );
+  return result.data;
+};
 const MiniForm = ({ title }: Props) => {
-  const mutate = useAddProfileMutation();
+  const queryClient = useQueryClient();
+  const { mutate } = useMutation({
+    mutationFn: addProfile,
+    onSuccess: async (data) => {
+      toast.success(data?.message);
+      await queryClient.invalidateQueries({
+        queryKey: [`form-details-publication`],
+      });
+    },
+    onError: (data: any) => {
+      toast.error(data?.response?.data?.message);
+    },
+  });
+
   const form = useForm<z.infer<typeof step1formSchema>>({
     resolver: zodResolver(step1formSchema),
     defaultValues: {
-      subjectName: "",
       level: undefined,
-      courseHead: undefined,
-      noOfHrsWeek: undefined,
-      noOfClassesConducted: undefined,
-      result: undefined,
-      term: "II",
-      year: "Previous",
+      paperTitle: undefined,
+      nameOfJournal: undefined,
+      issnOrIssbnNo: undefined,
+      indexedIn: undefined,
+      mainAuthor: false,
     },
   });
+  console.log(form.getValues());
+
   const onSubmit = async (values: z.infer<typeof step1formSchema>) => {
+    console.log(`🚀 ~ file: mini-form.tsx:79 ~ values:`, values);
     mutate(values);
   };
   return (
@@ -67,11 +91,11 @@ const MiniForm = ({ title }: Props) => {
         <div className="text-primary text-sm font-bold underline">{title}</div>
         <FormField
           control={form.control}
-          name="subjectName"
+          name="paperTitle"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Subject Name</FormLabel>
-              <Input placeholder="Enter Your Subject Name" {...field} />
+              <FormLabel>Paper Title</FormLabel>
+              <Input placeholder="Enter Your Paper Title" {...field} />
               <FormMessage />
             </FormItem>
           )}
@@ -82,105 +106,83 @@ const MiniForm = ({ title }: Props) => {
           name="level"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Role</FormLabel>
+              <FormLabel>Level</FormLabel>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
                   <SelectTrigger>
-                    <SelectValue placeholder="For Term II Previous Academic" />
+                    <SelectValue placeholder="Publication Level" />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  <SelectItem value="PG">PG</SelectItem>
-                  <SelectItem value="UG">UG</SelectItem>
+                  <SelectItem value="Local">Local</SelectItem>
+                  <SelectItem value="State">State</SelectItem>
+                  <SelectItem value="National">National</SelectItem>
+                  <SelectItem value="InterNational">InterNational</SelectItem>
                 </SelectContent>
               </Select>
               <FormMessage />
             </FormItem>
           )}
         />
-
         <FormField
           control={form.control}
-          name="courseHead"
+          name="indexedIn"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Course Head</FormLabel>
+              <FormLabel>Indexed In</FormLabel>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
                   <SelectTrigger>
-                    <SelectValue placeholder="For Term II Previous Academic" />
+                    <SelectValue placeholder="Indexed In" />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  <SelectItem value="TH">TH</SelectItem>
-                  <SelectItem value="PR">PR</SelectItem>
-                  <SelectItem value="T">T</SelectItem>
+                  <SelectItem value="SCI">SCI</SelectItem>
+                  <SelectItem value="SCOUPUS">SCOPUS</SelectItem>
+                  <SelectItem value="UGC_CARE">UGC CARE</SelectItem>
+                  <SelectItem value="PEER_REVIEWED">PEER REVIEWED</SelectItem>
                 </SelectContent>
               </Select>
               <FormMessage />
             </FormItem>
           )}
         />
-
         <FormField
           control={form.control}
-          name="noOfHrsWeek"
+          name="nameOfJournal"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>No. of Hours per Week</FormLabel>
-              <Input
-                type="number"
-                placeholder="For Term II Previous Academic"
-                {...field}
-                value={field.value || ""} // Ensure the value is a string or an empty string
-                onChange={(e) => {
-                  const value = parseFloat(e.target.value);
-                  field.onChange(value);
-                }}
-              />
+              <FormLabel>Name of Journal</FormLabel>
+              <Input placeholder="Enter Your Journal Name" {...field} />
               <FormMessage />
             </FormItem>
           )}
         />
-
         <FormField
           control={form.control}
-          name="noOfClassesConducted"
+          name="issnOrIssbnNo"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>No. of Classes Conducted</FormLabel>
-              <Input
-                type="number"
-                placeholder="For Term II Previous Academic"
-                {...field}
-                value={field.value || ""} // Ensure the value is a string or an empty string
-                onChange={(e) => {
-                  const value = parseFloat(e.target.value);
-                  field.onChange(value);
-                }}
-              />
+              <FormLabel>ISSN OR ISSBN</FormLabel>
+              <Input placeholder="Enter Your Number" {...field} />
               <FormMessage />
             </FormItem>
           )}
         />
-
         <FormField
           control={form.control}
-          name="result"
+          name="mainAuthor"
           render={({ field }) => (
-            <FormItem>
-              <FormLabel>Result</FormLabel>
-              <Input
-                type="number"
-                placeholder="For Term II Previous Academic"
-                {...field}
-                value={field.value || ""} // Ensure the value is a string or an empty string
-                onChange={(e) => {
-                  const value = parseFloat(e.target.value);
-                  field.onChange(value);
-                }}
-              />
-              <FormMessage />
+            <FormItem className="flex flex-row items-start space-x-3 space-y-0 p-4">
+              <FormControl>
+                <Checkbox
+                  checked={field.value}
+                  onCheckedChange={field.onChange}
+                />
+              </FormControl>
+              <div className="space-y-1 leading-none">
+                <FormLabel>Are you main author?</FormLabel>
+              </div>
             </FormItem>
           )}
         />

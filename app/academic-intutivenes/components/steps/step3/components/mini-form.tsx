@@ -2,47 +2,79 @@
 import { Button } from "@/components/ui/button";
 import {
   Form,
-  FormControl,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import useAddProfileMutation from "@/hook/useProfileMutation";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import axios, { AxiosResponse } from "axios";
 import { Plus } from "lucide-react";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 import { z } from "zod";
-import { step1formSchema } from "../../step1/components/mini-form";
 
 type Props = { title: string };
-
+const publishingMonthEnum = z.enum([
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+]);
+const indexedInEnum = z.enum(["SCI", "SCOUPUS", "UGC_CARE", "PEER_REVIEWED"]);
+export const step1formSchema = z.object({
+  programmTitle: z.string(),
+  duration: z.string(),
+  place: z.string(),
+  organizer: z.string(),
+});
+const addProfile = async (data: z.infer<typeof step1formSchema>) => {
+  const config = { headers: { "Content-Type": "application/json" } };
+  const result: AxiosResponse = await axios.put(
+    `${process.env.NEXT_PUBLIC_ROUTE}/api/form/kepAttended`,
+    data,
+    config
+  );
+  return result.data;
+};
 const MiniForm = ({ title }: Props) => {
-  const mutate = useAddProfileMutation();
+  const queryClient = useQueryClient();
+  const { mutate } = useMutation({
+    mutationFn: addProfile,
+    onSuccess: async (data) => {
+      toast.success(data?.message);
+      await queryClient.invalidateQueries({
+        queryKey: [`form-details-kepAttended`],
+      });
+    },
+    onError: (data: any) => {
+      toast.error(data?.response?.data?.message);
+    },
+  });
+
   const form = useForm<z.infer<typeof step1formSchema>>({
     resolver: zodResolver(step1formSchema),
     defaultValues: {
-      subjectName: "",
-      level: undefined,
-      courseHead: undefined,
-      noOfHrsWeek: undefined,
-      noOfClassesConducted: undefined,
-      result: undefined,
-      term: "II",
-      year: "Current",
+      programmTitle: undefined,
+      duration: undefined,
+      place: undefined,
+      organizer: undefined,
     },
   });
-  form.getValues();
+  console.log(form.getValues());
 
   const onSubmit = async (values: z.infer<typeof step1formSchema>) => {
+    console.log(`🚀 ~ file: mini-form.tsx:79 ~ values:`, values);
     mutate(values);
   };
   return (
@@ -54,123 +86,49 @@ const MiniForm = ({ title }: Props) => {
         <div className="text-primary text-sm font-bold underline">{title}</div>
         <FormField
           control={form.control}
-          name="subjectName"
+          name="programmTitle"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Subject Name</FormLabel>
-              <Input placeholder="Enter Your Subject Name" {...field} />
+              <FormLabel>Program Title</FormLabel>
+              <Input placeholder="Enter Your Program Title" {...field} />
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="duration"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Duration</FormLabel>
+              <Input placeholder="Enter Your Duration" {...field} />
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="place"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Place</FormLabel>
+              <Input placeholder="Enter Your Duration" {...field} />
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="organizer"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Organizer Name</FormLabel>
+              <Input placeholder="Enter Your Organizer Name" {...field} />
               <FormMessage />
             </FormItem>
           )}
         />
 
-        <FormField
-          control={form.control}
-          name="level"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Role</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
-                <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder="For Term II Current Academic" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  <SelectItem value="PG">PG</SelectItem>
-                  <SelectItem value="UG">UG</SelectItem>
-                </SelectContent>
-              </Select>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name="courseHead"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Course Head</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
-                <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder="For Term II Current Academic" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  <SelectItem value="TH">TH</SelectItem>
-                  <SelectItem value="PR">PR</SelectItem>
-                  <SelectItem value="T">T</SelectItem>
-                </SelectContent>
-              </Select>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name="noOfHrsWeek"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>No. of Hours per Week</FormLabel>
-              <Input
-                type="number"
-                placeholder="For Term II Current Academic"
-                {...field}
-                value={field.value || ""} // Ensure the value is a string or an empty string
-                onChange={(e) => {
-                  const value = parseFloat(e.target.value);
-                  field.onChange(value);
-                }}
-              />
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name="noOfClassesConducted"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>No. of Classes Conducted</FormLabel>
-              <Input
-                type="number"
-                placeholder="For Term II Current Academic"
-                {...field}
-                value={field.value || ""} // Ensure the value is a string or an empty string
-                onChange={(e) => {
-                  const value = parseFloat(e.target.value);
-                  field.onChange(value);
-                }}
-              />
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name="result"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Result</FormLabel>
-              <Input
-                type="number"
-                placeholder="For Term II Current Academic"
-                {...field}
-                value={field.value || ""} // Ensure the value is a string or an empty string
-                onChange={(e) => {
-                  const value = parseFloat(e.target.value);
-                  field.onChange(value);
-                }}
-              />
-              <FormMessage />
-            </FormItem>
-          )}
-        />
         <Button
           type="submit"
           className="flex mx-auto rounded-full p-4 h-auto"

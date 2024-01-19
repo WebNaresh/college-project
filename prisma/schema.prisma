@@ -84,6 +84,10 @@ model PerformanceEvalutationForm {
   Books               Books[]
   kepAttended         kepAttended[]
   kepOrganized        kepOrganized[]
+  iRG                 irg[]
+  copyRight           copyRight[]
+  tradeMark           tradeMark[]
+  patent              patent[]
 }
 
 model TeachingAndLearning {
@@ -150,21 +154,59 @@ model Books {
 }
 
 model kepAttended {
-  id            String                      @id @default(cuid())
+  id            String                     @id @default(cuid())
   programmTitle String
   duration      String
   place         String
   organizer     String
   formId        String
-  Performance   PerformanceEvalutationForm? @relation(fields: [formId], references: [id], onDelete: Cascade)
+  Performance   PerformanceEvalutationForm @relation(fields: [formId], references: [id], onDelete: Cascade)
 }
 
 model kepOrganized {
-  id            String                      @id @default(cuid())
+  id            String                     @id @default(cuid())
   programmTitle String
   duration      String
-  Performance   PerformanceEvalutationForm? @relation(fields: [formId], references: [id], onDelete: Cascade)
+  Performance   PerformanceEvalutationForm @relation(fields: [formId], references: [id], onDelete: Cascade)
   formId        String
+}
+
+model irg {
+  id             String                     @id @default(cuid())
+  natureOfWork   String
+  agency         String
+  amountRecieved String
+  startDate      DateTime
+  endDate        DateTime
+  Performance    PerformanceEvalutationForm @relation(fields: [formId], references: [id], onDelete: Cascade)
+  formId         String
+}
+
+model patent {
+  id                String                     @id @default(cuid())
+  dateOfApplication DateTime
+  isCommercialized  Boolean
+  rightStatus       rigthStatusEnum
+  Performance       PerformanceEvalutationForm @relation(fields: [formId], references: [id], onDelete: Cascade)
+  formId            String
+}
+
+model copyRight {
+  id                String                     @id @default(cuid())
+  dateOfApplication DateTime
+  isCommercialized  Boolean
+  rightStatus       rigthStatusEnum
+  Performance       PerformanceEvalutationForm @relation(fields: [formId], references: [id], onDelete: Cascade)
+  formId            String
+}
+
+model tradeMark {
+  id                String                     @id @default(cuid())
+  dateOfApplication DateTime
+  isCommercialized  Boolean
+  rightStatus       rigthStatusEnum
+  Performance       PerformanceEvalutationForm @relation(fields: [formId], references: [id], onDelete: Cascade)
+  formId            String
 }
 
 model VerificationToken {
@@ -217,8 +259,10 @@ enum yearEnum {
 }
 
 enum publicationLevel {
-  Current
-  Previous
+  Local
+  State
+  National
+  InterNational
 }
 
 enum indexLevel {
@@ -226,4 +270,9 @@ enum indexLevel {
   SCOUPUS
   UGC_CARE
   PEER_REVIEWED
+}
+
+enum rigthStatusEnum {
+  Applied
+  Granted
 }

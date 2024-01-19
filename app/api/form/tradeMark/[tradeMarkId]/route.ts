@@ -4,21 +4,20 @@ import { NextResponse } from "next/server";
 
 export async function DELETE(
   req: NextApiRequest,
-  { params }: { params: { pubilcationId: string } }
+  { params }: { params: { tradeMarkId: string } }
 ) {
   try {
-    let publication = await prisma.publication.delete({
+    let tradeMark = await prisma.tradeMark.delete({
       where: {
-        id: params.pubilcationId,
+        id: params.tradeMarkId,
       },
     });
 
     return NextResponse.json({
       status: "success",
-      publication,
+      tradeMark,
     });
   } catch (error: any) {
-    console.error(`🚀 ~ file: route.ts:47 ~ error:`, error);
     return new NextResponse(
       JSON.stringify({
         status: "error",

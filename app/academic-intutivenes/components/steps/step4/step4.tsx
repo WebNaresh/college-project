@@ -1,30 +1,30 @@
 "use client";
 import { useQuery } from "@tanstack/react-query";
 import axios, { AxiosResponse } from "axios";
+import { columns } from "./components/column";
 import MiniForm from "./components/mini-form";
+import { DataTable } from "./components/table";
 
 type Props = {
   onNext: () => void;
-  onPrev: () => void;
 };
-
-const Step4 = (props: Props) => {
-  const fetchFeedback = async () => {
+const Step4 = ({ onNext }: Props) => {
+  const fetchFormDetails = async () => {
     const config = { headers: { "Content-Type": "application/json" } };
     let data: AxiosResponse = await axios.get(
-      `${process.env.NEXT_PUBLIC_ROUTE}/api/form/feedback`,
-
+      `${process.env.NEXT_PUBLIC_ROUTE}/api/form/kepOrganized`,
       config
     );
     return data.data;
   };
-  const { data, isFetching } = useQuery({
-    queryKey: ["form-feedback"],
-    queryFn: fetchFeedback,
+  const { data } = useQuery({
+    queryKey: ["form-details-kepOrganized"],
+    queryFn: fetchFormDetails,
   });
   return (
-    <div>
-      <MiniForm title="Publications in Journals/Conferences [Current Academic Year]" />
+    <div className="flex flex-col gap-4">
+      <MiniForm title="Knowledge Enhancement Programs Attended" />
+      <DataTable columns={columns} data={data?.kepOrganized || []} />
     </div>
   );
 };
