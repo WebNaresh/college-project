@@ -13,7 +13,9 @@ import {
 } from "@/components/ui/sheet";
 import {
   AlignJustify,
+  CandlestickChart,
   GraduationCap,
+  KanbanSquareDashed,
   LogOut,
   NotebookPen,
   User,
@@ -43,6 +45,16 @@ const NavBar = (props: Props) => {
       link: "/academic-intutivenes",
       title: "Academic Intutiveness",
       icon: <NotebookPen />,
+    },
+    {
+      link: "/academic-assets",
+      title: "Academic Assets",
+      icon: <CandlestickChart />,
+    },
+    {
+      link: "/academic-duties",
+      title: "Academic Duties",
+      icon: <KanbanSquareDashed />,
     },
   ];
   const { data: session } = useSession();
