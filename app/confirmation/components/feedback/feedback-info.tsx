@@ -46,16 +46,6 @@ const Feedback = ({ data }: Props) => {
             data?.feedbackDetails[0].term_I_current_year_student_feedback
           }
         />
-        <FeedbackRow
-          header="Average % Peer Feedback Score"
-          firstValue={
-            data?.feedbackDetails[0].term_II_previous_year_student_feedback
-          }
-          secondValue={
-            data?.feedbackDetails[0].term_I_current_year_student_feedback
-          }
-        />
-
         <FeedbackBottom
           averagePeerFeedback={averagePeerFeedback}
           averageStudentFeedback={averageStudentFeedback}

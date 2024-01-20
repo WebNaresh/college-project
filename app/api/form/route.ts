@@ -43,6 +43,7 @@ export async function GET(req: NextApiRequest, res: NextApiResponse) {
           responsibilityInsitute: true,
           achievements: true,
           professtionalInfo: true,
+          reasearch: true,
         },
       });
       if (form) {

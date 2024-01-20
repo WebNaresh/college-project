@@ -2,7 +2,7 @@ import { prisma } from "@/lib/prisma";
 import { FeedbackDetails, PerformanceEvalutationForm } from "@prisma/client";
 import { NextApiResponse } from "next";
 import { NextRequest, NextResponse } from "next/server";
-import { getForm } from "../teaching-learning/route";
+import { getForm } from "../route";
 
 export async function GET(req: NextRequest, res: NextApiResponse) {
   try {

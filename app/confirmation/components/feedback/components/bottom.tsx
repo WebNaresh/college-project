@@ -12,7 +12,7 @@ const FeedbackBottom = ({
       <div className="grid font-bold col-span-3 border-r border-black p-2">
         Average of Both
       </div>
-      <div className="grid font-bold col-span-1 border-black p-2">
+      <div className="grid col-span-1 border-black p-2">
         {(averagePeerFeedback + averageStudentFeedback) / 2}
       </div>
     </>

@@ -92,6 +92,8 @@ model PerformanceEvalutationForm {
   professtionalInfoId      String?
   professtionalInfo        ProfesstionalInfo?         @relation(fields: [professtionalInfoId], references: [id])
   User                     User                       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  reasearch                reasearch[]
+  cActivity                cActivity[]
 }
 
 model TeachingAndLearning {
@@ -186,6 +188,17 @@ model irg {
   formId         String
 }
 
+model reasearch {
+  id            String                     @id @default(cuid())
+  scheme        String
+  agency        String
+  status        statusEnum
+  date          DateTime
+  grantRecieved String
+  Performance   PerformanceEvalutationForm @relation(fields: [formId], references: [id], onDelete: Cascade)
+  formId        String
+}
+
 model patent {
   id                String                     @id @default(cuid())
   dateOfApplication DateTime
@@ -223,6 +236,15 @@ model duties {
   qpsDuty     dutyEnum
   Performance PerformanceEvalutationForm @relation(fields: [formId], references: [id], onDelete: Cascade)
   formId      String
+}
+
+model cActivity {
+  id             String                     @id @default(cuid())
+  nameOfActivity String
+  duration       String
+  type           cActivityEnum
+  Performance    PerformanceEvalutationForm @relation(fields: [formId], references: [id], onDelete: Cascade)
+  formId         String
 }
 
 model responsibilityDepartment {
@@ -317,4 +339,22 @@ enum rigthStatusEnum {
 enum dutyEnum {
   University
   Institute
+}
+
+enum statusEnum {
+  Awarded
+  Submitted
+}
+
+enum cActivityEnum {
+  NSS
+  CulturalFest
+  TechnicalFest
+  EducationalTour
+  IndustrialVisit
+  PublicationMagazine
+  ProfessionalSocietyChapter
+  StudentActivityClub
+  TAndP
+  ISR
 }

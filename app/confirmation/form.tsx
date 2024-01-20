@@ -13,6 +13,7 @@ import {
   kepAttended,
   kepOrganized,
   patent,
+  reasearch,
   responsibilityDepartment,
   responsibilityInsitute,
   tradeMark,
@@ -20,10 +21,16 @@ import {
 import { useQuery } from "@tanstack/react-query";
 import axios, { AxiosResponse } from "axios";
 import AcademicAppraisel from "./components/academic/academic-appraisel";
+import BooksForm from "./components/books/books";
 import EffortsForm from "./components/efforts/efforts";
 import Feedback from "./components/feedback/feedback-info";
 import Header from "./components/header/header";
+import IRGForm from "./components/irg/irg";
+import KepAttendedForm from "./components/kms-organized/kms-organized";
+import PatentForm from "./components/patents/patents";
 import PersonalInfo from "./components/personal/personal-info";
+import PublicationForm from "./components/publication/publication";
+import SponsorReasearchForm from "./components/reasearch/reasearch";
 
 type Props = {};
 export interface PerformanceEvalutationFormDetails
@@ -42,6 +49,7 @@ export interface PerformanceEvalutationFormDetails
   duties: duties[];
   responsibilityDepartment: responsibilityDepartment[];
   responsibilityInsitute: responsibilityInsitute[];
+  reasearch: reasearch[];
   professtionalInfo: ProfesstionalInfo;
 }
 
@@ -59,12 +67,22 @@ const UserForm = (p: Props) => {
     queryFn: fetchFormDetails,
   });
   return (
-    <div className="flex flex-col gap-4 items-center px-8">
+    <div className="flex flex-col gap-4 px-8 flex-1">
       <Header data={data} />
       <PersonalInfo data={data} />
       <AcademicAppraisel data={data} />
       <Feedback data={data} />
       <EffortsForm data={data} />
+      <PublicationForm data={data?.publication || []} />
+      <BooksForm data={data?.books || []} />
+      <KepAttendedForm data={data?.kepAttended || []} />
+      <SponsorReasearchForm data={data?.reasearch || []} />
+      <IRGForm data={data?.iRG || []} />
+      <PatentForm
+        tradeMark={data?.tradeMark || []}
+        copyRight={data?.copyRight || []}
+        patents={data?.patent || []}
+      />
     </div>
   );
 };
