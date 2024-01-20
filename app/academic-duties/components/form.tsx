@@ -2,7 +2,7 @@
 import StepForm from "@/components/step-form/form-wrapper";
 import useMultiStepForm from "@/custom-hooks/useStepForm";
 import { FC } from "react";
-import Step1 from "./steps/step1/step1";
+import Step1 from "./steps/step1/step2";
 import Step2 from "./steps/step2/step2";
 import Step3 from "./steps/step3/step3";
 import Step4 from "./steps/step4/step4";

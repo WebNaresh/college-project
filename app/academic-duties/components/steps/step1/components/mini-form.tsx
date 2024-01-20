@@ -1,6 +1,5 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
 import {
   Form,
   FormControl,
@@ -9,7 +8,6 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
@@ -26,25 +24,15 @@ import toast from "react-hot-toast";
 import { z } from "zod";
 
 type Props = { title: string };
-const publicationLevel = z.enum([
-  "Local",
-  "State",
-  "National",
-  "InterNational",
-]);
-const indexedInEnum = z.enum(["SCI", "SCOUPUS", "UGC_CARE", "PEER_REVIEWED"]);
-export const step1formSchema = z.object({
-  level: publicationLevel,
-  paperTitle: z.string(),
-  nameOfJournal: z.string(),
-  issnOrIssbnNo: z.string(),
-  indexedIn: indexedInEnum,
-  mainAuthor: z.boolean(),
+const step1formSchema = z.object({
+  ifsDuty: z.enum(["University", "Institute"]),
+  esDuty: z.enum(["University", "Institute"]),
+  qpsDuty: z.enum(["University", "Institute"]),
 });
 const addProfile = async (data: z.infer<typeof step1formSchema>) => {
   const config = { headers: { "Content-Type": "application/json" } };
   const result: AxiosResponse = await axios.put(
-    `${process.env.NEXT_PUBLIC_ROUTE}/api/form/publication`,
+    `${process.env.NEXT_PUBLIC_ROUTE}/api/form/duties`,
     data,
     config
   );
@@ -57,7 +45,7 @@ const MiniForm = ({ title }: Props) => {
     onSuccess: async (data) => {
       toast.success(data?.message);
       await queryClient.invalidateQueries({
-        queryKey: [`form-details-publication`],
+        queryKey: [`form-details-duties`],
       });
     },
     onError: (data: any) => {
@@ -68,12 +56,9 @@ const MiniForm = ({ title }: Props) => {
   const form = useForm<z.infer<typeof step1formSchema>>({
     resolver: zodResolver(step1formSchema),
     defaultValues: {
-      level: undefined,
-      paperTitle: undefined,
-      nameOfJournal: undefined,
-      issnOrIssbnNo: undefined,
-      indexedIn: undefined,
-      mainAuthor: false,
+      ifsDuty: undefined,
+      esDuty: undefined,
+      qpsDuty: undefined,
     },
   });
   console.log(form.getValues());
@@ -91,33 +76,21 @@ const MiniForm = ({ title }: Props) => {
         <div className="text-primary text-sm font-bold underline">{title}</div>
         <FormField
           control={form.control}
-          name="paperTitle"
+          name="esDuty"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Paper Title</FormLabel>
-              <Input placeholder="Enter Your Paper Title" {...field} />
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name="level"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Level</FormLabel>
+              <FormLabel>
+                Invigilation , flying squad duties/ any exam related duties
+              </FormLabel>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
                   <SelectTrigger>
-                    <SelectValue placeholder="Publication Level" />
+                    <SelectValue placeholder="Assigned By" />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  <SelectItem value="Local">Local</SelectItem>
-                  <SelectItem value="State">State</SelectItem>
-                  <SelectItem value="National">National</SelectItem>
-                  <SelectItem value="InterNational">InterNational</SelectItem>
+                  <SelectItem value="University">University</SelectItem>
+                  <SelectItem value="Institute">Institute</SelectItem>
                 </SelectContent>
               </Select>
               <FormMessage />
@@ -126,21 +99,19 @@ const MiniForm = ({ title }: Props) => {
         />
         <FormField
           control={form.control}
-          name="indexedIn"
+          name="qpsDuty"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Indexed In</FormLabel>
+              <FormLabel>Question Paper Setting</FormLabel>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
                   <SelectTrigger>
-                    <SelectValue placeholder="Indexed In" />
+                    <SelectValue placeholder="Assigned By" />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  <SelectItem value="SCI">SCI</SelectItem>
-                  <SelectItem value="SCOUPUS">SCOPUS</SelectItem>
-                  <SelectItem value="UGC_CARE">UGC CARE</SelectItem>
-                  <SelectItem value="PEER_REVIEWED">PEER REVIEWED</SelectItem>
+                  <SelectItem value="University">University</SelectItem>
+                  <SelectItem value="Institute">Institute</SelectItem>
                 </SelectContent>
               </Select>
               <FormMessage />
@@ -149,40 +120,24 @@ const MiniForm = ({ title }: Props) => {
         />
         <FormField
           control={form.control}
-          name="nameOfJournal"
+          name="ifsDuty"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Name of Journal</FormLabel>
-              <Input placeholder="Enter Your Journal Name" {...field} />
+              <FormLabel>
+                Invigilation , flying squad duties/ any exam related duties
+              </FormLabel>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Assigned By" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  <SelectItem value="University">University</SelectItem>
+                  <SelectItem value="Institute">Institute</SelectItem>
+                </SelectContent>
+              </Select>
               <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="issnOrIssbnNo"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>ISSN OR ISSBN</FormLabel>
-              <Input placeholder="Enter Your Number" {...field} />
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="mainAuthor"
-          render={({ field }) => (
-            <FormItem className="flex flex-row items-start space-x-3 space-y-0 p-4">
-              <FormControl>
-                <Checkbox
-                  checked={field.value}
-                  onCheckedChange={field.onChange}
-                />
-              </FormControl>
-              <div className="space-y-1 leading-none">
-                <FormLabel>Are you main author?</FormLabel>
-              </div>
             </FormItem>
           )}
         />

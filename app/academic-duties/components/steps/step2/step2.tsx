@@ -12,19 +12,22 @@ const Step2 = ({ onNext }: Props) => {
   const fetchFormDetails = async () => {
     const config = { headers: { "Content-Type": "application/json" } };
     let data: AxiosResponse = await axios.get(
-      `${process.env.NEXT_PUBLIC_ROUTE}/api/form/books`,
+      `${process.env.NEXT_PUBLIC_ROUTE}/api/form/responsibilityDepartment`,
       config
     );
     return data.data;
   };
   const { data } = useQuery({
-    queryKey: ["form-details-books"],
+    queryKey: ["form-details-responsibilityDepartment"],
     queryFn: fetchFormDetails,
   });
   return (
     <div className="flex flex-col gap-4">
-      <MiniForm title="Books(s)/Article/Chapter(s) published" />
-      <DataTable columns={columns} data={data?.books || []} />
+      <MiniForm title="Efforts taken for Intellectual Property Rights -Trademarks" />
+      <DataTable
+        columns={columns}
+        data={data?.responsibilityDepartment || []}
+      />
     </div>
   );
 };

@@ -5,28 +5,16 @@ import {
   MenubarMenu,
   MenubarTrigger,
 } from "@/components/ui/menubar";
-import { kepOrganized } from "@prisma/client";
+import { achievements } from "@prisma/client";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ColumnDef } from "@tanstack/react-table";
 import axios, { AxiosResponse } from "axios";
 import { MoreVertical } from "lucide-react";
 
-export const columns: ColumnDef<kepOrganized>[] = [
+export const columns: ColumnDef<achievements>[] = [
   {
-    header: "Programm Title Title",
-    accessorKey: "programmTitle",
-  },
-  {
-    header: "Duration",
-    accessorKey: "duration",
-  },
-  {
-    header: "Place",
-    accessorKey: "place",
-  },
-  {
-    header: "Organizer",
-    accessorKey: "organizer",
+    header: "Special Achievements",
+    accessorKey: "achievements",
   },
   {
     header: "Actions",
@@ -34,13 +22,13 @@ export const columns: ColumnDef<kepOrganized>[] = [
     cell: ({ row }) => <ActionsCell row={row.original} />,
   },
 ];
-const ActionsCell: React.FC<{ row: kepOrganized }> = ({ row }) => {
+const ActionsCell: React.FC<{ row: achievements }> = ({ row }) => {
   const queryClient = useQueryClient();
 
   const addProfile = async (id: string) => {
     const config = { headers: { "Content-Type": "application/json" } };
     const result: AxiosResponse = await axios.delete(
-      `${process.env.NEXT_PUBLIC_ROUTE}/api/form/kepOrganized/${id}`,
+      `${process.env.NEXT_PUBLIC_ROUTE}/api/form/achievements/${id}`,
       config
     );
     return result.data;
@@ -50,7 +38,7 @@ const ActionsCell: React.FC<{ row: kepOrganized }> = ({ row }) => {
     onSuccess: async (data) => {
       // Invalidate the relevant queries in the queryClient after successful delete
       await queryClient.invalidateQueries({
-        queryKey: ["form-details-kepOrganized"],
+        queryKey: ["form-details-achievements"],
       });
     },
   });

@@ -17,29 +17,13 @@ import toast from "react-hot-toast";
 import { z } from "zod";
 
 type Props = { title: string };
-const publishingMonthEnum = z.enum([
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December",
-]);
-const indexedInEnum = z.enum(["SCI", "SCOUPUS", "UGC_CARE", "PEER_REVIEWED"]);
-export const step1formSchema = z.object({
-  programmTitle: z.string(),
-  duration: z.string(),
+const step1formSchema = z.object({
+  achievements: z.string(),
 });
 const addProfile = async (data: z.infer<typeof step1formSchema>) => {
   const config = { headers: { "Content-Type": "application/json" } };
   const result: AxiosResponse = await axios.put(
-    `${process.env.NEXT_PUBLIC_ROUTE}/api/form/kepOrganized`,
+    `${process.env.NEXT_PUBLIC_ROUTE}/api/form/achievements`,
     data,
     config
   );
@@ -52,7 +36,7 @@ const MiniForm = ({ title }: Props) => {
     onSuccess: async (data) => {
       toast.success(data?.message);
       await queryClient.invalidateQueries({
-        queryKey: [`form-details-kepOrganized`],
+        queryKey: [`form-details-achievements`],
       });
     },
     onError: (data: any) => {
@@ -63,8 +47,7 @@ const MiniForm = ({ title }: Props) => {
   const form = useForm<z.infer<typeof step1formSchema>>({
     resolver: zodResolver(step1formSchema),
     defaultValues: {
-      programmTitle: undefined,
-      duration: undefined,
+      achievements: undefined,
     },
   });
   console.log(form.getValues());
@@ -82,22 +65,11 @@ const MiniForm = ({ title }: Props) => {
         <div className="text-primary text-sm font-bold underline">{title}</div>
         <FormField
           control={form.control}
-          name="programmTitle"
+          name="achievements"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Program Title</FormLabel>
-              <Input placeholder="Enter Your Program Title" {...field} />
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="duration"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Duration</FormLabel>
-              <Input placeholder="Enter Your Duration" {...field} />
+              <FormLabel>Special Achievements</FormLabel>
+              <Input placeholder="Enter Your Special Achievements" {...field} />
               <FormMessage />
             </FormItem>
           )}

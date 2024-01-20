@@ -12,19 +12,19 @@ const Step3 = ({ onNext }: Props) => {
   const fetchFormDetails = async () => {
     const config = { headers: { "Content-Type": "application/json" } };
     let data: AxiosResponse = await axios.get(
-      `${process.env.NEXT_PUBLIC_ROUTE}/api/form/kepAttended`,
+      `${process.env.NEXT_PUBLIC_ROUTE}/api/form/responsibilityInsitute`,
       config
     );
     return data.data;
   };
   const { data } = useQuery({
-    queryKey: ["form-details-kepAttended"],
+    queryKey: ["form-details-responsibilityInsitute"],
     queryFn: fetchFormDetails,
   });
   return (
     <div className="flex flex-col gap-4">
-      <MiniForm title="Knowledge Enhancement Programs Attended" />
-      <DataTable columns={columns} data={data?.kepAttended || []} />
+      <MiniForm title="Major Responsibilities Handled (Institute Level Work)" />
+      <DataTable columns={columns} data={data?.responsibilityInsitute || []} />
     </div>
   );
 };

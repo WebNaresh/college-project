@@ -17,31 +17,13 @@ import toast from "react-hot-toast";
 import { z } from "zod";
 
 type Props = { title: string };
-const publishingMonthEnum = z.enum([
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December",
-]);
-const indexedInEnum = z.enum(["SCI", "SCOUPUS", "UGC_CARE", "PEER_REVIEWED"]);
-export const step1formSchema = z.object({
-  programmTitle: z.string(),
-  duration: z.string(),
-  place: z.string(),
-  organizer: z.string(),
+const step1formSchema = z.object({
+  responsibility: z.string(),
 });
 const addProfile = async (data: z.infer<typeof step1formSchema>) => {
   const config = { headers: { "Content-Type": "application/json" } };
   const result: AxiosResponse = await axios.put(
-    `${process.env.NEXT_PUBLIC_ROUTE}/api/form/kepAttended`,
+    `${process.env.NEXT_PUBLIC_ROUTE}/api/form/responsibilityInsitute`,
     data,
     config
   );
@@ -54,7 +36,7 @@ const MiniForm = ({ title }: Props) => {
     onSuccess: async (data) => {
       toast.success(data?.message);
       await queryClient.invalidateQueries({
-        queryKey: [`form-details-kepAttended`],
+        queryKey: [`form-details-responsibilityInsitute`],
       });
     },
     onError: (data: any) => {
@@ -65,10 +47,7 @@ const MiniForm = ({ title }: Props) => {
   const form = useForm<z.infer<typeof step1formSchema>>({
     resolver: zodResolver(step1formSchema),
     defaultValues: {
-      programmTitle: undefined,
-      duration: undefined,
-      place: undefined,
-      organizer: undefined,
+      responsibility: undefined,
     },
   });
   console.log(form.getValues());
@@ -86,49 +65,15 @@ const MiniForm = ({ title }: Props) => {
         <div className="text-primary text-sm font-bold underline">{title}</div>
         <FormField
           control={form.control}
-          name="programmTitle"
+          name="responsibility"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Program Title</FormLabel>
-              <Input placeholder="Enter Your Program Title" {...field} />
+              <FormLabel>Responsibility</FormLabel>
+              <Input placeholder="Enter Your Responsibility" {...field} />
               <FormMessage />
             </FormItem>
           )}
         />
-        <FormField
-          control={form.control}
-          name="duration"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Duration</FormLabel>
-              <Input placeholder="Enter Your Duration" {...field} />
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="place"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Place</FormLabel>
-              <Input placeholder="Enter Your Duration" {...field} />
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="organizer"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Organizer Name</FormLabel>
-              <Input placeholder="Enter Your Organizer Name" {...field} />
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
         <Button
           type="submit"
           className="flex mx-auto rounded-full p-4 h-auto"

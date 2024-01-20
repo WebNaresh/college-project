@@ -5,44 +5,16 @@ import {
   MenubarMenu,
   MenubarTrigger,
 } from "@/components/ui/menubar";
-import { Books } from "@prisma/client";
+import { responsibilityDepartment } from "@prisma/client";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ColumnDef } from "@tanstack/react-table";
 import axios, { AxiosResponse } from "axios";
 import { MoreVertical } from "lucide-react";
 
-export const columns: ColumnDef<Books>[] = [
+export const columns: ColumnDef<responsibilityDepartment>[] = [
   {
-    header: "Book Title",
-    accessorKey: "bookTitle",
-  },
-  {
-    header: "Page NO",
-    accessorKey: "titleWithPageNo",
-  },
-  {
-    header: "Publisher",
-    accessorKey: "publisherName",
-  },
-  {
-    header: "Editor",
-    accessorKey: "editorName",
-  },
-  {
-    header: "ISSN / ISSBN No",
-    accessorKey: "issnOrIssbnNo",
-  },
-  {
-    header: "Co-Authors",
-    accessorKey: "detailOfCoAuthors",
-  },
-  {
-    header: "Year",
-    accessorKey: "publishingYear",
-  },
-  {
-    header: "Month",
-    accessorKey: "publishingMonth",
+    header: "Responsibilities",
+    accessorKey: "responsibility",
   },
   {
     header: "Actions",
@@ -50,13 +22,13 @@ export const columns: ColumnDef<Books>[] = [
     cell: ({ row }) => <ActionsCell row={row.original} />,
   },
 ];
-const ActionsCell: React.FC<{ row: Books }> = ({ row }) => {
+const ActionsCell: React.FC<{ row: responsibilityDepartment }> = ({ row }) => {
   const queryClient = useQueryClient();
 
   const addProfile = async (id: string) => {
     const config = { headers: { "Content-Type": "application/json" } };
     const result: AxiosResponse = await axios.delete(
-      `${process.env.NEXT_PUBLIC_ROUTE}/api/form/books/${id}`,
+      `${process.env.NEXT_PUBLIC_ROUTE}/api/form/responsibilityDepartment/${id}`,
       config
     );
     return result.data;
@@ -66,7 +38,7 @@ const ActionsCell: React.FC<{ row: Books }> = ({ row }) => {
     onSuccess: async (data) => {
       // Invalidate the relevant queries in the queryClient after successful delete
       await queryClient.invalidateQueries({
-        queryKey: ["form-details-books"],
+        queryKey: ["form-details-responsibilityDepartment"],
       });
     },
   });
