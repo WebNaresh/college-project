@@ -37,7 +37,6 @@ export async function PUT(req: NextRequest, res: NextApiResponse) {
     let { effort } = (await req.json()) as {
       effort: string;
     };
-    console.log(`🚀 ~ file: route.ts:40 ~ effort:`, effort);
     let form = await getForm(req?.user);
 
     await prisma.efforts.create({

@@ -11,7 +11,7 @@ export const prisma =
 
     // Log a success message when connected
     newPrisma.$connect().then(() => {
-      console.log("Prisma client connected successfully");
+      console.info("Prisma client connected successfully");
     });
 
     // Save the Prisma instance to the global object in non-production environments

@@ -26,6 +26,24 @@ export async function GET(req: NextApiRequest, res: NextApiResponse) {
           },
           isSubmitted: false,
         },
+        include: {
+          teachingAndLearning: true,
+          feedbackDetails: true,
+          efforts: true,
+          publication: true,
+          books: true,
+          kepAttended: true,
+          kepOrganized: true,
+          iRG: true,
+          copyRight: true,
+          tradeMark: true,
+          patent: true,
+          duties: true,
+          responsibilityDepartment: true,
+          responsibilityInsitute: true,
+          achievements: true,
+          professtionalInfo: true,
+        },
       });
       if (form) {
       } else {
@@ -37,17 +55,10 @@ export async function GET(req: NextApiRequest, res: NextApiResponse) {
         });
       }
     }
-    let termIIPreviousData = await prisma.teachingAndLearning.findMany({
-      where: {
-        term: "II",
-        year: "Previous",
-      },
-    });
 
     return NextResponse.json({
       status: "success",
       form,
-      termIIPreviousData,
     });
   } catch (error: any) {
     console.error(`🚀 ~ file: route.ts:47 ~ error:`, error);

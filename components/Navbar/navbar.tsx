@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/sheet";
 import {
   AlignJustify,
+  CalendarCheck,
   CandlestickChart,
   GraduationCap,
   KanbanSquareDashed,
@@ -55,6 +56,11 @@ const NavBar = (props: Props) => {
       link: "/academic-duties",
       title: "Academic Duties",
       icon: <KanbanSquareDashed />,
+    },
+    {
+      link: "/confirmation",
+      title: "Confirm Your Form",
+      icon: <CalendarCheck />,
     },
   ];
   const { data: session } = useSession();

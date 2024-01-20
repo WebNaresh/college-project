@@ -70,18 +70,15 @@ model ProfesstionalInfo {
 model PerformanceEvalutationForm {
   id                       String                     @id @default(cuid())
   userId                   String
-  // modeling of inbuilt objects
   isSubmitted              Boolean                    @default(false)
   createdAt                DateTime                   @default(now())
   updatedAt                DateTime                   @updatedAt
-  User                     User                       @relation(fields: [userId], references: [id], onDelete: Cascade)
-  ProfesstionalInfo        ProfesstionalInfo?         @relation(fields: [professtionalInfoId], references: [id])
-  professtionalInfoId      String?
+  // modeling of inbuilt objects
   teachingAndLearning      TeachingAndLearning[]
   feedbackDetails          FeedbackDetails[]
   efforts                  Efforts[]
-  Publication              Publication[]
-  Books                    Books[]
+  publication              Publication[]
+  books                    Books[]
   kepAttended              kepAttended[]
   kepOrganized             kepOrganized[]
   iRG                      irg[]
@@ -92,6 +89,9 @@ model PerformanceEvalutationForm {
   responsibilityDepartment responsibilityDepartment[]
   responsibilityInsitute   responsibilityInsitute[]
   achievements             achievements[]
+  professtionalInfoId      String?
+  professtionalInfo        ProfesstionalInfo?         @relation(fields: [professtionalInfoId], references: [id])
+  User                     User                       @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model TeachingAndLearning {

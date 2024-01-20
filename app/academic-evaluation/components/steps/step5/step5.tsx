@@ -16,7 +16,6 @@ const Step5 = (props: Props) => {
       `${process.env.NEXT_PUBLIC_ROUTE}/api/form/efforts-extra-curriculum`,
       config
     );
-    console.log(`🚀 ~ file: step5.tsx:19 ~ data:`, data);
     return data.data;
   };
   const { data } = useQuery({

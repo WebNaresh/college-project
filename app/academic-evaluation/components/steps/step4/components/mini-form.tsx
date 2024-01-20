@@ -63,7 +63,6 @@ const MiniForm = ({ data }: Props) => {
       id: data?.id,
     },
   });
-  console.log(`🚀 ~ file: mini-form.tsx:66 ~ form:`, form.formState.isLoading);
 
   const onSubmit = async (values: z.infer<typeof feedbackFormSchema>) => {
     mutate(values);

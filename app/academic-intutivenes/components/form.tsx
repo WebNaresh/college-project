@@ -23,11 +23,11 @@ const AcademicEvaluationForm: FC = () => {
       case 1:
         return <Step1 onNext={nextStep} />;
       case 2:
-        return <Step2 onNext={nextStep} onPrev={prevStep} />;
+        return <Step2 onNext={nextStep} />;
       case 3:
-        return <Step3 onPrev={prevStep} onNext={nextStep} />;
+        return <Step3 onNext={nextStep} />;
       case 4:
-        return <Step4 onPrev={prevStep} onNext={nextStep} />;
+        return <Step4 onNext={nextStep} />;
       default:
         return null;
     }

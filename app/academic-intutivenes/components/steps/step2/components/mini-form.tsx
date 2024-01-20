@@ -87,10 +87,8 @@ const MiniForm = ({ title }: Props) => {
       publishingYear: undefined,
     },
   });
-  console.log(form.getValues());
 
   const onSubmit = async (values: z.infer<typeof step1formSchema>) => {
-    console.log(`🚀 ~ file: mini-form.tsx:79 ~ values:`, values);
     mutate(values);
   };
   return (
