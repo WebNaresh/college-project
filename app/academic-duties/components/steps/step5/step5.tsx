@@ -8,28 +8,25 @@ import { DataTable } from "./components/table";
 type Props = {
   onNext: () => void;
 };
-const Step2 = ({ onNext }: Props) => {
+const Step5 = ({ onNext }: Props) => {
   const fetchFormDetails = async () => {
     const config = { headers: { "Content-Type": "application/json" } };
     let data: AxiosResponse = await axios.get(
-      `${process.env.NEXT_PUBLIC_ROUTE}/api/form/responsibilityDepartment`,
+      `${process.env.NEXT_PUBLIC_ROUTE}/api/form/cActivity`,
       config
     );
     return data.data;
   };
   const { data } = useQuery({
-    queryKey: ["form-details-responsibilityDepartment"],
+    queryKey: ["form-details-cActivity"],
     queryFn: fetchFormDetails,
   });
   return (
     <div className="flex flex-col gap-4">
-      <MiniForm title="Major Responsibilities Handled (Department Level Work)" />
-      <DataTable
-        columns={columns}
-        data={data?.responsibilityDepartment || []}
-      />
+      <MiniForm title="9. Co-curricular/Extra-curricular/Professional Development activities organized" />
+      <DataTable columns={columns} data={data?.cActivity || []} />
     </div>
   );
 };
 
-export default Step2;
+export default Step5;

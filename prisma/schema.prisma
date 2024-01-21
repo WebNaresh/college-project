@@ -242,7 +242,7 @@ model cActivity {
   id             String                     @id @default(cuid())
   nameOfActivity String
   duration       String
-  type           cActivityEnum
+  type           activityType
   Performance    PerformanceEvalutationForm @relation(fields: [formId], references: [id], onDelete: Cascade)
   formId         String
 }
@@ -346,15 +346,7 @@ enum statusEnum {
   Submitted
 }
 
-enum cActivityEnum {
-  NSS
-  CulturalFest
-  TechnicalFest
-  EducationalTour
-  IndustrialVisit
-  PublicationMagazine
-  ProfessionalSocietyChapter
-  StudentActivityClub
-  TAndP
-  ISR
+enum activityType {
+  CoCurricular
+  ExtraCurricular
 }

@@ -44,6 +44,7 @@ export async function GET(req: NextApiRequest, res: NextApiResponse) {
           achievements: true,
           professtionalInfo: true,
           reasearch: true,
+          cActivity: true,
         },
       });
       if (form) {
