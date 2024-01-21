@@ -493,42 +493,130 @@ export const rowData: RowItemInteferance[] = [
       "",
     ],
   },
+  {
+    className: "bg-[#ffff66] font-bold text-left",
+    data: [
+      "8",
+      "Examination Duties Assigned[Minimum 1 expected in each category] ",
+      "[10]",
+      "",
+    ],
+  },
+  {
+    className: "",
+    data: [
+      "",
+      <>
+        <AdvanceEvaluationTable
+          className="border-0"
+          internalData={[
+            {
+              data: [
+                <AdvanceEvaluationTable
+                  className="border-0"
+                  internalData={[
+                    {
+                      data: [
+                        <AdvanceEvaluationTable
+                          className="border-0"
+                          internalData={[
+                            {
+                              data: ["College Level", "University Level"],
+                            },
+                            {
+                              data: ["5", "5"],
+                            },
+                          ]}
+                        />,
+                      ],
+                    },
+                  ]}
+                />,
+              ],
+            },
+          ]}
+        />
+      </>,
+      "",
+      "",
+    ],
+  },
+  {
+    className: "bg-[#ffff66] font-bold text-left",
+    data: [
+      "9",
+      "Co-curricular, Extra-curricular activities Organized[Minimum 1 expected in each category] ",
+      "[10]",
+      "",
+    ],
+  },
+  {
+    className: "",
+    data: [
+      "",
+      <>
+        <AdvanceEvaluationTable
+          className="border-0"
+          internalData={[
+            {
+              data: [
+                <AdvanceEvaluationTable
+                  className="border-0"
+                  internalData={[
+                    {
+                      data: [
+                        <AdvanceEvaluationTable
+                          className="border-0"
+                          internalData={[
+                            {
+                              data: ["Co-Curricular", "Extra-Curricular"],
+                            },
+                            {
+                              data: ["5", "5"],
+                            },
+                          ]}
+                        />,
+                      ],
+                    },
+                  ]}
+                />,
+              ],
+            },
+          ]}
+        />
+      </>,
+      "",
+      "",
+    ],
+  },
+  {
+    className: "bg-[#ffff66] font-bold text-left",
+    data: [
+      "10",
+      "Responsibilities Handled [5 Marks/Responsibility, Maximum 2 Responsibility] ",
+      "[10]",
+      "",
+    ],
+  },
+  {
+    className: "bg-[#8db3e2] font-bold text-left",
+    data: ["", "Total:[A]", "[210]", ""],
+  },
+  {
+    className: "bg-[#fbd4b4] font-bold text-left",
+    data: [
+      "B",
+      "Any other Special Achievement[5 Marks/Achievement, Maximum 2 Achievement] ",
+      "[10]",
+      "",
+    ],
+  },
+  {
+    className: "bg-[#8db3e2] font-bold text-left",
+    data: ["", "Total:[B]", "[10]", ""],
+  },
+  {
+    className: "font-bold text-left",
+    data: ["", "Total:[A]+[B]", "[220]", ""],
+  },
 ];
-// export const scoreCard = {
-//   "Teaching & Learning ": {
-//     "Average % Result (Theory):": {
-//       ugArray: {
-//         headersRow: ["UG", "6", "5", "4", "3", "2", "1"],
-//         data: [
-//           ["I", "90-100", "80-89", "70-79", "60-69", "55-59", "50-54"],
-//           ["II", "90-100", "80-89", "70-79", "60-69", "55-59", "50-54"],
-//           ["III", "96-100", "90-95", "80-89", "70-79", "60-69", "55-59"],
-//           ["IV", "96-100", "90-95", "80-89", "70-79", "60-69", "55-59"],
-//         ],
-//       },
-//       pgArray: {
-//         headersRow: ["PG", "6", "5", "4", "3", "2", "1"],
-//         data: [
-//           ["I", "96-100", "90-95", "80-89", "70-79", "60-69", "55-59"],
-//           ["II", "96-100", "90-95", "85-89", "80-84", "75-79", "70-74"],
-//         ],
-//       },
-//     },
-//     "Average % Class Engagement": {
-//       headersRow: ["7", "6", "5", "4", "3", "2", "1"],
-//       data: ["96-100", "90-95", "85-89", "80-84", "75-79", "70-74", "65-69"],
-//     },
-//     "Average % Student Feedback Score": {
-//       headersRow: ["6", "5", "4", "3", "2", "1"],
-//       data: ["96-100", "90-95", "80-89", "75-79", "70-74", "60-69"],
-//     },
-//     "Average % Peer Feedback Score ": {
-//       headersRow: ["6", "5", "4", "3", "2", "1"],
-//       data: ["96-100", "90-95", "80-89", "75-79", "70-74", "60-69"],
-//     },
-//     "Efforts taken for Effective Curriculum Delivery [ Minimum 1expected ]": {
-//       headersRow: ["1 Effort", "> 1 Effort "],
-//       data: ["5", "10"],
-//     },
-//   },
-// };
