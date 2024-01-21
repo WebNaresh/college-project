@@ -66,7 +66,7 @@ const NavBar = (props: Props) => {
   const { data: session } = useSession();
 
   return (
-    <div className="h-[60px] w-full flex justify-between bg-primary items-center fixed">
+    <div className="h-[60px] w-full flex justify-between bg-primary items-center fixed z-50">
       <div className="flex gap-2 items-center">
         <Sheet>
           <SheetTrigger asChild>
