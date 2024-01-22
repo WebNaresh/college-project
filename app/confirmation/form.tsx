@@ -76,7 +76,7 @@ const UserForm = (p: Props) => {
     queryFn: fetchFormDetails,
   });
   return (
-    <div className="flex flex-col gap-4 px-8 flex-1">
+    <div id="printable" className="flex flex-col gap-4 px-8 flex-1">
       <Header data={data} />
       <PersonalInfo data={data} />
       <AcademicAppraisel data={data} />

@@ -7,59 +7,84 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
+import { RowItemInteferance } from "./interface";
 
 type Props = {
-  header: string[];
-  data: (string | React.ReactNode)[][];
-  border?: boolean;
-  tableCellClasses?: string;
+  header?: RowItemInteferance;
+  internalData?: RowItemInteferance[];
+  className?: string;
+  title?: {
+    className?: string;
+    titleData: string;
+  };
 };
 
-const EvaluationTable = ({ header, data, border, tableCellClasses }: Props) => {
+const AdvanceEvaluationTable = ({
+  header,
+  internalData,
+  className,
+  title,
+}: Props) => {
   return (
-    <Table className={`border border-black ${border && "border-0"}`}>
-      <TableHeader>
-        <TableRow className={cn("", tableCellClasses)}>
-          {header.map((doc, i) => {
-            return (
-              <TableHead
-                className={cn(
-                  `text-center border-black border-r text-black border-b font-bold ${
-                    header.length === i + 1 && `border-r-0 `
-                  } `,
-                  tableCellClasses
-                )}
-                key={i}
+    <>
+      {title && (
+        <div
+          className={cn(
+            title.className,
+            "border-b border-black p-2 text-left font-bold"
+          )}
+        >
+          {title.titleData}
+        </div>
+      )}
+      <Table className={cn(`border border-black`, className)}>
+        {header && (
+          <TableHeader>
+            <TableRow className="w-full">
+              {header?.data?.map((doc, i) => (
+                <TableHead
+                  className={cn(
+                    `text-center border-black border-r text-black border-b font-bold ${
+                      header?.data?.length === i + 1 && "border-r-0"
+                    }`,
+                    header.className
+                  )}
+                  key={i}
+                >
+                  {doc}
+                </TableHead>
+              ))}
+            </TableRow>
+          </TableHeader>
+        )}
+        <TableBody>
+          {internalData &&
+            internalData.map((row, rowIndex) => (
+              <TableRow
+                className={cn(row.className, "border-b border-black")}
+                key={rowIndex}
               >
-                {doc}
-              </TableHead>
-            );
-          })}
-        </TableRow>
-      </TableHeader>
-      <TableBody>
-        {data.map((row, rowIndex) => (
-          <TableRow className="border-b border-black" key={rowIndex}>
-            {row.map((cell, cellIndex) => (
-              <TableCell
-                className={cn(
-                  `${
-                    typeof cell !== "string" ? "p-0 border-0" : "p-4"
-                  } text-center border-black ${
-                    row.length !== cellIndex + 1 && "border-r"
-                  }`,
-                  tableCellClasses
-                )}
-                key={cellIndex}
-              >
-                {cell}
-              </TableCell>
+                {row?.data?.map((cell, cellIndex) => (
+                  <TableCell
+                    className={cn(
+                      `${
+                        typeof cell !== "string" ? "p-0 border-0" : "p-2"
+                      } text-center border-b border-black ${
+                        row?.data?.length !== cellIndex + 1 && "border-r"
+                      }`,
+                      row.className
+                    )}
+                    key={cellIndex}
+                  >
+                    {cell}
+                  </TableCell>
+                ))}
+              </TableRow>
             ))}
-          </TableRow>
-        ))}
-      </TableBody>
-    </Table>
+        </TableBody>
+      </Table>
+    </>
   );
 };
 
-export default EvaluationTable;
+export default AdvanceEvaluationTable;

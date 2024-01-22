@@ -1,5 +1,8 @@
+import { Button } from "@/components/ui/button";
+import html2pdf from "html2pdf.js";
 import HeaderText from "../header-text";
-import AdvanceEvaluationTable from "./components/evaluation-table-2";
+import EvalutationFooter from "./components/evaluation-footer";
+import AdvanceEvaluationTable from "./components/evaluation-table";
 import { RowItemInteferance } from "./components/interface";
 
 type Props = {
@@ -7,11 +10,36 @@ type Props = {
 };
 
 const EvaluationForm = (p: Props) => {
+  const convertToPdf = async () => {
+    // Get the HTML element that you want to convert to PDF
+    const element = document.getElementById("printable");
+
+    // Set options for the PDF conversion (optional)
+    const options = {
+      margin: 2,
+      filename: "converted-document.pdf",
+      image: { type: "jpeg", quality: 0.98 },
+      html2canvas: { scale: 2 },
+      jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
+      pagebreak: { mode: ["avoid-all", "css", "legacy"] },
+    };
+
+    // Perform the HTML to PDF conversion
+    await html2pdf(element, options);
+  };
   return (
-    <div className="gap-4 flex flex-col">
-      <HeaderText title="b) Books(s)/Article/Chapter(s) published" />
-      <AdvanceEvaluationTable header={rowHeader} internalData={rowData} />
-    </div>
+    <>
+      <div id="printable" className="gap-4 flex flex-col">
+        <HeaderText title="b) Books(s)/Article/Chapter(s) published" />
+        <AdvanceEvaluationTable header={rowHeader} internalData={rowData} />
+        <div className="html2pdf__page-break" />
+        <AdvanceEvaluationTable header={rowHeader} internalData={array2} />
+        <div className="html2pdf__page-break" />
+        <AdvanceEvaluationTable header={rowHeader} internalData={array3} />
+        <EvalutationFooter />
+      </div>
+      <Button onClick={convertToPdf}>Print</Button>
+    </>
   );
 };
 
@@ -23,11 +51,11 @@ export const rowHeader: RowItemInteferance = {
 };
 export const rowData: RowItemInteferance[] = [
   {
-    className: "bg-[#fbd4b4] text-left font-bold",
+    className: "bg-[#fbd4b4] text-left font-bold p-2 border-b",
     data: ["[A]", "Academic Appraisal ", "[210]", ""],
   },
   {
-    className: "bg-[#ffff66] text-left font-bold",
+    className: "bg-[#ffff66] text-left font-bold p-2 border-b",
     data: ["1", "Teaching & Learning", "[95]", ""],
   },
   {
@@ -37,7 +65,10 @@ export const rowData: RowItemInteferance[] = [
         <AdvanceEvaluationTable
           title={{ titleData: "Average % Result (Theory): ", className: "" }}
           className="border-0 border-b"
-          header={{ data: ["UG", "6", "5", "4", "3", "2", "1"] }}
+          header={{
+            data: ["UG", "6", "5", "4", "3", "2", "1"],
+            className: "p-0  h-8",
+          }}
           internalData={[
             {
               data: [
@@ -49,6 +80,7 @@ export const rowData: RowItemInteferance[] = [
                 "55-59",
                 "50-54",
               ],
+              className: "p-0  h-8",
             },
             {
               data: [
@@ -60,6 +92,7 @@ export const rowData: RowItemInteferance[] = [
                 "55-59",
                 "50-54",
               ],
+              className: "p-0  h-8",
             },
             {
               data: [
@@ -71,6 +104,7 @@ export const rowData: RowItemInteferance[] = [
                 "60-69",
                 "55-59",
               ],
+              className: "p-0  h-8",
             },
             {
               data: [
@@ -82,13 +116,17 @@ export const rowData: RowItemInteferance[] = [
                 "60-69",
                 "55-59",
               ],
+              className: "p-0  h-8",
             },
           ]}
         />
         <AdvanceEvaluationTable
           title={{ titleData: "" }}
           className="border-0 border-b "
-          header={{ data: ["PG", "6", "5", "4", "3", "2", "1"] }}
+          header={{
+            data: ["PG", "6", "5", "4", "3", "2", "1"],
+            className: "p-0  h-8",
+          }}
           internalData={[
             {
               data: [
@@ -100,6 +138,7 @@ export const rowData: RowItemInteferance[] = [
                 "60-69",
                 "55-59",
               ],
+              className: "p-0  h-8",
             },
             {
               data: [
@@ -111,13 +150,17 @@ export const rowData: RowItemInteferance[] = [
                 "75-79",
                 "70-74",
               ],
+              className: "p-0  h-8",
             },
           ]}
         />
         <AdvanceEvaluationTable
           title={{ titleData: "Average % Class Engagement" }}
           className="border-0 border-b"
-          header={{ data: ["7", "6", "5", "4", "3", "2", "1"] }}
+          header={{
+            data: ["7", "6", "5", "4", "3", "2", "1"],
+            className: "p-0  h-8",
+          }}
           internalData={[
             {
               data: [
@@ -129,26 +172,35 @@ export const rowData: RowItemInteferance[] = [
                 "70-74",
                 "65-69",
               ],
+              className: "p-0  h-8",
             },
           ]}
         />
         <AdvanceEvaluationTable
           title={{ titleData: "Average % Student Feedback Score" }}
           className="border-0 border-b "
-          header={{ data: ["6", "5", "4", "3", "2", "1"] }}
+          header={{
+            data: ["6", "5", "4", "3", "2", "1"],
+            className: "p-0  h-8",
+          }}
           internalData={[
             {
               data: ["96-100", "90-95", "80-89", "75-79", "70-74", "60-69"],
+              className: "p-0  h-8",
             },
           ]}
         />
         <AdvanceEvaluationTable
           title={{ titleData: "Average % Peer Feedback Score" }}
           className="border-0 border-b"
-          header={{ data: ["6", "5", "4", "3", "2", "1"] }}
+          header={{
+            data: ["6", "5", "4", "3", "2", "1"],
+            className: "p-0  h-8",
+          }}
           internalData={[
             {
               data: ["96-100", "90-95", "80-89", "75-79", "70-74", "60-69"],
+              className: "p-0  h-8",
             },
           ]}
         />
@@ -164,15 +216,18 @@ export const rowData: RowItemInteferance[] = [
                 <AdvanceEvaluationTable
                   className="border-0"
                   internalData={[
-                    { data: ["1 Effort "], className: "font-bold" },
-                    { data: ["5"] },
+                    {
+                      data: ["1 Effort "],
+                      className: "font-bold p-0  h-8",
+                    },
+                    { data: ["5"], className: "p-0  h-8 border-b-0" },
                   ]}
                 />,
                 <AdvanceEvaluationTable
                   className="border-0"
                   internalData={[
-                    { data: ["> 1 Effort "], className: "font-bold" },
-                    { data: ["10"] },
+                    { data: ["> 1 Effort "], className: "font-bold p-0  h-8" },
+                    { data: ["10"], className: "p-0  h-8 border-b-0" },
                   ]}
                 />,
               ],
@@ -184,8 +239,11 @@ export const rowData: RowItemInteferance[] = [
       "",
     ],
   },
+];
+
+let array2 = [
   {
-    className: "bg-[#ffff66] font-bold text-left",
+    className: "bg-[#ffff66] font-bold text-left p-2 border-b",
     data: ["1", "Publication", "[45]", ""],
   },
   {
@@ -209,10 +267,12 @@ export const rowData: RowItemInteferance[] = [
                     },
                     {
                       data: ["20", "10"],
+                      className: "border-b-0",
                     },
                   ]}
                 />,
               ],
+              className: "border-b-0",
             },
           ]}
         />
@@ -233,10 +293,12 @@ export const rowData: RowItemInteferance[] = [
                     },
                     {
                       data: ["20", "10"],
+                      className: "border-b-0",
                     },
                   ]}
                 />,
               ],
+              className: "border-b-0",
             },
           ]}
         />
@@ -254,6 +316,7 @@ export const rowData: RowItemInteferance[] = [
                     },
                     {
                       data: ["10", "5"],
+                      className: "border-b-0",
                     },
                   ]}
                 />,
@@ -267,8 +330,8 @@ export const rowData: RowItemInteferance[] = [
     ],
   },
   {
-    className: "bg-[#ffff66] font-bold text-left",
-    data: ["3", "Knowledge Enhancement Programs Attended ", "[10]", ""],
+    className: "bg-[#ffff66] font-bold text-left p-2",
+    data: ["3", "Knowledge Enhancement Programs Attended", "[10]", ""],
   },
   {
     className: "",
@@ -301,7 +364,7 @@ export const rowData: RowItemInteferance[] = [
     ],
   },
   {
-    className: "bg-[#ffff66] font-bold text-left",
+    className: "bg-[#ffff66] font-bold text-left p-2",
     data: ["4", "Knowledge Enhancement Programs Organized ", "[10]", ""],
   },
   {
@@ -335,7 +398,7 @@ export const rowData: RowItemInteferance[] = [
     ],
   },
   {
-    className: "bg-[#ffff66] font-bold text-left",
+    className: "bg-[#ffff66] font-bold text-left p-2",
     data: ["5", "Sponsored Research ", "[30]", ""],
   },
   {
@@ -392,9 +455,11 @@ export const rowData: RowItemInteferance[] = [
     ],
   },
   {
-    className: "bg-[#ffff66] font-bold text-left",
+    className: "bg-[#ffff66] font-bold text-left p-2",
     data: ["6", "Consultancy – Amount ", "[10]", ""],
   },
+];
+let array3 = [
   {
     className: "",
     data: [
@@ -446,7 +511,7 @@ export const rowData: RowItemInteferance[] = [
     ],
   },
   {
-    className: "bg-[#ffff66] font-bold text-left",
+    className: "bg-[#ffff66] font-bold text-left p-2",
     data: [
       "7",
       "Efforts taken for IPR [Minimum 1 expected in each category] ",

@@ -25,7 +25,7 @@ const Feedback = ({ data }: Props) => {
     : 0;
   return (
     <div className="w-full">
-      <HeaderText title="b).Average Feedback Score:" />
+      <HeaderText title="b).Average Feedback Score:" className=" mb-2" />
       <div className="w-full border border-black grid grid-cols-4 text-sm text-center">
         <FeedbackHeader />
         <FeedbackRow
