@@ -1,5 +1,3 @@
-import { Button } from "@/components/ui/button";
-import html2pdf from "html2pdf.js";
 import HeaderText from "../header-text";
 import EvalutationFooter from "./components/evaluation-footer";
 import AdvanceEvaluationTable from "./components/evaluation-table";
@@ -10,23 +8,6 @@ type Props = {
 };
 
 const EvaluationForm = (p: Props) => {
-  const convertToPdf = async () => {
-    // Get the HTML element that you want to convert to PDF
-    const element = document.getElementById("printable");
-
-    // Set options for the PDF conversion (optional)
-    const options = {
-      margin: 2,
-      filename: "converted-document.pdf",
-      image: { type: "jpeg", quality: 0.98 },
-      html2canvas: { scale: 2 },
-      jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
-      pagebreak: { mode: ["avoid-all", "css", "legacy"] },
-    };
-
-    // Perform the HTML to PDF conversion
-    await html2pdf(element, options);
-  };
   return (
     <>
       <div id="printable" className="gap-4 flex flex-col">
@@ -38,7 +19,6 @@ const EvaluationForm = (p: Props) => {
         <AdvanceEvaluationTable header={rowHeader} internalData={array3} />
         <EvalutationFooter />
       </div>
-      <Button onClick={convertToPdf}>Print</Button>
     </>
   );
 };
@@ -231,6 +211,7 @@ export const rowData: RowItemInteferance[] = [
                   ]}
                 />,
               ],
+              className: "border-b-0",
             },
           ]}
         />
@@ -321,6 +302,7 @@ let array2 = [
                   ]}
                 />,
               ],
+              className: "border-b-0",
             },
           ]}
         />
@@ -351,10 +333,12 @@ let array2 = [
                     },
                     {
                       data: ["10", "5"],
+                      className: "border-b-0",
                     },
                   ]}
                 />,
               ],
+              className: "border-b-0",
             },
           ]}
         />
@@ -368,7 +352,7 @@ let array2 = [
     data: ["4", "Knowledge Enhancement Programs Organized ", "[10]", ""],
   },
   {
-    className: "",
+    className: "border-b-0",
     data: [
       "",
       <>
@@ -385,10 +369,12 @@ let array2 = [
                     },
                     {
                       data: ["10", "5"],
+                      className: "border-b-0",
                     },
                   ]}
                 />,
               ],
+              className: "border-b-0",
             },
           ]}
         />
@@ -427,6 +413,7 @@ let array2 = [
                             },
                             {
                               data: ["10", "5"],
+                              className: "border-b-0",
                             },
                           ]}
                         />,
@@ -436,16 +423,16 @@ let array2 = [
                             {
                               data: ["Awarded ", "Submitted"],
                             },
-                            {
-                              data: ["20", "10"],
-                            },
+                            { className: "border-b-0", data: ["20", "10"] },
                           ]}
                         />,
                       ],
+                      className: "border-b-0",
                     },
                   ]}
                 />,
               ],
+              className: "border-b-0",
             },
           ]}
         />
@@ -454,12 +441,12 @@ let array2 = [
       "",
     ],
   },
+];
+let array3 = [
   {
     className: "bg-[#ffff66] font-bold text-left p-2",
     data: ["6", "Consultancy – Amount ", "[10]", ""],
   },
-];
-let array3 = [
   {
     className: "",
     data: [
@@ -483,6 +470,7 @@ let array3 = [
                             },
                             {
                               data: ["10", "5"],
+                              className: "border-b-0",
                             },
                           ]}
                         />,
@@ -494,14 +482,17 @@ let array3 = [
                             },
                             {
                               data: ["3 ", "2"],
+                              className: "border-b-0",
                             },
                           ]}
                         />,
                       ],
+                      className: "border-b-0",
                     },
                   ]}
                 />,
               ],
+              className: "border-b-0",
             },
           ]}
         />
@@ -542,14 +533,17 @@ let array3 = [
                             },
                             {
                               data: ["20", "10", "10"],
+                              className: "border-b-0",
                             },
                           ]}
                         />,
                       ],
+                      className: "border-b-0",
                     },
                   ]}
                 />,
               ],
+              className: "border-b-0",
             },
           ]}
         />
@@ -590,14 +584,17 @@ let array3 = [
                             },
                             {
                               data: ["5", "5"],
+                              className: "border-b-0",
                             },
                           ]}
                         />,
                       ],
+                      className: "border-b-0",
                     },
                   ]}
                 />,
               ],
+              className: "border-b-0",
             },
           ]}
         />
@@ -638,14 +635,17 @@ let array3 = [
                             },
                             {
                               data: ["5", "5"],
+                              className: "border-b-0",
                             },
                           ]}
                         />,
                       ],
+                      className: "border-b-0",
                     },
                   ]}
                 />,
               ],
+              className: "border-b-0",
             },
           ]}
         />
@@ -655,7 +655,7 @@ let array3 = [
     ],
   },
   {
-    className: "bg-[#ffff66] font-bold text-left",
+    className: "bg-[#ffff66] font-bold text-left ",
     data: [
       "10",
       "Responsibilities Handled [5 Marks/Responsibility, Maximum 2 Responsibility] ",

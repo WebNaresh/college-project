@@ -15,6 +15,7 @@ import {
   AlignJustify,
   CalendarCheck,
   CandlestickChart,
+  CreditCard,
   GraduationCap,
   KanbanSquareDashed,
   LogOut,
@@ -36,31 +37,49 @@ import {
 type Props = {};
 
 const NavBar = (props: Props) => {
-  let array: { link: string; title: string; icon: JSX.Element }[] = [
+  const { data } = useSession();
+  console.log(`🚀 ~ file: navbar.tsx:40 ~ data:`, data?.user);
+  let array: {
+    link: string;
+    title: string;
+    icon: JSX.Element;
+    isVisible?: Boolean;
+  }[] = [
     {
       link: "/academic-evaluation",
       title: "Academic Evaluation",
       icon: <GraduationCap />,
+      isVisible: data?.user?.role === "Teacher" ? false : true,
     },
     {
       link: "/academic-intutivenes",
       title: "Academic Intutiveness",
       icon: <NotebookPen />,
+      isVisible: data?.user?.role === "Teacher" ? false : true,
     },
     {
       link: "/academic-assets",
       title: "Academic Assets",
       icon: <CandlestickChart />,
+      isVisible: data?.user?.role === "Teacher" ? false : true,
     },
     {
       link: "/academic-duties",
       title: "Academic Duties",
       icon: <KanbanSquareDashed />,
+      isVisible: data?.user?.role === "Teacher" ? false : true,
     },
     {
       link: "/confirmation",
       title: "Confirm Your Form",
       icon: <CalendarCheck />,
+      isVisible: data?.user?.role === "Teacher" ? false : true,
+    },
+    {
+      link: "/hod",
+      title: "Application",
+      icon: <CreditCard />,
+      isVisible: data?.user?.role === "HOD" ? false : true,
     },
   ];
   const { data: session } = useSession();
@@ -92,16 +111,21 @@ const NavBar = (props: Props) => {
             ) : (
               <>
                 <div className="flex-1 border border-secondary rounded-lg">
-                  {array.map((e, index) => (
-                    <Link
-                      key={index}
-                      href={e.link}
-                      className="w-full flex border-b border-secondary justify-between px-8 py-4 text-white flex-1"
-                    >
-                      {e.title}
-                      {e.icon}
-                    </Link>
-                  ))}
+                  {array.map((e, index) => {
+                    console.log(`🚀 ~ file: navbar.tsx:108 ~ e:`, e);
+                    return (
+                      <Link
+                        key={index}
+                        href={e.link}
+                        className={`${
+                          e.isVisible === true ? "hidden" : "flex"
+                        } w-full border-b border-secondary justify-between px-8 py-4 text-white flex-1`}
+                      >
+                        {e.title}
+                        {e.icon}
+                      </Link>
+                    );
+                  })}
                 </div>
               </>
             )}

@@ -43,7 +43,9 @@ const EvalutationFooter = (props: Props) => {
                 />
                 <AdvanceEvaluationTable
                   className="border-0"
-                  internalData={[{ data: ["Average"] }]}
+                  internalData={[
+                    { data: ["Average"], className: "border-b-0" },
+                  ]}
                 />
               </>,
               <>
@@ -65,7 +67,9 @@ const EvalutationFooter = (props: Props) => {
                 />
                 <AdvanceEvaluationTable
                   className="border-0"
-                  internalData={[{ data: ["Less than 50 "] }]}
+                  internalData={[
+                    { data: ["Less than 50 "], className: "border-b-0" },
+                  ]}
                 />
               </>,
               "Marks & Grade Scored",
