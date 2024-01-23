@@ -9,7 +9,7 @@ import { getForm } from "../route";
 
 export async function GET(req: NextRequest, res: NextApiResponse) {
   try {
-    let form = await getForm(req?.user);
+    let form = await getForm();
 
     let tradeMark = await prisma.tradeMark.findMany({
       where: {
@@ -41,7 +41,7 @@ export interface tradeMark {
 export async function PUT(req: NextRequest, res: NextApiResponse) {
   try {
     let tradeMark = (await req.json()) as tradeMark;
-    let form = await getForm(req?.user);
+    let form = await getForm();
 
     await prisma.tradeMark.create({
       data: {

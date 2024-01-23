@@ -7,7 +7,6 @@ type Props = {
 };
 
 const DutyForm = ({ data }: Props) => {
-  console.log(`🚀 ~ file: duties.tsx:9 ~ data:`, data);
   return (
     <div className="gap-4 flex flex-col">
       <HeaderText title="8. Examination Duties Assigned & Performed" />

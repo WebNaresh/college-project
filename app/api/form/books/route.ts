@@ -9,7 +9,7 @@ import { getForm } from "../route";
 
 export async function GET(req: NextRequest, res: NextApiResponse) {
   try {
-    let form = await getForm(req?.user);
+    let form = await getForm();
 
     let books = await prisma.books.findMany({
       where: {
@@ -46,7 +46,7 @@ export interface booksDetails {
 export async function PUT(req: NextRequest, res: NextApiResponse) {
   try {
     let bookDetail = (await req.json()) as booksDetails;
-    let form = await getForm(req?.user);
+    let form = await getForm();
 
     await prisma.books.create({
       data: {

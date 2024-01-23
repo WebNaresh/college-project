@@ -26,7 +26,7 @@ const AcademicCellTermIIPrevious = ({ title }: Props) => {
         {title}
       </div>
       {data?.termIIPreviousData?.map((doc: any, index: number) => (
-        <div className="col-span-1 grid grid-cols-8">
+        <div key={index} className="col-span-1 grid grid-cols-8">
           <div className=" text-center p-2 font-bold text-sm px-4 border-black border border-l-0 border-b-0">
             {index + 1}
           </div>

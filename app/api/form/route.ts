@@ -1,11 +1,29 @@
 // import { hash } from "bcrypt";
 import { auth } from "@/lib/auth";
-import { User } from "@/lib/next-auth";
 import { prisma } from "@/lib/prisma";
-import { PerformanceEvalutationForm } from "@prisma/client";
+import { $Enums, PerformanceEvalutationForm } from "@prisma/client";
 import { endOfYear, startOfYear } from "date-fns";
 import { NextApiRequest, NextApiResponse } from "next";
 import { NextResponse } from "next/server";
+interface User {
+  id: string;
+  name: string;
+  email: string;
+  contact: string;
+  verified: boolean;
+  profileImage: string;
+  role: $Enums.roleEnum;
+  createdAt: Date;
+  updatedAt: Date;
+  professionalInfo: {
+    id: string;
+    dateOfJoining: Date;
+    facaultyName: string;
+    designation: string;
+    departmentName: string;
+    userId: string;
+  } | null;
+}
 
 // Import necessary modules and types
 
@@ -75,12 +93,20 @@ export async function GET(req: NextApiRequest, res: NextApiResponse) {
 }
 
 // Rest of your code
-export const getForm = async (
-  user: User
-): Promise<PerformanceEvalutationForm> => {
+export const getForm = async (): Promise<PerformanceEvalutationForm> => {
+  const session = await auth();
+  if (!session) {
+    throw new NextResponse(
+      JSON.stringify({
+        status: "error",
+        message: "User is not authenticate please login first",
+      }),
+      { status: 404 }
+    );
+  }
   let form = await prisma.performanceEvalutationForm.findFirst({
     where: {
-      userId: user?.id,
+      userId: session?.user?.id,
       createdAt: {
         gte: startOfYear(new Date()), // Start of the current year
         lt: endOfYear(new Date()), // End of the current year
@@ -91,8 +117,8 @@ export const getForm = async (
   if (!form) {
     form = await prisma.performanceEvalutationForm.create({
       data: {
-        userId: user?.id,
-        professtionalInfoId: user.professionalInfo?.id,
+        userId: session?.user?.id,
+        professtionalInfoId: session?.user?.professionalInfo?.id,
       },
     });
   }

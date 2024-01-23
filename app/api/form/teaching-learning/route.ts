@@ -11,7 +11,7 @@ import { getForm } from "../route";
 
 export async function GET(req: NextRequest, res: NextApiResponse) {
   try {
-    let form = await getForm(req?.user);
+    let form = await getForm();
 
     let termIIPreviousData = await prisma.teachingAndLearning.findMany({
       where: {
@@ -43,7 +43,7 @@ export async function POST(req: NextRequest, res: NextApiResponse) {
       term: termEnum;
       year: yearEnum;
     };
-    let form = await getForm(req?.user);
+    let form = await getForm();
 
     let termIIPreviousData = await prisma.teachingAndLearning.findMany({
       where: {
@@ -80,7 +80,7 @@ export async function PUT(req: NextRequest, res: NextApiResponse) {
       term,
       year,
     } = (await req.json()) as z.infer<typeof step1formSchema>;
-    let form = await getForm(req?.user);
+    let form = await getForm();
 
     await prisma.teachingAndLearning.create({
       data: {

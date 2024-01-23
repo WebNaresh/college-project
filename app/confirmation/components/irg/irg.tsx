@@ -8,7 +8,6 @@ type Props = {
 };
 
 const IRGForm = ({ data }: Props) => {
-  console.log(`🚀 ~ file: irg.tsx:9 ~ data:`, data);
   return (
     <div className="gap-4 flex flex-col">
       <HeaderText title="6. Consultancy/Internal Revenue Generation (IRG) " />

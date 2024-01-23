@@ -9,7 +9,7 @@ import { getForm } from "../route";
 
 export async function GET(req: NextRequest, res: NextApiResponse) {
   try {
-    let form = await getForm(req?.user);
+    let form = await getForm();
 
     let patent = await prisma.patent.findMany({
       where: {
@@ -41,7 +41,7 @@ export interface patent {
 export async function PUT(req: NextRequest, res: NextApiResponse) {
   try {
     let patent = (await req.json()) as patent;
-    let form = await getForm(req?.user);
+    let form = await getForm();
 
     await prisma.patent.create({
       data: {

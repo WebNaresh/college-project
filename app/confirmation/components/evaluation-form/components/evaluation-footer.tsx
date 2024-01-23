@@ -5,7 +5,6 @@ type Props = {};
 
 const EvalutationFooter = (props: Props) => {
   const { data } = useSession();
-  console.log(`🚀 ~ file: evaluation-footer.tsx:7 ~ data:`, data);
   return (
     <div className="flex flex-col gap-4">
       <div className="font-bold">

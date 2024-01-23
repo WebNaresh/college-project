@@ -8,7 +8,7 @@ import { getForm } from "../route";
 
 export async function GET(req: NextRequest, res: NextApiResponse) {
   try {
-    let form = await getForm(req?.user);
+    let form = await getForm();
 
     let irg = await prisma.irg.findMany({
       where: {
@@ -42,7 +42,7 @@ export interface irg {
 export async function PUT(req: NextRequest, res: NextApiResponse) {
   try {
     let irg = (await req.json()) as irg;
-    let form = await getForm(req?.user);
+    let form = await getForm();
 
     await prisma.irg.create({
       data: {

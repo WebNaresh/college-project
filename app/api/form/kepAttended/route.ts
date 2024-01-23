@@ -8,7 +8,7 @@ import { getForm } from "../route";
 
 export async function GET(req: NextRequest, res: NextApiResponse) {
   try {
-    let form = await getForm(req?.user);
+    let form = await getForm();
 
     let kepAttended = await prisma.kepAttended.findMany({
       where: {
@@ -41,7 +41,7 @@ export interface kepAttended {
 export async function PUT(req: NextRequest, res: NextApiResponse) {
   try {
     let kepAttended = (await req.json()) as kepAttended;
-    let form = await getForm(req?.user);
+    let form = await getForm();
 
     await prisma.kepAttended.create({
       data: {

@@ -9,7 +9,7 @@ import { getForm } from "../route";
 
 export async function GET(req: NextRequest, res: NextApiResponse) {
   try {
-    let form = await getForm(req?.user);
+    let form = await getForm();
 
     let copyRight = await prisma.copyRight.findMany({
       where: {
@@ -41,7 +41,7 @@ export interface copyRight {
 export async function PUT(req: NextRequest, res: NextApiResponse) {
   try {
     let copyRight = (await req.json()) as copyRight;
-    let form = await getForm(req?.user);
+    let form = await getForm();
 
     await prisma.copyRight.create({
       data: {

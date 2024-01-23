@@ -8,7 +8,7 @@ import { getForm } from "../route";
 
 export async function GET(req: NextRequest, res: NextApiResponse) {
   try {
-    let form = await getForm(req?.user);
+    let form = await getForm();
 
     let cActivity = await prisma.cActivity.findMany({
       where: {
@@ -40,7 +40,7 @@ export interface cActivityDetails {
 export async function PUT(req: NextRequest, res: NextApiResponse) {
   try {
     let cActivity = (await req.json()) as cActivityDetails;
-    let form = await getForm(req?.user);
+    let form = await getForm();
 
     await prisma.cActivity.create({
       data: {

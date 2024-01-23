@@ -42,7 +42,7 @@ export function DataTable<TData, TValue>({
                 {headerGroup.headers.map((header, i) => {
                   return (
                     <TableHead
-                      className={`text-center border-black text-black border-b font-bold ${
+                      className={`text-center border-black px-0 py-2 text-black border-b font-bold ${
                         headerGroup.headers.length !== i + 1 && "border-r"
                       }`}
                       key={header.id}
@@ -70,7 +70,7 @@ export function DataTable<TData, TValue>({
                   {row.getVisibleCells().map((cell, i) => {
                     return (
                       <TableCell
-                        className={`text-center border-black ${
+                        className={`text-center px-0 border-black ${
                           row.getVisibleCells().length !== i + 1 && "border-r"
                         }`}
                         key={cell.id}

@@ -8,7 +8,7 @@ import { getForm } from "../route";
 
 export async function GET(req: NextRequest, res: NextApiResponse) {
   try {
-    let form = await getForm(req?.user);
+    let form = await getForm();
 
     let responsibilityDepartment =
       await prisma.responsibilityDepartment.findMany({
@@ -40,7 +40,7 @@ export async function PUT(req: NextRequest, res: NextApiResponse) {
   try {
     let responsibilityDepartment =
       (await req.json()) as responsibilityDepartment;
-    let form = await getForm(req?.user);
+    let form = await getForm();
 
     await prisma.responsibilityDepartment.create({
       data: {

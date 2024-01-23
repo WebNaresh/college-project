@@ -38,7 +38,6 @@ type Props = {};
 
 const NavBar = (props: Props) => {
   const { data } = useSession();
-  console.log(`🚀 ~ file: navbar.tsx:40 ~ data:`, data?.user);
   let array: {
     link: string;
     title: string;
@@ -112,7 +111,6 @@ const NavBar = (props: Props) => {
               <>
                 <div className="flex-1 border border-secondary rounded-lg">
                   {array.map((e, index) => {
-                    console.log(`🚀 ~ file: navbar.tsx:108 ~ e:`, e);
                     return (
                       <Link
                         key={index}

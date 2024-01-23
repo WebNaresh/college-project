@@ -6,7 +6,7 @@ import { getForm } from "../route";
 
 export async function GET(req: NextRequest, res: NextApiResponse) {
   try {
-    let form = await getForm(req?.user);
+    let form = await getForm();
     const feedback = await getFeedback(form);
     return NextResponse.json({
       status: "success",
@@ -27,7 +27,7 @@ export async function GET(req: NextRequest, res: NextApiResponse) {
 export async function POST(req: NextRequest, res: NextApiResponse) {
   try {
     let feedbackDetails = (await req.json()) as FeedbackDetails;
-    let form = await getForm(req?.user);
+    let form = await getForm();
     const feedback = await updateFeedback(feedbackDetails);
     return NextResponse.json({
       status: "success",

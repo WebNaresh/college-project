@@ -9,7 +9,7 @@ import { getForm } from "../route";
 
 export async function GET(req: NextRequest, res: NextApiResponse) {
   try {
-    let form = await getForm(req?.user);
+    let form = await getForm();
 
     let publications = await prisma.publication.findMany({
       where: {
@@ -51,7 +51,7 @@ export async function PUT(req: NextRequest, res: NextApiResponse) {
       indexedIn,
       mainAuthor,
     } = (await req.json()) as publicationFormDetails;
-    let form = await getForm(req?.user);
+    let form = await getForm();
 
     await prisma.publication.create({
       data: {

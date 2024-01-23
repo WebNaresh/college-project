@@ -25,7 +25,7 @@ const AcademicCellTermICurrent = ({ title }: Props) => {
     <>
       <div className="flex text-center font-bold p-2 border-b">{title}</div>
       {data?.termIIPreviousData?.map((doc: any, index: number) => (
-        <div className="col-span-1 grid grid-cols-8 w-full">
+        <div key={index} className="col-span-1 grid grid-cols-8 w-full">
           <div className=" text-center p-2 font-bold text-sm px-4 border-black border border-l-0 border-b-0">
             {index + 1}
           </div>
