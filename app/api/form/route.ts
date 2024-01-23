@@ -117,7 +117,7 @@ export const getForm = async (): Promise<PerformanceEvalutationForm> => {
   if (!form) {
     form = await prisma.performanceEvalutationForm.create({
       data: {
-        userId: session?.user?.id,
+        userId: session?.user?.id as string,
         professtionalInfoId: session?.user?.professionalInfo?.id,
       },
     });
