@@ -89,11 +89,13 @@ model PerformanceEvalutationForm {
   responsibilityDepartment responsibilityDepartment[]
   responsibilityInsitute   responsibilityInsitute[]
   achievements             achievements[]
-  professtionalInfoId      String?
-  professtionalInfo        ProfesstionalInfo?         @relation(fields: [professtionalInfoId], references: [id])
+  professtionalInfoId      String
+  professtionalInfo        ProfesstionalInfo          @relation(fields: [professtionalInfoId], references: [id])
   User                     User                       @relation(fields: [userId], references: [id], onDelete: Cascade)
   reasearch                reasearch[]
   cActivity                cActivity[]
+  averageResult            Int
+  classEngagement          Int
 }
 
 model TeachingAndLearning {
