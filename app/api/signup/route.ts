@@ -125,6 +125,7 @@ export async function POST(req: Request) {
       },
     });
     return NextResponse.json({
+      message: "User Succesfully created waiting for approval",
       status: "success",
       user: user2,
     });

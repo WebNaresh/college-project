@@ -1,5 +1,6 @@
 "use client";
-import { FeedbackDetails } from "@prisma/client";
+import Loader from "@/components/Loader/loader";
+import { PerformanceEvalutationForm } from "@prisma/client";
 import { useQuery } from "@tanstack/react-query";
 import axios, { AxiosResponse } from "axios";
 import MiniForm from "./components/mini-form";
@@ -13,19 +14,24 @@ const Step4 = (props: Props) => {
   const fetchFeedback = async () => {
     const config = { headers: { "Content-Type": "application/json" } };
     let data: AxiosResponse = await axios.get(
-      `${process.env.NEXT_PUBLIC_ROUTE}/api/form/feedback`,
+      `${process.env.NEXT_PUBLIC_ROUTE}/api/form/`,
 
       config
     );
     return data.data;
   };
   const { data, isFetching } = useQuery({
-    queryKey: ["form-feedback"],
+    queryKey: ["form-average-result"],
     queryFn: fetchFeedback,
   });
+  if (isFetching) {
+    <Loader />;
+  }
   return (
     <div>
-      {!isFetching && <MiniForm data={data?.feedback as FeedbackDetails} />}
+      {!isFetching && (
+        <MiniForm data={data.form as PerformanceEvalutationForm} />
+      )}
     </div>
   );
 };

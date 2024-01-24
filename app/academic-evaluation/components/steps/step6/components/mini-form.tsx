@@ -59,7 +59,7 @@ const MiniForm = (props: Props) => {
         className="space-y-8 flex-1 flex flex-col"
       >
         <div className="text-primary text-sm font-bold underline">
-          Term II of Current Academic Year (2021-22)
+          Efforts taken for Effective Curriculum Delivery. Describe
         </div>
         <FormField
           control={form.control}

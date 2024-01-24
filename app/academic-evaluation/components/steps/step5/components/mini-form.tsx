@@ -9,30 +9,31 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { FeedbackDetails } from "@prisma/client";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios, { AxiosResponse } from "axios";
-import { Plus } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import CurrentYear from "../../../year";
 
-type Props = {};
-export const step1formSchema = z.object({
-  effort: z.string(),
+type Props = {
+  data: FeedbackDetails;
+};
+export const feedbackFormSchema = z.object({
+  term_I_current_year_student_feedback: z.number().max(100),
+  term_II_previous_year_student_feedback: z.number().max(100),
+  term_I_current_year_peer_feedback: z.number().max(100),
+  term_II_previous_year_peer_feedback: z.number().max(100),
+  id: z.string(),
+  formId: z.string(),
 });
-
-const MiniForm = (props: Props) => {
+const MiniForm = ({ data }: Props) => {
   const queryClient = useQueryClient();
-  const form = useForm<z.infer<typeof step1formSchema>>({
-    resolver: zodResolver(step1formSchema),
-    defaultValues: {
-      effort: "",
-    },
-  });
 
-  const addFeedBack = async (body: z.infer<typeof step1formSchema>) => {
+  const addFeedBack = async (body: z.infer<typeof feedbackFormSchema>) => {
     const config = { headers: { "Content-Type": "application/json" } };
-    let data: AxiosResponse = await axios.put(
-      `${process.env.NEXT_PUBLIC_ROUTE}/api/form/efforts-extra-curriculum`,
+    let data: AxiosResponse = await axios.post(
+      `${process.env.NEXT_PUBLIC_ROUTE}/api/form/feedback`,
       body,
       config
     );
@@ -43,13 +44,28 @@ const MiniForm = (props: Props) => {
     onSuccess: async (data) => {
       // Invalidate the relevant queries in the queryClient after successful delete
       await queryClient.invalidateQueries({
-        queryKey: [`efforts-extra-curriculum`],
+        queryKey: [`form-feedback`],
       });
     },
   });
-  form.getValues();
 
-  const onSubmit = async (values: z.infer<typeof step1formSchema>) => {
+  const form = useForm<z.infer<typeof feedbackFormSchema>>({
+    resolver: zodResolver(feedbackFormSchema),
+    defaultValues: {
+      term_I_current_year_student_feedback:
+        data?.term_I_current_year_student_feedback,
+      term_II_previous_year_student_feedback:
+        data?.term_II_previous_year_student_feedback,
+      term_I_current_year_peer_feedback:
+        data?.term_I_current_year_peer_feedback,
+      term_II_previous_year_peer_feedback:
+        data?.term_II_previous_year_peer_feedback,
+      formId: data?.formId,
+      id: data?.id,
+    },
+  });
+
+  const onSubmit = async (values: z.infer<typeof feedbackFormSchema>) => {
     mutate(values);
   };
   return (
@@ -59,26 +75,94 @@ const MiniForm = (props: Props) => {
         className="space-y-8 flex-1 flex flex-col"
       >
         <div className="text-primary text-sm font-bold underline">
-          Term II of Current Academic Year (2021-22)
+          Feedback Academic Year <CurrentYear />
         </div>
         <FormField
           control={form.control}
-          name="effort"
+          name="term_I_current_year_student_feedback"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Subject Name</FormLabel>
-              <Input placeholder="Enter Your Subject Name" {...field} />
+              <FormLabel>Student Feedback for Term I Current Year</FormLabel>
+              <Input
+                type="number"
+                placeholder="For Term I Current Academic"
+                {...field}
+                value={field.value || ""} // Ensure the value is a string or an empty string
+                onChange={(e) => {
+                  const value = parseFloat(e.target.value);
+                  field.onChange(value);
+                }}
+              />
               <FormMessage />
             </FormItem>
           )}
         />
-
+        <FormField
+          control={form.control}
+          name="term_II_previous_year_student_feedback"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Student Feedback for Term II Previous Year</FormLabel>
+              <Input
+                type="number"
+                placeholder="For Term I Current Academic"
+                {...field}
+                value={field.value || ""} // Ensure the value is a string or an empty string
+                onChange={(e) => {
+                  const value = parseFloat(e.target.value);
+                  field.onChange(value);
+                }}
+              />
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="term_I_current_year_peer_feedback"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Peer Feedback for Term I Current Year</FormLabel>
+              <Input
+                type="number"
+                placeholder="For Term I Current Academic"
+                {...field}
+                value={field.value || ""} // Ensure the value is a string or an empty string
+                onChange={(e) => {
+                  const value = parseFloat(e.target.value);
+                  field.onChange(value);
+                }}
+              />
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="term_II_previous_year_peer_feedback"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Peer Feedback for Term II Previous Year</FormLabel>
+              <Input
+                type="number"
+                placeholder="For Term I Current Academic"
+                {...field}
+                value={field.value || ""} // Ensure the value is a string or an empty string
+                onChange={(e) => {
+                  const value = parseFloat(e.target.value);
+                  field.onChange(value);
+                }}
+              />
+              <FormMessage />
+            </FormItem>
+          )}
+        />
         <Button
+          disabled={!form.formState.isDirty}
           type="submit"
-          className="flex mx-auto rounded-full p-4 h-auto"
-          variant={"outline"}
+          className="flex mx-auto"
         >
-          <Plus className=" text-xl text-primary" />
+          Submit
         </Button>
       </form>
     </Form>

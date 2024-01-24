@@ -73,7 +73,6 @@ model PerformanceEvalutationForm {
   isSubmitted              Boolean                    @default(false)
   createdAt                DateTime                   @default(now())
   updatedAt                DateTime                   @updatedAt
-  // modeling of inbuilt objects
   teachingAndLearning      TeachingAndLearning[]
   feedbackDetails          FeedbackDetails[]
   efforts                  Efforts[]
@@ -94,8 +93,8 @@ model PerformanceEvalutationForm {
   User                     User                       @relation(fields: [userId], references: [id], onDelete: Cascade)
   reasearch                reasearch[]
   cActivity                cActivity[]
-  averageResult            Int
-  classEngagement          Int
+  averageResult            Int                        @default(0)
+  classEngagement          Int                        @default(0)
 }
 
 model TeachingAndLearning {

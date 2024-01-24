@@ -30,6 +30,7 @@ import axios, { AxiosResponse } from "axios";
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import validator from "validator";
@@ -41,15 +42,15 @@ const formSchema = z.object({
   }),
   email: z.string().email("Enter a valid email"),
   password: z.string().min(4, { message: "Password is minimum of 4 length" }),
-  departmentName: z
-    .string()
-    .min(2, { message: "minimum 2 length of department name" }),
+  departmentName: z.enum(["Master of Computer Application"]),
   facaultyName: z
     .string()
     .min(2, { message: "minimum 2 length of facaulty name" }),
-  designation: z
-    .string()
-    .min(2, { message: "minimum 2 length for designation" }),
+  designation: z.enum([
+    "Associate Professor",
+    "Professor",
+    "Assistant Professor",
+  ]),
   profileImage: z.string().min(0, { message: "profile image is required" }),
   contact: z.string().refine(validator.isMobilePhone, {
     message: "Enter a valid phone number",
@@ -60,6 +61,7 @@ const formSchema = z.object({
 
 export function LoginForm() {
   const data = useSession();
+  const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -68,10 +70,10 @@ export function LoginForm() {
       password: "",
       role: "Teacher",
       dateOfJoining: undefined,
-      departmentName: "",
+      departmentName: "Master of Computer Application",
       facaultyName: "",
       contact: undefined,
-      designation: "",
+      designation: undefined,
       profileImage: "/biglogo.svg",
     },
   });
@@ -88,7 +90,9 @@ export function LoginForm() {
   const { mutate } = useMutation({
     mutationFn: addProfile,
     onSuccess: (data) => {
+      console.log(`🚀 ~ file: signup-form.tsx:91 ~ data:`, data);
       toast.success(data?.message);
+      router.push("/waiting");
     },
     onError: (data: any) => {
       toast.error(data?.response?.data?.message);
@@ -199,9 +203,19 @@ export function LoginForm() {
           render={({ field }) => (
             <FormItem>
               <FormLabel>Department Name</FormLabel>
-              <FormControl>
-                <Input placeholder="Department" {...field} />
-              </FormControl>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Department" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  {/* <SelectItem value="HOD">HOD</SelectItem> */}
+                  <SelectItem value="Master of Computer Application">
+                    Master of Computer Application
+                  </SelectItem>
+                </SelectContent>
+              </Select>
               <FormMessage />
             </FormItem>
           )}
@@ -225,9 +239,23 @@ export function LoginForm() {
           render={({ field }) => (
             <FormItem>
               <FormLabel>Designation Name</FormLabel>
-              <FormControl>
-                <Input placeholder="Designation" {...field} />
-              </FormControl>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Designation " />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  {/* <SelectItem value="HOD">HOD</SelectItem> */}
+                  <SelectItem value="Associate Professor">
+                    Associate Professor
+                  </SelectItem>
+                  <SelectItem value="Professor">Professor</SelectItem>
+                  <SelectItem value="Assistant Professor">
+                    Assistant Professor
+                  </SelectItem>
+                </SelectContent>
+              </Select>
               <FormMessage />
             </FormItem>
           )}

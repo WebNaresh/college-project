@@ -152,7 +152,7 @@ const NavBar = (props: Props) => {
       </div>
       <Menubar className="mx-2 rounded-full !h-[28px] !w-[28px] flex-shrink-0 justify-center ">
         <MenubarMenu>
-          <MenubarTrigger className="rounded-full !h-full !w-full p-0 justify-center text-white active:text-primary">
+          <MenubarTrigger className="rounded-full !h-full !w-full p-0 justify-center text-white active:text-primary cursor-pointer">
             <User className=" text-primary text-lg" />
           </MenubarTrigger>
           <MenubarContent>
@@ -166,19 +166,22 @@ const NavBar = (props: Props) => {
 
             {session === null && (
               <>
-                <Link href={"/login"}>
-                  <MenubarItem>Login</MenubarItem>
+                <Link className=" cursor-pointer" href={"/login"}>
+                  <MenubarItem className="cursor-pointer">Login</MenubarItem>
                 </Link>
                 <MenubarSeparator />
-                <Link href={"/signup"}>
-                  <MenubarItem>Signup</MenubarItem>
+                <Link className=" cursor-pointer" href={"/signup"}>
+                  <MenubarItem className="cursor-pointer">Signup</MenubarItem>
                 </Link>
               </>
             )}
 
             {session?.user && (
               <>
-                <MenubarItem onClick={() => signOut({ redirect: false })}>
+                <MenubarItem
+                  className="cursor-pointer"
+                  onClick={() => signOut({ redirect: false })}
+                >
                   Sign-Out
                 </MenubarItem>
               </>

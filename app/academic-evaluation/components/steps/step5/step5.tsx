@@ -1,8 +1,9 @@
+"use client";
+import Loader from "@/components/Loader/loader";
+import { FeedbackDetails } from "@prisma/client";
 import { useQuery } from "@tanstack/react-query";
 import axios, { AxiosResponse } from "axios";
-import { columns } from "./components/column";
 import MiniForm from "./components/mini-form";
-import { DataTable } from "./components/table";
 
 type Props = {
   onNext: () => void;
@@ -10,22 +11,25 @@ type Props = {
 };
 
 const Step5 = (props: Props) => {
-  const fetchFormDetails = async () => {
+  const fetchFeedback = async () => {
     const config = { headers: { "Content-Type": "application/json" } };
     let data: AxiosResponse = await axios.get(
-      `${process.env.NEXT_PUBLIC_ROUTE}/api/form/efforts-extra-curriculum`,
+      `${process.env.NEXT_PUBLIC_ROUTE}/api/form/feedback`,
+
       config
     );
     return data.data;
   };
-  const { data } = useQuery({
-    queryKey: ["efforts-extra-curriculum"],
-    queryFn: fetchFormDetails,
+  const { data, isFetching } = useQuery({
+    queryKey: ["form-feedback"],
+    queryFn: fetchFeedback,
   });
+  if (isFetching) {
+    <Loader />;
+  }
   return (
-    <div className="flex flex-col gap-4">
-      <MiniForm />
-      <DataTable columns={columns} data={data?.effort || []} />
+    <div>
+      {!isFetching && <MiniForm data={data?.feedback as FeedbackDetails} />}
     </div>
   );
 };

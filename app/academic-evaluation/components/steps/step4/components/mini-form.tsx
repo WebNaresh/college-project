@@ -9,37 +9,36 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { FeedbackDetails } from "@prisma/client";
+import { PerformanceEvalutationForm } from "@prisma/client";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios, { AxiosResponse } from "axios";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import CurrentYear from "../../../year";
 
 type Props = {
-  data: FeedbackDetails;
+  data: PerformanceEvalutationForm;
 };
 export const feedbackFormSchema = z.object({
-  term_I_current_year_student_feedback: z.number().max(100),
-  term_II_previous_year_student_feedback: z.number().max(100),
-  term_I_current_year_peer_feedback: z.number().max(100),
-  term_II_previous_year_peer_feedback: z.number().max(100),
-  id: z.string(),
-  formId: z.string(),
+  averageResult: z.number().max(100),
+  classEngagement: z.number().max(100),
 });
 const MiniForm = ({ data }: Props) => {
+  console.log(`🚀 ~ file: mini-form.tsx:27 ~ data:`, data);
   const queryClient = useQueryClient();
 
-  const addFeedBack = async (body: z.infer<typeof feedbackFormSchema>) => {
+  const addAverageResult = async (body: z.infer<typeof feedbackFormSchema>) => {
+    console.log(`🚀 ~ file: mini-form.tsx:38 ~ body:`, body);
     const config = { headers: { "Content-Type": "application/json" } };
     let data: AxiosResponse = await axios.post(
-      `${process.env.NEXT_PUBLIC_ROUTE}/api/form/feedback`,
+      `${process.env.NEXT_PUBLIC_ROUTE}/api/form/`,
       body,
       config
     );
     return data.data;
   };
   const { mutate } = useMutation({
-    mutationFn: addFeedBack,
+    mutationFn: addAverageResult,
     onSuccess: async (data) => {
       // Invalidate the relevant queries in the queryClient after successful delete
       await queryClient.invalidateQueries({
@@ -51,16 +50,8 @@ const MiniForm = ({ data }: Props) => {
   const form = useForm<z.infer<typeof feedbackFormSchema>>({
     resolver: zodResolver(feedbackFormSchema),
     defaultValues: {
-      term_I_current_year_student_feedback:
-        data?.term_I_current_year_student_feedback,
-      term_II_previous_year_student_feedback:
-        data?.term_II_previous_year_student_feedback,
-      term_I_current_year_peer_feedback:
-        data?.term_I_current_year_peer_feedback,
-      term_II_previous_year_peer_feedback:
-        data?.term_II_previous_year_peer_feedback,
-      formId: data?.formId,
-      id: data?.id,
+      averageResult: data?.averageResult,
+      classEngagement: data?.classEngagement,
     },
   });
 
@@ -74,19 +65,19 @@ const MiniForm = ({ data }: Props) => {
         className="space-y-8 flex-1 flex flex-col"
       >
         <div className="text-primary text-sm font-bold underline">
-          Feedback Academic Year (2021-22)
+          Feedback Academic Year <CurrentYear />
         </div>
         <FormField
           control={form.control}
-          name="term_I_current_year_student_feedback"
+          name="averageResult"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Student Feedback for Term I Current Year</FormLabel>
+              <FormLabel>Average Result</FormLabel>
               <Input
                 type="number"
-                placeholder="For Term I Current Academic"
+                placeholder="Average Result "
                 {...field}
-                value={field.value || ""} // Ensure the value is a string or an empty string
+                value={field.value || ""}
                 onChange={(e) => {
                   const value = parseFloat(e.target.value);
                   field.onChange(value);
@@ -98,15 +89,15 @@ const MiniForm = ({ data }: Props) => {
         />
         <FormField
           control={form.control}
-          name="term_II_previous_year_student_feedback"
+          name="classEngagement"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Student Feedback for Term II Previous Year</FormLabel>
+              <FormLabel>Average Class Engagement</FormLabel>
               <Input
                 type="number"
-                placeholder="For Term I Current Academic"
+                placeholder="Average Class Engagement"
                 {...field}
-                value={field.value || ""} // Ensure the value is a string or an empty string
+                value={field.value || ""}
                 onChange={(e) => {
                   const value = parseFloat(e.target.value);
                   field.onChange(value);
@@ -116,46 +107,7 @@ const MiniForm = ({ data }: Props) => {
             </FormItem>
           )}
         />
-        <FormField
-          control={form.control}
-          name="term_I_current_year_peer_feedback"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Peer Feedback for Term I Current Year</FormLabel>
-              <Input
-                type="number"
-                placeholder="For Term I Current Academic"
-                {...field}
-                value={field.value || ""} // Ensure the value is a string or an empty string
-                onChange={(e) => {
-                  const value = parseFloat(e.target.value);
-                  field.onChange(value);
-                }}
-              />
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="term_II_previous_year_peer_feedback"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Peer Feedback for Term II Previous Year</FormLabel>
-              <Input
-                type="number"
-                placeholder="For Term I Current Academic"
-                {...field}
-                value={field.value || ""} // Ensure the value is a string or an empty string
-                onChange={(e) => {
-                  const value = parseFloat(e.target.value);
-                  field.onChange(value);
-                }}
-              />
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+
         <Button
           disabled={!form.formState.isDirty}
           type="submit"

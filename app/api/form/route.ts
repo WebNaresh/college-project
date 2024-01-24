@@ -4,7 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { $Enums, PerformanceEvalutationForm } from "@prisma/client";
 import { endOfYear, startOfYear } from "date-fns";
 import { NextApiRequest, NextApiResponse } from "next";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 interface User {
   id: string;
   name: string;
@@ -69,8 +69,8 @@ export async function GET(req: NextApiRequest, res: NextApiResponse) {
       } else {
         form = await prisma.performanceEvalutationForm.create({
           data: {
-            userId: session?.user.id,
-            professtionalInfoId: session?.user.professionalInfo?.id,
+            userId: session?.user.id as string,
+            professtionalInfoId: session?.user.professionalInfo?.id as string,
           },
         });
       }
@@ -92,6 +92,39 @@ export async function GET(req: NextApiRequest, res: NextApiResponse) {
   }
 }
 
+export async function POST(req: NextRequest, res: NextApiResponse) {
+  try {
+    let { averageResult, classEngagement } = (await req.json()) as {
+      averageResult: number;
+      classEngagement: number;
+    };
+    let form = await getForm();
+
+    let updatedForm = await prisma.performanceEvalutationForm.update({
+      where: {
+        id: form.id,
+      },
+      data: {
+        averageResult,
+        classEngagement,
+      },
+    });
+
+    return NextResponse.json({
+      status: "success",
+      updatedForm,
+    });
+  } catch (error: any) {
+    console.error(`🚀 ~ file: route.ts:47 ~ error:`, error);
+    return new NextResponse(
+      JSON.stringify({
+        status: "error",
+        message: error.message,
+      }),
+      { status: 500 }
+    );
+  }
+}
 // Rest of your code
 export const getForm = async (): Promise<PerformanceEvalutationForm> => {
   const session = await auth();
@@ -118,7 +151,7 @@ export const getForm = async (): Promise<PerformanceEvalutationForm> => {
     form = await prisma.performanceEvalutationForm.create({
       data: {
         userId: session?.user?.id as string,
-        professtionalInfoId: session?.user?.professionalInfo?.id,
+        professtionalInfoId: session?.user?.professionalInfo?.id as string,
       },
     });
   }
