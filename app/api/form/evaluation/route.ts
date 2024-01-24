@@ -10,6 +10,7 @@ import { getForm } from "../route";
 export async function GET(req: NextRequest, res: NextApiResponse) {
   try {
     let form = await getForm();
+    console.log(`🚀 ~ file: route.ts:13 ~ form:`, form);
 
     let tradeMark = await prisma.tradeMark.findMany({
       where: {
