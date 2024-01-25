@@ -128,6 +128,7 @@ export async function POST(req: NextRequest, res: NextApiResponse) {
 // Rest of your code
 export const getForm = async (): Promise<PerformanceEvalutationForm> => {
   const session = await auth();
+  console.log(`🚀 ~ file: route.ts:131 ~ session:`, session?.user);
   if (!session) {
     throw new NextResponse(
       JSON.stringify({
@@ -147,6 +148,7 @@ export const getForm = async (): Promise<PerformanceEvalutationForm> => {
       isSubmitted: false,
     },
   });
+  console.log(`🚀 ~ file: route.ts:151 ~ form:`, form);
   if (!form) {
     form = await prisma.performanceEvalutationForm.create({
       data: {

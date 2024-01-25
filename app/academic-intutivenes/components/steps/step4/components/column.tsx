@@ -20,14 +20,7 @@ export const columns: ColumnDef<kepOrganized>[] = [
     header: "Duration",
     accessorKey: "duration",
   },
-  {
-    header: "Place",
-    accessorKey: "place",
-  },
-  {
-    header: "Organizer",
-    accessorKey: "organizer",
-  },
+
   {
     header: "Actions",
     accessorKey: "actions", // Use a different accessorKey for actions

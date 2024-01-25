@@ -31,6 +31,7 @@ const DutyForm = ({ data }: Props) => {
           sr={"3"}
           type={"Question Paper Setting"}
           assigned={data[0]?.qpsDuty}
+          className="border-b-0"
         />
       </div>
     </div>

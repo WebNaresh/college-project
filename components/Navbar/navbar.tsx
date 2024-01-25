@@ -25,6 +25,7 @@ import {
 import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import {
   Menubar,
   MenubarContent,
@@ -37,6 +38,8 @@ import {
 type Props = {};
 
 const NavBar = (props: Props) => {
+  const router = useRouter();
+
   const { data } = useSession();
   let array: {
     link: string;
@@ -135,7 +138,10 @@ const NavBar = (props: Props) => {
                     variant={"secondary"}
                     className="text-primary gap-2"
                     type="submit"
-                    onClick={() => signOut({ redirect: false })}
+                    onClick={() => {
+                      signOut({ redirect: false });
+                      router.push("/login");
+                    }}
                   >
                     <LogOut size={18} />
                     Log-out
@@ -180,7 +186,10 @@ const NavBar = (props: Props) => {
               <>
                 <MenubarItem
                   className="cursor-pointer"
-                  onClick={() => signOut({ redirect: false })}
+                  onClick={async () => {
+                    await signOut({ redirect: false });
+                    router.push("/login");
+                  }}
                 >
                   Sign-Out
                 </MenubarItem>

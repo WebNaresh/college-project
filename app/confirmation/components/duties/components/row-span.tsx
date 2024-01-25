@@ -5,13 +5,20 @@ type Props = {
   type: string | number;
   assigned: string | dutyEnum;
   header?: boolean;
+  className?: string;
 };
 
-const RowSpan = ({ sr, type, assigned, header }: Props) => {
+const RowSpan = ({ sr, type, assigned, header, className }: Props) => {
   return (
     <>
-      <div className=" grid grid-cols-5 border-black border-b text-center">
-        <div className={` col-span-1 p-2 text-sm ${header && "font-bold"}`}>
+      <div
+        className={` grid grid-cols-5 border-black border-b text-center ${className}`}
+      >
+        <div
+          className={` col-span-1 p-2 text-sm ${
+            header && "font-bold"
+          } border-r border-black`}
+        >
           {sr}
         </div>
         <div
@@ -22,7 +29,11 @@ const RowSpan = ({ sr, type, assigned, header }: Props) => {
           {" "}
           {type}
         </div>
-        <div className={` col-span-2 p-2 text-sm  font-bold`}>{assigned}</div>
+        <div
+          className={` col-span-2 p-2 text-sm border-l border-black font-bold`}
+        >
+          {assigned}
+        </div>
       </div>
     </>
   );

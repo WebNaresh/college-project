@@ -99,7 +99,7 @@ const MiniForm = ({ title }: Props) => {
           render={({ field }) => (
             <FormItem>
               <FormLabel>Duration</FormLabel>
-              <Input placeholder="Enter Your Duration" {...field} />
+              <Input placeholder="2 weeks..." {...field} />
               <FormMessage />
             </FormItem>
           )}
@@ -110,7 +110,7 @@ const MiniForm = ({ title }: Props) => {
           render={({ field }) => (
             <FormItem>
               <FormLabel>Place</FormLabel>
-              <Input placeholder="Enter Your Duration" {...field} />
+              <Input placeholder="eg. Aurangabad .." {...field} />
               <FormMessage />
             </FormItem>
           )}

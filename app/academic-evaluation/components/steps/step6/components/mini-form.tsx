@@ -12,6 +12,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios, { AxiosResponse } from "axios";
 import { Plus } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -23,6 +24,7 @@ export const step1formSchema = z.object({
 });
 
 const MiniForm = ({ nextStep }: Props) => {
+  const router = useRouter();
   const queryClient = useQueryClient();
   const form = useForm<z.infer<typeof step1formSchema>>({
     resolver: zodResolver(step1formSchema),
@@ -47,11 +49,9 @@ const MiniForm = ({ nextStep }: Props) => {
       await queryClient.invalidateQueries({
         queryKey: [`efforts-extra-curriculum`],
       });
-      nextStep();
     },
   });
   form.getValues();
-
   const onSubmit = async (values: z.infer<typeof step1formSchema>) => {
     mutate(values);
   };
@@ -69,8 +69,10 @@ const MiniForm = ({ nextStep }: Props) => {
           name="effort"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Subject Name</FormLabel>
-              <Input placeholder="Enter Your Subject Name" {...field} />
+              <FormLabel>
+                Efforts taken for effective Curriculum Delivery
+              </FormLabel>
+              <Input placeholder="Enter Your Effort desciption" {...field} />
               <FormMessage />
             </FormItem>
           )}

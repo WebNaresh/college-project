@@ -43,7 +43,7 @@ type Props = {};
 export interface PerformanceEvalutationFormDetails
   extends PerformanceEvalutationForm {
   teachingAndLearning: TeachingAndLearning[];
-  feedbackDetails: FeedbackDetails[];
+  feedbackDetails: FeedbackDetails;
   efforts: Efforts[];
   publication: Publication[];
   books: Books[];
@@ -75,6 +75,12 @@ const UserForm = (p: Props) => {
     queryKey: ["form-details"],
     queryFn: fetchFormDetails,
   });
+  console.log(
+    `🚀 ~ file: form.tsx:115 ~ (data?.feedbackDetails.term_II_previous_year_peer_feedback +
+              data.feedbackDetails.term_I_current_year_peer_feedback) /
+              2:`,
+    data
+  );
   return (
     <div id="printable" className="flex flex-col gap-4 px-8 flex-1">
       <Header data={data} />
@@ -99,9 +105,61 @@ const UserForm = (p: Props) => {
         departmentResponsibility={data?.responsibilityDepartment || []}
       />
       <AchievementsForm data={data?.achievements || []} />
-      <EvaluationForm />
+      {data && (
+        <EvaluationForm
+          averageClassEngagement={getMark(
+            data.classEngagement,
+            markClassRanges
+          )}
+          averageResult={getMark(data.averageResult, markPgRanges)}
+          averagePeerFeedback={getMark(
+            (data?.feedbackDetails.term_II_previous_year_peer_feedback +
+              data.feedbackDetails.term_I_current_year_peer_feedback) /
+              2,
+            peerFeddbackRanges
+          )}
+          averageStudentFeedback={getMark(data.averageResult, markPgRanges)}
+        />
+      )}
     </div>
   );
 };
 
 export default UserForm;
+
+const markPgRanges: any[] = [
+  { range: 6, min: 96, max: 100 },
+  { range: 5, min: 90, max: 95 },
+  { range: 4, min: 80, max: 89 },
+  { range: 3, min: 70, max: 79 },
+  { range: 2, min: 60, max: 69 },
+  { range: 1, min: 55, max: 59 },
+];
+const markClassRanges: any = [
+  { range: 7, min: 96, max: 100 },
+  { range: 6, min: 90, max: 95 },
+  { range: 5, min: 85, max: 89 },
+  { range: 4, min: 80, max: 84 },
+  { range: 3, min: 75, max: 79 },
+  { range: 2, min: 70, max: 74 },
+  { range: 1, min: 65, max: 69 },
+];
+const peerFeddbackRanges = [
+  { range: 6, min: 96, max: 100 },
+  { range: 5, min: 90, max: 95 },
+  { range: 4, min: 80, max: 89 },
+  { range: 3, min: 75, max: 79 },
+  { range: 2, min: 70, max: 74 },
+  { range: 1, min: 60, max: 69 },
+];
+
+function getMark(totalMark: number, array: any[]): number {
+  for (const { range, min, max } of array) {
+    if (totalMark >= min && totalMark <= max) {
+      return range;
+    }
+  }
+
+  // Default case (if totalMark doesn't fall into any range)
+  return 0;
+}

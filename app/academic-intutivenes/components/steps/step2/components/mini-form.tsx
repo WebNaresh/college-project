@@ -147,7 +147,7 @@ const MiniForm = ({ title }: Props) => {
           render={({ field }) => (
             <FormItem>
               <FormLabel>Title with page no</FormLabel>
-              <Input placeholder="Enter Your Book Title" {...field} />
+              <Input placeholder="eg..New awakening page no 4" {...field} />
               <FormMessage />
             </FormItem>
           )}
