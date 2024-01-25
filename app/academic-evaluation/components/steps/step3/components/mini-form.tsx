@@ -24,10 +24,12 @@ import { z } from "zod";
 import CurrentYear from "../../../year";
 import { step1formSchema } from "../../step1/components/mini-form";
 
-type Props = {};
+type Props = {
+  nextStep: () => void;
+};
 
-const MiniForm = (props: Props) => {
-  const mutate = useAddProfileMutation();
+const MiniForm = ({ nextStep }: Props) => {
+  const mutate = useAddProfileMutation(nextStep);
   const form = useForm<z.infer<typeof step1formSchema>>({
     resolver: zodResolver(step1formSchema),
     defaultValues: {

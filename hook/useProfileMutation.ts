@@ -16,7 +16,7 @@ const addProfile = async (data: z.infer<typeof step1formSchema>) => {
 };
 
 // Define your custom hook
-const useAddProfileMutation = () => {
+const useAddProfileMutation = (nextStep?: () => void) => {
   const queryClient = useQueryClient();
 
   const { mutate } = useMutation({
@@ -26,6 +26,9 @@ const useAddProfileMutation = () => {
       await queryClient.invalidateQueries({
         queryKey: [`form-details-${data?.term}-${data?.year}`],
       });
+      if (nextStep) {
+        nextStep();
+      }
     },
     onError: (data: any) => {
       toast.error(data?.response?.data?.message);

@@ -15,12 +15,14 @@ import { Plus } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-type Props = {};
+type Props = {
+  nextStep: () => void;
+};
 export const step1formSchema = z.object({
   effort: z.string(),
 });
 
-const MiniForm = (props: Props) => {
+const MiniForm = ({ nextStep }: Props) => {
   const queryClient = useQueryClient();
   const form = useForm<z.infer<typeof step1formSchema>>({
     resolver: zodResolver(step1formSchema),
@@ -45,6 +47,7 @@ const MiniForm = (props: Props) => {
       await queryClient.invalidateQueries({
         queryKey: [`efforts-extra-curriculum`],
       });
+      nextStep();
     },
   });
   form.getValues();

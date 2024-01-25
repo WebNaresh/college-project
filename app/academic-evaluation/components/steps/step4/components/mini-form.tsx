@@ -18,17 +18,16 @@ import CurrentYear from "../../../year";
 
 type Props = {
   data: PerformanceEvalutationForm;
+  nextStep: () => void;
 };
 export const feedbackFormSchema = z.object({
   averageResult: z.number().max(100),
   classEngagement: z.number().max(100),
 });
-const MiniForm = ({ data }: Props) => {
-  console.log(`🚀 ~ file: mini-form.tsx:27 ~ data:`, data);
+const MiniForm = ({ data, nextStep }: Props) => {
   const queryClient = useQueryClient();
 
   const addAverageResult = async (body: z.infer<typeof feedbackFormSchema>) => {
-    console.log(`🚀 ~ file: mini-form.tsx:38 ~ body:`, body);
     const config = { headers: { "Content-Type": "application/json" } };
     let data: AxiosResponse = await axios.post(
       `${process.env.NEXT_PUBLIC_ROUTE}/api/form/`,
@@ -44,6 +43,7 @@ const MiniForm = ({ data }: Props) => {
       await queryClient.invalidateQueries({
         queryKey: [`form-feedback`],
       });
+      nextStep();
     },
   });
 

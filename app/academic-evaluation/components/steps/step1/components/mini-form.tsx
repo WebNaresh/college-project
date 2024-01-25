@@ -23,7 +23,9 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import CurrentYear from "../../../year";
 
-type Props = {};
+type Props = {
+  nextStep: () => void;
+};
 const levelEnum = z.enum(["UG", "PG"]);
 const courseHeadEnum = z.enum(["TH", "PR", "T"]);
 const termEnum = z.enum(["I", "II"]);
@@ -41,8 +43,8 @@ export const step1formSchema = z.object({
   term: termEnum,
   year: yearEnum,
 });
-const MiniForm = (props: Props) => {
-  const mutate = useAddProfileMutation();
+const MiniForm = ({ nextStep }: Props) => {
+  const mutate = useAddProfileMutation(nextStep);
   const form = useForm<z.infer<typeof step1formSchema>>({
     resolver: zodResolver(step1formSchema),
     defaultValues: {

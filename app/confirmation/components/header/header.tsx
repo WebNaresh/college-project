@@ -1,3 +1,4 @@
+"use client";
 import { format, subYears } from "date-fns";
 import Image from "next/image";
 import { PerformanceEvalutationFormDetails } from "../../form";

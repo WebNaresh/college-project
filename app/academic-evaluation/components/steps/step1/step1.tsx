@@ -6,10 +6,10 @@ import { DataTable } from "../components/data-table";
 import MiniForm from "./components/mini-form";
 
 type Props = {
-  onNext: () => void;
+  nextStep: () => void;
 };
 
-const Step1 = ({ onNext }: Props) => {
+const Step1 = ({ nextStep }: Props) => {
   const fetchFormDetails = async () => {
     const config = { headers: { "Content-Type": "application/json" } };
     let data: AxiosResponse = await axios.post(
@@ -28,7 +28,7 @@ const Step1 = ({ onNext }: Props) => {
   });
   return (
     <div className="flex flex-col gap-4">
-      <MiniForm />
+      <MiniForm nextStep={nextStep} />
       <DataTable columns={columns} data={data?.termIIPreviousData || []} />
     </div>
   );

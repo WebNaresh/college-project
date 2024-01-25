@@ -18,6 +18,7 @@ import CurrentYear from "../../../year";
 
 type Props = {
   data: FeedbackDetails;
+  nextStep: () => void;
 };
 export const feedbackFormSchema = z.object({
   term_I_current_year_student_feedback: z.number().max(100),
@@ -27,7 +28,7 @@ export const feedbackFormSchema = z.object({
   id: z.string(),
   formId: z.string(),
 });
-const MiniForm = ({ data }: Props) => {
+const MiniForm = ({ data, nextStep }: Props) => {
   const queryClient = useQueryClient();
 
   const addFeedBack = async (body: z.infer<typeof feedbackFormSchema>) => {
@@ -46,6 +47,7 @@ const MiniForm = ({ data }: Props) => {
       await queryClient.invalidateQueries({
         queryKey: [`form-feedback`],
       });
+      nextStep();
     },
   });
 

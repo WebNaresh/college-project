@@ -6,11 +6,10 @@ import axios, { AxiosResponse } from "axios";
 import MiniForm from "./components/mini-form";
 
 type Props = {
-  onNext: () => void;
-  onPrev: () => void;
+  nextStep: () => void;
 };
 
-const Step4 = (props: Props) => {
+const Step4 = ({ nextStep }: Props) => {
   const fetchFeedback = async () => {
     const config = { headers: { "Content-Type": "application/json" } };
     let data: AxiosResponse = await axios.get(
@@ -30,7 +29,10 @@ const Step4 = (props: Props) => {
   return (
     <div>
       {!isFetching && (
-        <MiniForm data={data.form as PerformanceEvalutationForm} />
+        <MiniForm
+          nextStep={nextStep}
+          data={data.form as PerformanceEvalutationForm}
+        />
       )}
     </div>
   );
