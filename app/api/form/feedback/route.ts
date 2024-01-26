@@ -1,8 +1,8 @@
+import { getForm } from "@/lib/functions";
 import { prisma } from "@/lib/prisma";
 import { FeedbackDetails, PerformanceEvalutationForm } from "@prisma/client";
 import { NextApiResponse } from "next";
 import { NextRequest, NextResponse } from "next/server";
-import { getForm } from "../route";
 
 export async function GET(req: NextRequest, res: NextApiResponse) {
   try {
@@ -27,7 +27,6 @@ export async function GET(req: NextRequest, res: NextApiResponse) {
 export async function POST(req: NextRequest, res: NextApiResponse) {
   try {
     let feedbackDetails = (await req.json()) as FeedbackDetails;
-    let form = await getForm();
     const feedback = await updateFeedback(feedbackDetails);
     return NextResponse.json({
       status: "success",
@@ -44,9 +43,9 @@ export async function POST(req: NextRequest, res: NextApiResponse) {
     );
   }
 }
-export const getFeedback = async (
+const getFeedback = async (
   form: PerformanceEvalutationForm
-): Promise<FeedbackDetails> => {
+): Promise<FeedbackDetails | null> => {
   let feedbackDetails = await prisma.feedbackDetails.findFirst({
     where: {
       formId: form.id,
@@ -61,9 +60,9 @@ export const getFeedback = async (
   }
   return feedbackDetails;
 };
-export const updateFeedback = async (
+const updateFeedback = async (
   form: FeedbackDetails
-): Promise<FeedbackDetails> => {
+): Promise<FeedbackDetails | null> => {
   let feedbackDetails = await prisma.feedbackDetails.upsert({
     where: {
       id: form.id,

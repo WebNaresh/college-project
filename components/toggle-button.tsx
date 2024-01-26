@@ -18,7 +18,7 @@ export function ThemeToggle() {
   };
   useEffect(() => {
     setTheme("light");
-  }, []);
+  }, [setTheme]);
 
   return (
     <div className="gap-2 flex">

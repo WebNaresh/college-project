@@ -1,11 +1,11 @@
 // import { hash } from "bcrypt";
 import { step1formSchema } from "@/app/academic-evaluation/components/steps/step1/components/mini-form";
+import { getForm } from "@/lib/functions";
 import { prisma } from "@/lib/prisma";
 import { termEnum, yearEnum } from "@prisma/client";
 import { NextApiResponse } from "next";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
-import { getForm } from "../route";
 
 // Import necessary modules and types
 

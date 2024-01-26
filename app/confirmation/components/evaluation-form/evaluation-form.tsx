@@ -32,69 +32,68 @@ const EvaluationForm = ({
     {
       data: [
         "",
-        <div className="flex flex-col border-b-0">
-          <AdvanceEvaluationTable
-            title={{
-              titleData: "Average % Result (Theory): ",
-              className: "border-b-0",
-            }}
-            className="border-0 border-b-0"
-            header={{
-              data: ["UG", "6", "5", "4", "3", "2", "1"],
+        <AdvanceEvaluationTable
+          key={"id1"}
+          title={{
+            titleData: "Average % Result (Theory): ",
+            className: "border-b-0",
+          }}
+          className="border-0 border-b-0"
+          header={{
+            data: ["UG", "6", "5", "4", "3", "2", "1"],
+            className: "p-0  h-8",
+          }}
+          internalData={[
+            {
+              data: [
+                "I",
+                "90-100",
+                "80-89",
+                "70-79",
+                "60-69",
+                "55-59",
+                "50-54",
+              ],
               className: "p-0  h-8",
-            }}
-            internalData={[
-              {
-                data: [
-                  "I",
-                  "90-100",
-                  "80-89",
-                  "70-79",
-                  "60-69",
-                  "55-59",
-                  "50-54",
-                ],
-                className: "p-0  h-8",
-              },
-              {
-                data: [
-                  "II",
-                  "90-100",
-                  "80-89",
-                  "70-79",
-                  "60-69",
-                  "55-59",
-                  "50-54",
-                ],
-                className: "p-0  h-8",
-              },
-              {
-                data: [
-                  "III",
-                  "96-100",
-                  "90-95",
-                  "80-89",
-                  "70-79",
-                  "60-69",
-                  "55-59",
-                ],
-                className: "p-0  h-8",
-              },
-              {
-                data: [
-                  "IV",
-                  "96-100",
-                  "90-95",
-                  "80-89",
-                  "70-79",
-                  "60-69",
-                  "55-59",
-                ],
-                className: "p-0 border-b-0 h-8",
-              },
-            ]}
-          />
-        </div>,
+            },
+            {
+              data: [
+                "II",
+                "90-100",
+                "80-89",
+                "70-79",
+                "60-69",
+                "55-59",
+                "50-54",
+              ],
+              className: "p-0  h-8",
+            },
+            {
+              data: [
+                "III",
+                "96-100",
+                "90-95",
+                "80-89",
+                "70-79",
+                "60-69",
+                "55-59",
+              ],
+              className: "p-0  h-8",
+            },
+            {
+              data: [
+                "IV",
+                "96-100",
+                "90-95",
+                "80-89",
+                "70-79",
+                "60-69",
+                "55-59",
+              ],
+              className: "p-0 border-b-0 h-8",
+            },
+          ]}
+        />,
         averageResult,
         "",
       ],
@@ -104,6 +103,7 @@ const EvaluationForm = ({
       data: [
         "",
         <AdvanceEvaluationTable
+          key={"id2"}
           title={{ titleData: "" }}
           className="border-0 border-b-0"
           header={{
@@ -145,6 +145,7 @@ const EvaluationForm = ({
       data: [
         "",
         <AdvanceEvaluationTable
+          key={"id3"}
           title={{ titleData: "Average % Class Engagement" }}
           className="border-0 border-b-0"
           header={{
@@ -174,6 +175,7 @@ const EvaluationForm = ({
       data: [
         "",
         <AdvanceEvaluationTable
+          key={"id4"}
           title={{ titleData: "Average % Student Feedback Score" }}
           className="border-0 border-b-0"
           header={{
@@ -195,6 +197,7 @@ const EvaluationForm = ({
       data: [
         "",
         <AdvanceEvaluationTable
+          key={"id5"}
           title={{ titleData: "Average % Peer Feedback Score" }}
           className="border-0 border-b"
           header={{
@@ -216,6 +219,7 @@ const EvaluationForm = ({
       data: [
         "",
         <AdvanceEvaluationTable
+          key={"id6"}
           title={{
             titleData:
               "Efforts taken for Effective Curriculum Delivery [ Minimum 1 expected ] ",
@@ -225,6 +229,7 @@ const EvaluationForm = ({
             {
               data: [
                 <AdvanceEvaluationTable
+                  key={"id7"}
                   className="border-0"
                   internalData={[
                     {
@@ -235,6 +240,7 @@ const EvaluationForm = ({
                   ]}
                 />,
                 <AdvanceEvaluationTable
+                  key={"id8"}
                   className="border-0"
                   internalData={[
                     {
@@ -265,12 +271,14 @@ const EvaluationForm = ({
         "1",
         <>
           <AdvanceEvaluationTable
+            key={"id9"}
             className="border-0"
             header={{ data: ["Journals:"], className: "text-left" }}
             internalData={[
               {
                 data: [
                   <AdvanceEvaluationTable
+                    key={"id10"}
                     className="border-0"
                     internalData={[
                       {
@@ -291,12 +299,14 @@ const EvaluationForm = ({
             ]}
           />
           <AdvanceEvaluationTable
+            key={"id11"}
             className="border-0 border-t"
             header={{ data: ["Conferences:"], className: "text-left" }}
             internalData={[
               {
                 data: [
                   <AdvanceEvaluationTable
+                    key={"id12"}
                     className="border-0"
                     internalData={[
                       {
@@ -317,12 +327,14 @@ const EvaluationForm = ({
             ]}
           />
           <AdvanceEvaluationTable
+            key={"id13"}
             className="border-0 border-t"
             header={{ data: ["Books/ Book Chapter:"], className: "text-left" }}
             internalData={[
               {
                 data: [
                   <AdvanceEvaluationTable
+                    key={"id14"}
                     className="border-0"
                     internalData={[
                       {
@@ -354,11 +366,13 @@ const EvaluationForm = ({
         "",
         <>
           <AdvanceEvaluationTable
+            key={"id15"}
             className="border-0"
             internalData={[
               {
                 data: [
                   <AdvanceEvaluationTable
+                    key={"id16"}
                     className="border-0"
                     internalData={[
                       {
@@ -390,11 +404,13 @@ const EvaluationForm = ({
         "",
         <>
           <AdvanceEvaluationTable
+            key={"id17"}
             className="border-0"
             internalData={[
               {
                 data: [
                   <AdvanceEvaluationTable
+                    key={"id18"}
                     className="border-0"
                     internalData={[
                       {
@@ -429,11 +445,13 @@ const EvaluationForm = ({
         "",
         <>
           <AdvanceEvaluationTable
+            key={"id19"}
             className="border-0"
             internalData={[
               {
                 data: [
                   <AdvanceEvaluationTable
+                    key={"id20"}
                     className="border-0"
                     internalData={[
                       {
@@ -442,6 +460,7 @@ const EvaluationForm = ({
                       {
                         data: [
                           <AdvanceEvaluationTable
+                            key={"id21"}
                             className="border-0"
                             internalData={[
                               {
@@ -454,6 +473,7 @@ const EvaluationForm = ({
                             ]}
                           />,
                           <AdvanceEvaluationTable
+                            key={"id22"}
                             className="border-0"
                             internalData={[
                               {
@@ -489,16 +509,19 @@ const EvaluationForm = ({
         "",
         <>
           <AdvanceEvaluationTable
+            key={"id23"}
             className="border-0"
             internalData={[
               {
                 data: [
                   <AdvanceEvaluationTable
+                    key={"id24"}
                     className="border-0"
                     internalData={[
                       {
                         data: [
                           <AdvanceEvaluationTable
+                            key={"id25"}
                             className="border-0"
                             internalData={[
                               {
@@ -511,6 +534,7 @@ const EvaluationForm = ({
                             ]}
                           />,
                           <AdvanceEvaluationTable
+                            key={"id26"}
                             className="border-0"
                             internalData={[
                               {
@@ -552,16 +576,19 @@ const EvaluationForm = ({
         "",
         <>
           <AdvanceEvaluationTable
+            key={"id27"}
             className="border-0"
             internalData={[
               {
                 data: [
                   <AdvanceEvaluationTable
+                    key={"id28"}
                     className="border-0"
                     internalData={[
                       {
                         data: [
                           <AdvanceEvaluationTable
+                            key={"id29"}
                             className="border-0"
                             internalData={[
                               {
@@ -603,16 +630,19 @@ const EvaluationForm = ({
         "",
         <>
           <AdvanceEvaluationTable
+            key={"id30"}
             className="border-0"
             internalData={[
               {
                 data: [
                   <AdvanceEvaluationTable
+                    key={"id31"}
                     className="border-0"
                     internalData={[
                       {
                         data: [
                           <AdvanceEvaluationTable
+                            key={"id32"}
                             className="border-0"
                             internalData={[
                               {
@@ -654,16 +684,19 @@ const EvaluationForm = ({
         "",
         <>
           <AdvanceEvaluationTable
+            key={"id33"}
             className="border-0"
             internalData={[
               {
                 data: [
                   <AdvanceEvaluationTable
+                    key={"id34"}
                     className="border-0"
                     internalData={[
                       {
                         data: [
                           <AdvanceEvaluationTable
+                            key={"id35"}
                             className="border-0"
                             internalData={[
                               {

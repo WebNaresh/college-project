@@ -1,9 +1,8 @@
 import { prisma } from "@/lib/prisma";
-import type { NextApiRequest } from "next";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 export async function DELETE(
-  req: NextApiRequest,
+  req: NextRequest,
   { params }: { params: { effortId: string } }
 ) {
   try {
