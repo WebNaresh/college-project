@@ -1,0 +1,38 @@
+version: "3.7"
+
+services:
+  postgres:
+    container_name: postgres
+    image: postgres:latest
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: Naresh@123
+      POSTGRES_DB: college
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - mynetwork
+
+  nextjs:
+    container_name: nextjs
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./nextjs:/app
+    depends_on:
+      - postgres
+    networks:
+      - mynetwork
+    ports:
+      - "3000:3000"
+
+volumes:
+  postgres-data:
+
+networks:
+  mynetwork:
+    driver: bridge
