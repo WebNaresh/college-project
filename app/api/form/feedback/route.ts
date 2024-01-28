@@ -54,7 +54,15 @@ const getFeedback = async (
   if (!feedbackDetails) {
     feedbackDetails = await prisma.feedbackDetails.create({
       data: {
-        formId: form.id,
+        formId: form?.id,
+      },
+    });
+    const form2 = prisma.performanceEvalutationForm.update({
+      where: {
+        id: form.id,
+      },
+      data: {
+        feedbackDetailsId: feedbackDetails.id,
       },
     });
   }

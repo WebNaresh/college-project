@@ -8,6 +8,19 @@ type Props = {
   averageClassEngagement: number;
   averageStudentFeedback: number;
   averagePeerFeedback: number;
+  effortsScore: number;
+  journalScore: number;
+  conferenceScore: number;
+  bookScore: number;
+  kepAttendedScore: number;
+  kepOrganizedScore: number;
+  reasearchScore: number;
+  consultancyScore: number;
+  iprEffortScore: number;
+  dutiesScore: number;
+  activityScore: number;
+  responsibilityScore: number;
+  achievementScore: number;
 };
 
 const EvaluationForm = ({
@@ -15,6 +28,19 @@ const EvaluationForm = ({
   averageClassEngagement,
   averagePeerFeedback,
   averageStudentFeedback,
+  effortsScore,
+  journalScore,
+  conferenceScore,
+  bookScore,
+  kepAttendedScore,
+  kepOrganizedScore,
+  reasearchScore,
+  consultancyScore,
+  iprEffortScore,
+  dutiesScore,
+  activityScore,
+  responsibilityScore,
+  achievementScore,
 }: Props) => {
   const rowHeader: RowItemInteferance = {
     className: "",
@@ -94,7 +120,7 @@ const EvaluationForm = ({
             },
           ]}
         />,
-        averageResult,
+        "6",
         "",
       ],
     },
@@ -137,8 +163,8 @@ const EvaluationForm = ({
             },
           ]}
         />,
+        "6",
         averageResult,
-        "",
       ],
     },
     {
@@ -167,8 +193,8 @@ const EvaluationForm = ({
             },
           ]}
         />,
+        "7",
         averageClassEngagement,
-        "",
       ],
     },
     {
@@ -189,8 +215,8 @@ const EvaluationForm = ({
             },
           ]}
         />,
+        "6",
         averageStudentFeedback,
-        "",
       ],
     },
     {
@@ -211,8 +237,8 @@ const EvaluationForm = ({
             },
           ]}
         />,
+        "6",
         averagePeerFeedback,
-        "",
       ],
     },
     {
@@ -255,8 +281,8 @@ const EvaluationForm = ({
             },
           ]}
         />,
-        "7",
-        "",
+        "10",
+        effortsScore,
       ],
     },
   ];
@@ -269,91 +295,103 @@ const EvaluationForm = ({
     {
       data: [
         "1",
-        <>
-          <AdvanceEvaluationTable
-            key={"id9"}
-            className="border-0"
-            header={{ data: ["Journals:"], className: "text-left" }}
-            internalData={[
-              {
-                data: [
-                  <AdvanceEvaluationTable
-                    key={"id10"}
-                    className="border-0"
-                    internalData={[
-                      {
-                        data: [
-                          "Indexed in SCI/Scopus/Google Scholar / any other",
-                          "No index",
-                        ],
-                      },
-                      {
-                        data: ["20", "10"],
-                        className: "border-b-0",
-                      },
-                    ]}
-                  />,
-                ],
-                className: "border-b-0",
-              },
-            ]}
-          />
-          <AdvanceEvaluationTable
-            key={"id11"}
-            className="border-0 border-t"
-            header={{ data: ["Conferences:"], className: "text-left" }}
-            internalData={[
-              {
-                data: [
-                  <AdvanceEvaluationTable
-                    key={"id12"}
-                    className="border-0"
-                    internalData={[
-                      {
-                        data: [
-                          "Indexed in SCI/Scopus/Google Scholar / any other",
-                          "No index",
-                        ],
-                      },
-                      {
-                        data: ["20", "10"],
-                        className: "border-b-0",
-                      },
-                    ]}
-                  />,
-                ],
-                className: "border-b-0",
-              },
-            ]}
-          />
-          <AdvanceEvaluationTable
-            key={"id13"}
-            className="border-0 border-t"
-            header={{ data: ["Books/ Book Chapter:"], className: "text-left" }}
-            internalData={[
-              {
-                data: [
-                  <AdvanceEvaluationTable
-                    key={"id14"}
-                    className="border-0"
-                    internalData={[
-                      {
-                        data: ["Book", "Book Chapter"],
-                      },
-                      {
-                        data: ["10", "5"],
-                        className: "border-b-0",
-                      },
-                    ]}
-                  />,
-                ],
-                className: "border-b-0",
-              },
-            ]}
-          />
-        </>,
+        <AdvanceEvaluationTable
+          key={"id9"}
+          className="border-0"
+          header={{ data: ["Journals:"], className: "text-left" }}
+          internalData={[
+            {
+              data: [
+                <AdvanceEvaluationTable
+                  key={"id10"}
+                  className="border-0"
+                  internalData={[
+                    {
+                      data: [
+                        "Indexed in SCI/Scopus/Google Scholar / any other",
+                        "No index",
+                      ],
+                    },
+                    {
+                      data: ["20", "10"],
+                      className: "border-b-0",
+                    },
+                  ]}
+                />,
+              ],
+              className: "border-b-0",
+            },
+          ]}
+        />,
         "20",
-        "",
+        journalScore,
+      ],
+    },
+    {
+      data: [
+        "1",
+        <AdvanceEvaluationTable
+          key={"id11"}
+          className="border-0 border-t-0"
+          header={{ data: ["Conferences:"], className: "text-left" }}
+          internalData={[
+            {
+              data: [
+                <AdvanceEvaluationTable
+                  key={"id12"}
+                  className="border-0"
+                  internalData={[
+                    {
+                      data: [
+                        "Indexed in SCI/Scopus/Google Scholar / any other",
+                        "No index",
+                      ],
+                    },
+                    {
+                      data: ["20", "10"],
+                      className: "border-b-0",
+                    },
+                  ]}
+                />,
+              ],
+              className: "border-b-0",
+            },
+          ]}
+        />,
+        "20",
+        conferenceScore,
+      ],
+    },
+    {
+      data: [
+        "1",
+        <AdvanceEvaluationTable
+          key={"id13"}
+          className="border-0 border-t-0"
+          header={{ data: ["Books/ Book Chapter:"], className: "text-left" }}
+          internalData={[
+            {
+              data: [
+                <AdvanceEvaluationTable
+                  key={"id14"}
+                  className="border-0"
+                  internalData={[
+                    {
+                      data: ["Book", "Book Chapter"],
+                    },
+                    {
+                      data: ["10", "5"],
+                      className: "border-b-0",
+                    },
+                  ]}
+                />,
+              ],
+              className: "border-b-0",
+            },
+          ]}
+        />,
+        "20",
+        bookScore,
       ],
     },
     {
@@ -364,34 +402,32 @@ const EvaluationForm = ({
       className: "",
       data: [
         "",
-        <>
-          <AdvanceEvaluationTable
-            key={"id15"}
-            className="border-0"
-            internalData={[
-              {
-                data: [
-                  <AdvanceEvaluationTable
-                    key={"id16"}
-                    className="border-0"
-                    internalData={[
-                      {
-                        data: ["Minimum 1 Week ", "1 to 5 Days "],
-                      },
-                      {
-                        data: ["10", "5"],
-                        className: "border-b-0",
-                      },
-                    ]}
-                  />,
-                ],
-                className: "border-b-0",
-              },
-            ]}
-          />
-        </>,
-        "",
-        "",
+        <AdvanceEvaluationTable
+          key={"id15"}
+          className="border-0"
+          internalData={[
+            {
+              data: [
+                <AdvanceEvaluationTable
+                  key={"id16"}
+                  className="border-0"
+                  internalData={[
+                    {
+                      data: ["Minimum 1 Week ", "1 to 5 Days "],
+                    },
+                    {
+                      data: ["10", "5"],
+                      className: "border-b-0",
+                    },
+                  ]}
+                />,
+              ],
+              className: "border-b-0",
+            },
+          ]}
+        />,
+        "10",
+        kepAttendedScore,
       ],
     },
     {
@@ -402,37 +438,33 @@ const EvaluationForm = ({
       className: "border-b-0",
       data: [
         "",
-        <>
-          <AdvanceEvaluationTable
-            key={"id17"}
-            className="border-0"
-            internalData={[
-              {
-                data: [
-                  <AdvanceEvaluationTable
-                    key={"id18"}
-                    className="border-0"
-                    internalData={[
-                      {
-                        data: [
-                          "Main Organizer ",
-                          "Organizing Committee Member ",
-                        ],
-                      },
-                      {
-                        data: ["10", "5"],
-                        className: "border-b-0",
-                      },
-                    ]}
-                  />,
-                ],
-                className: "border-b-0",
-              },
-            ]}
-          />
-        </>,
-        "",
-        "",
+
+        <AdvanceEvaluationTable
+          key={"id17"}
+          className="border-0"
+          internalData={[
+            {
+              data: [
+                <AdvanceEvaluationTable
+                  key={"id18"}
+                  className="border-0"
+                  internalData={[
+                    {
+                      data: ["Main Organizer ", "Organizing Committee Member "],
+                    },
+                    {
+                      data: ["10", "5"],
+                      className: "border-b-0",
+                    },
+                  ]}
+                />,
+              ],
+              className: "border-b-0",
+            },
+          ]}
+        />,
+        "10",
+        kepOrganizedScore,
       ],
     },
     {
@@ -443,58 +475,56 @@ const EvaluationForm = ({
       className: "",
       data: [
         "",
-        <>
-          <AdvanceEvaluationTable
-            key={"id19"}
-            className="border-0"
-            internalData={[
-              {
-                data: [
-                  <AdvanceEvaluationTable
-                    key={"id20"}
-                    className="border-0"
-                    internalData={[
-                      {
-                        data: ["In-house ", "External Agency (With R&D Cell) "],
-                      },
-                      {
-                        data: [
-                          <AdvanceEvaluationTable
-                            key={"id21"}
-                            className="border-0"
-                            internalData={[
-                              {
-                                data: ["Awarded ", "Submitted"],
-                              },
-                              {
-                                data: ["10", "5"],
-                                className: "border-b-0",
-                              },
-                            ]}
-                          />,
-                          <AdvanceEvaluationTable
-                            key={"id22"}
-                            className="border-0"
-                            internalData={[
-                              {
-                                data: ["Awarded ", "Submitted"],
-                              },
-                              { className: "border-b-0", data: ["20", "10"] },
-                            ]}
-                          />,
-                        ],
-                        className: "border-b-0",
-                      },
-                    ]}
-                  />,
-                ],
-                className: "border-b-0",
-              },
-            ]}
-          />
-        </>,
+        <AdvanceEvaluationTable
+          key={"id19"}
+          className="border-0"
+          internalData={[
+            {
+              data: [
+                <AdvanceEvaluationTable
+                  key={"id20"}
+                  className="border-0"
+                  internalData={[
+                    {
+                      data: ["In-house ", "External Agency (With R&D Cell) "],
+                    },
+                    {
+                      data: [
+                        <AdvanceEvaluationTable
+                          key={"id21"}
+                          className="border-0"
+                          internalData={[
+                            {
+                              data: ["Awarded ", "Submitted"],
+                            },
+                            {
+                              data: ["10", "5"],
+                              className: "border-b-0",
+                            },
+                          ]}
+                        />,
+                        <AdvanceEvaluationTable
+                          key={"id22"}
+                          className="border-0"
+                          internalData={[
+                            {
+                              data: ["Awarded ", "Submitted"],
+                            },
+                            { className: "border-b-0", data: ["20", "10"] },
+                          ]}
+                        />,
+                      ],
+                      className: "border-b-0",
+                    },
+                  ]}
+                />,
+              ],
+              className: "border-b-0",
+            },
+          ]}
+        />,
         "30",
-        "",
+        reasearchScore,
       ],
     },
   ];
@@ -507,58 +537,56 @@ const EvaluationForm = ({
       className: "",
       data: [
         "",
-        <>
-          <AdvanceEvaluationTable
-            key={"id23"}
-            className="border-0"
-            internalData={[
-              {
-                data: [
-                  <AdvanceEvaluationTable
-                    key={"id24"}
-                    className="border-0"
-                    internalData={[
-                      {
-                        data: [
-                          <AdvanceEvaluationTable
-                            key={"id25"}
-                            className="border-0"
-                            internalData={[
-                              {
-                                data: ["2+ Lacs  ", "1+ Lacs"],
-                              },
-                              {
-                                data: ["10", "5"],
-                                className: "border-b-0",
-                              },
-                            ]}
-                          />,
-                          <AdvanceEvaluationTable
-                            key={"id26"}
-                            className="border-0"
-                            internalData={[
-                              {
-                                data: ["50 K+ ", "25 K+"],
-                              },
-                              {
-                                data: ["3 ", "2"],
-                                className: "border-b-0",
-                              },
-                            ]}
-                          />,
-                        ],
-                        className: "border-b-0",
-                      },
-                    ]}
-                  />,
-                ],
-                className: "border-b-0",
-              },
-            ]}
-          />
-        </>,
+        <AdvanceEvaluationTable
+          key={"id23"}
+          className="border-0"
+          internalData={[
+            {
+              data: [
+                <AdvanceEvaluationTable
+                  key={"id24"}
+                  className="border-0"
+                  internalData={[
+                    {
+                      data: [
+                        <AdvanceEvaluationTable
+                          key={"id25"}
+                          className="border-0"
+                          internalData={[
+                            {
+                              data: ["2+ Lacs  ", "1+ Lacs"],
+                            },
+                            {
+                              data: ["10", "5"],
+                              className: "border-b-0",
+                            },
+                          ]}
+                        />,
+                        <AdvanceEvaluationTable
+                          key={"id26"}
+                          className="border-0"
+                          internalData={[
+                            {
+                              data: ["50 K+ ", "25 K+"],
+                            },
+                            {
+                              data: ["3 ", "2"],
+                              className: "border-b-0",
+                            },
+                          ]}
+                        />,
+                      ],
+                      className: "border-b-0",
+                    },
+                  ]}
+                />,
+              ],
+              className: "border-b-0",
+            },
+          ]}
+        />,
         "10",
-        "",
+        consultancyScore,
       ],
     },
     {
@@ -574,45 +602,43 @@ const EvaluationForm = ({
       className: "",
       data: [
         "",
-        <>
-          <AdvanceEvaluationTable
-            key={"id27"}
-            className="border-0"
-            internalData={[
-              {
-                data: [
-                  <AdvanceEvaluationTable
-                    key={"id28"}
-                    className="border-0"
-                    internalData={[
-                      {
-                        data: [
-                          <AdvanceEvaluationTable
-                            key={"id29"}
-                            className="border-0"
-                            internalData={[
-                              {
-                                data: ["Patent", "Copy right", "Trade Mark"],
-                              },
-                              {
-                                data: ["20", "10", "10"],
-                                className: "border-b-0",
-                              },
-                            ]}
-                          />,
-                        ],
-                        className: "border-b-0",
-                      },
-                    ]}
-                  />,
-                ],
-                className: "border-b-0",
-              },
-            ]}
-          />
-        </>,
+        <AdvanceEvaluationTable
+          key={"id27"}
+          className="border-0"
+          internalData={[
+            {
+              data: [
+                <AdvanceEvaluationTable
+                  key={"id28"}
+                  className="border-0"
+                  internalData={[
+                    {
+                      data: [
+                        <AdvanceEvaluationTable
+                          key={"id29"}
+                          className="border-0"
+                          internalData={[
+                            {
+                              data: ["Patent", "Copy right", "Trade Mark"],
+                            },
+                            {
+                              data: ["20", "10", "10"],
+                              className: "border-b-0",
+                            },
+                          ]}
+                        />,
+                      ],
+                      className: "border-b-0",
+                    },
+                  ]}
+                />,
+              ],
+              className: "border-b-0",
+            },
+          ]}
+        />,
         "10",
-        "",
+        effortsScore,
       ],
     },
     {
@@ -628,45 +654,43 @@ const EvaluationForm = ({
       className: "",
       data: [
         "",
-        <>
-          <AdvanceEvaluationTable
-            key={"id30"}
-            className="border-0"
-            internalData={[
-              {
-                data: [
-                  <AdvanceEvaluationTable
-                    key={"id31"}
-                    className="border-0"
-                    internalData={[
-                      {
-                        data: [
-                          <AdvanceEvaluationTable
-                            key={"id32"}
-                            className="border-0"
-                            internalData={[
-                              {
-                                data: ["College Level", "University Level"],
-                              },
-                              {
-                                data: ["5", "5"],
-                                className: "border-b-0",
-                              },
-                            ]}
-                          />,
-                        ],
-                        className: "border-b-0",
-                      },
-                    ]}
-                  />,
-                ],
-                className: "border-b-0",
-              },
-            ]}
-          />
-        </>,
-        "",
-        "",
+        <AdvanceEvaluationTable
+          key={"id30"}
+          className="border-0"
+          internalData={[
+            {
+              data: [
+                <AdvanceEvaluationTable
+                  key={"id31"}
+                  className="border-0"
+                  internalData={[
+                    {
+                      data: [
+                        <AdvanceEvaluationTable
+                          key={"id32"}
+                          className="border-0"
+                          internalData={[
+                            {
+                              data: ["College Level", "University Level"],
+                            },
+                            {
+                              data: ["5", "5"],
+                              className: "border-b-0",
+                            },
+                          ]}
+                        />,
+                      ],
+                      className: "border-b-0",
+                    },
+                  ]}
+                />,
+              ],
+              className: "border-b-0",
+            },
+          ]}
+        />,
+        "10",
+        dutiesScore,
       ],
     },
     {
@@ -682,45 +706,43 @@ const EvaluationForm = ({
       className: "",
       data: [
         "",
-        <>
-          <AdvanceEvaluationTable
-            key={"id33"}
-            className="border-0"
-            internalData={[
-              {
-                data: [
-                  <AdvanceEvaluationTable
-                    key={"id34"}
-                    className="border-0"
-                    internalData={[
-                      {
-                        data: [
-                          <AdvanceEvaluationTable
-                            key={"id35"}
-                            className="border-0"
-                            internalData={[
-                              {
-                                data: ["Co-Curricular", "Extra-Curricular"],
-                              },
-                              {
-                                data: ["5", "5"],
-                                className: "border-b-0",
-                              },
-                            ]}
-                          />,
-                        ],
-                        className: "border-b-0",
-                      },
-                    ]}
-                  />,
-                ],
-                className: "border-b-0",
-              },
-            ]}
-          />
-        </>,
-        "",
-        "",
+        <AdvanceEvaluationTable
+          key={"id33"}
+          className="border-0"
+          internalData={[
+            {
+              data: [
+                <AdvanceEvaluationTable
+                  key={"id34"}
+                  className="border-0"
+                  internalData={[
+                    {
+                      data: [
+                        <AdvanceEvaluationTable
+                          key={"id35"}
+                          className="border-0"
+                          internalData={[
+                            {
+                              data: ["Co-Curricular", "Extra-Curricular"],
+                            },
+                            {
+                              data: ["5", "5"],
+                              className: "border-b-0",
+                            },
+                          ]}
+                        />,
+                      ],
+                      className: "border-b-0",
+                    },
+                  ]}
+                />,
+              ],
+              className: "border-b-0",
+            },
+          ]}
+        />,
+        "10",
+        activityScore,
       ],
     },
     {
@@ -729,12 +751,32 @@ const EvaluationForm = ({
         "10",
         "Responsibilities Handled [5 Marks/Responsibility, Maximum 2 Responsibility] ",
         "[10]",
-        "",
+        responsibilityScore,
       ],
     },
     {
       className: "bg-[#8db3e2] font-bold text-left",
-      data: ["", "Total:[A]", "[210]", ""],
+      data: [
+        "",
+        "Total:[A]",
+        "[210]",
+        averageResult +
+          averageClassEngagement +
+          averageStudentFeedback +
+          averagePeerFeedback +
+          effortsScore +
+          journalScore +
+          conferenceScore +
+          bookScore +
+          kepAttendedScore +
+          kepOrganizedScore +
+          reasearchScore +
+          consultancyScore +
+          iprEffortScore +
+          dutiesScore +
+          activityScore +
+          responsibilityScore,
+      ],
     },
     {
       className: "bg-[#fbd4b4] font-bold text-left",
@@ -747,11 +789,32 @@ const EvaluationForm = ({
     },
     {
       className: "bg-[#8db3e2] font-bold text-left",
-      data: ["", "Total:[B]", "[10]", ""],
+      data: ["", "Total:[B]", "[10]", achievementScore],
     },
     {
       className: "font-bold text-left",
-      data: ["", "Total:[A]+[B]", "[220]", ""],
+      data: [
+        "",
+        "Total:[A]+[B]",
+        "[220]",
+        averageResult +
+          averageClassEngagement +
+          averageStudentFeedback +
+          averagePeerFeedback +
+          effortsScore +
+          journalScore +
+          conferenceScore +
+          bookScore +
+          kepAttendedScore +
+          kepOrganizedScore +
+          reasearchScore +
+          consultancyScore +
+          iprEffortScore +
+          dutiesScore +
+          activityScore +
+          responsibilityScore +
+          achievementScore,
+      ],
     },
   ];
   return (
@@ -763,7 +826,27 @@ const EvaluationForm = ({
         <AdvanceEvaluationTable header={rowHeader} internalData={array2} />
         <div className="html2pdf__page-break" />
         <AdvanceEvaluationTable header={rowHeader} internalData={array3} />
-        <EvalutationFooter />
+        <EvalutationFooter
+          score={
+            averageResult +
+            averageClassEngagement +
+            averageStudentFeedback +
+            averagePeerFeedback +
+            effortsScore +
+            journalScore +
+            conferenceScore +
+            bookScore +
+            kepAttendedScore +
+            kepOrganizedScore +
+            reasearchScore +
+            consultancyScore +
+            iprEffortScore +
+            dutiesScore +
+            activityScore +
+            responsibilityScore +
+            achievementScore
+          }
+        />
       </div>
     </>
   );

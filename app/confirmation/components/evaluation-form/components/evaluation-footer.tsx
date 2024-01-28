@@ -1,10 +1,27 @@
 import { useSession } from "next-auth/react";
 import AdvanceEvaluationTable from "./evaluation-table";
 
-type Props = {};
+type Props = {
+  score: number;
+};
 
-const EvalutationFooter = (props: Props) => {
+const EvalutationFooter = ({ score }: Props) => {
   const { data } = useSession();
+  const calculateScore = (value: number) => {
+    if (value >= 161) {
+      return "Outstanding";
+    } else if (value >= 121 && value <= 160) {
+      return "Excellent";
+    } else if (value >= 91 && value <= 120) {
+      return "Very Good";
+    } else if (value >= 51 && value <= 90) {
+      return "Satisfactory";
+    } else if (value >= 1 && value <= 50) {
+      return "Average";
+    } else {
+      return "Invalid value"; // Handle cases where the value is not in any defined range
+    }
+  };
   return (
     <div className="flex flex-col gap-4">
       <div className="font-bold">
@@ -71,7 +88,7 @@ const EvalutationFooter = (props: Props) => {
                   ]}
                 />
               </>,
-              "Marks & Grade Scored",
+              calculateScore(score),
             ],
           },
         ]}

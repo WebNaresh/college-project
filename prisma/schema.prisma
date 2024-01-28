@@ -96,6 +96,10 @@ model PerformanceEvalutationForm {
   cActivity                cActivity[]
   averageResult            Int                        @default(0)
   classEngagement          Int                        @default(0)
+  Journals                 Journals[]
+  Conferences              Conferences[]
+  Book                     Book[]
+  BookChaper               BookChaper[]
 }
 
 model TeachingAndLearning {
@@ -147,7 +151,53 @@ model Publication {
   Performance   PerformanceEvalutationForm @relation(fields: [formId], references: [id], onDelete: Cascade)
 }
 
+model Journals {
+  id            String                     @id @default(cuid())
+  formId        String
+  nameOfJournal String
+  issnOrIssbnNo String
+  indexedIn     indexLevel
+  mainAuthor    Boolean
+  Performance   PerformanceEvalutationForm @relation(fields: [formId], references: [id], onDelete: Cascade)
+}
+
+model Conferences {
+  id               String                     @id @default(cuid())
+  formId           String
+  nameOfConference String
+  indexedIn        indexLevel
+  mainAuthor       Boolean
+  Performance      PerformanceEvalutationForm @relation(fields: [formId], references: [id], onDelete: Cascade)
+}
+
 model Books {
+  id                String                     @id @default(cuid())
+  bookTitle         String
+  titleWithPageNo   String
+  publisherName     String
+  editorName        String
+  issnOrIssbnNo     String
+  detailOfCoAuthors String
+  publishingMonth   monthEnum
+  publishingYear    String
+  formId            String
+  Performance       PerformanceEvalutationForm @relation(fields: [formId], references: [id], onDelete: Cascade)
+}
+
+model Book {
+  id                String                     @id @default(cuid())
+  bookTitle         String
+  publisherName     String
+  editorName        String
+  issnOrIssbnNo     String
+  detailOfCoAuthors String
+  publishingMonth   monthEnum
+  publishingYear    String
+  formId            String
+  Performance       PerformanceEvalutationForm @relation(fields: [formId], references: [id], onDelete: Cascade)
+}
+
+model BookChaper {
   id                String                     @id @default(cuid())
   bookTitle         String
   titleWithPageNo   String
@@ -174,6 +224,7 @@ model kepAttended {
 model kepOrganized {
   id            String                     @id @default(cuid())
   programmTitle String
+  mainOrganizer Boolean
   duration      String
   Performance   PerformanceEvalutationForm @relation(fields: [formId], references: [id], onDelete: Cascade)
   formId        String
@@ -193,6 +244,7 @@ model irg {
 model reasearch {
   id            String                     @id @default(cuid())
   scheme        String
+  reasearchType reasearchTypeEnum
   agency        String
   status        statusEnum
   date          DateTime
@@ -331,6 +383,7 @@ enum indexLevel {
   SCOUPUS
   UGC_CARE
   PEER_REVIEWED
+  NO_INDEXED
 }
 
 enum rigthStatusEnum {
@@ -351,4 +404,9 @@ enum statusEnum {
 enum activityType {
   CoCurricular
   ExtraCurricular
+}
+
+enum reasearchTypeEnum {
+  InHouse
+  External
 }

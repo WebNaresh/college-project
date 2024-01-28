@@ -29,7 +29,7 @@ type Props = {
 };
 
 const MiniForm = ({ nextStep }: Props) => {
-  const mutate = useAddProfileMutation(nextStep);
+  const mutate = useAddProfileMutation();
   const form = useForm<z.infer<typeof step1formSchema>>({
     resolver: zodResolver(step1formSchema),
     defaultValues: {

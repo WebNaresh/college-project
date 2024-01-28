@@ -32,7 +32,13 @@ const publicationLevel = z.enum([
   "National",
   "InterNational",
 ]);
-const indexedInEnum = z.enum(["SCI", "SCOUPUS", "UGC_CARE", "PEER_REVIEWED"]);
+const indexedInEnum = z.enum([
+  "SCI",
+  "SCOUPUS",
+  "UGC_CARE",
+  "PEER_REVIEWED",
+  "NO_INDEXED",
+]);
 export const step1formSchema = z.object({
   level: publicationLevel,
   paperTitle: z.string(),
@@ -139,6 +145,7 @@ const MiniForm = ({ title }: Props) => {
                   <SelectItem value="SCOUPUS">SCOPUS</SelectItem>
                   <SelectItem value="UGC_CARE">UGC CARE</SelectItem>
                   <SelectItem value="PEER_REVIEWED">PEER REVIEWED</SelectItem>
+                  <SelectItem value="NO_INDEXED">NO INDEXED</SelectItem>
                 </SelectContent>
               </Select>
               <FormMessage />

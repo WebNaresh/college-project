@@ -1,38 +1,21 @@
-version: "3.7"
-
+version: "3.8"
 services:
-  postgres:
-    container_name: postgres
-    image: postgres:latest
+  db:
+    container_name: postgres_container
+    image: postgres
     restart: always
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: Naresh@123
-      POSTGRES_DB: college
-    volumes:
-      - postgres-data:/var/lib/postgresql/data
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: test_db
     ports:
-      - "5432:5432"
-    networks:
-      - mynetwork
-
-  nextjs:
-    container_name: nextjs
-    build:
-      context: .
-      dockerfile: Dockerfile
-    volumes:
-      - ./nextjs:/app
-    depends_on:
-      - postgres
-    networks:
-      - mynetwork
+      - "5431:5431"
+  pgadmin:
+    container_name: pgadmin4_container
+    image: dpage/pgadmin4
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: root
     ports:
-      - "3000:3000"
-
-volumes:
-  postgres-data:
-
-networks:
-  mynetwork:
-    driver: bridge
+      - "5050:80"

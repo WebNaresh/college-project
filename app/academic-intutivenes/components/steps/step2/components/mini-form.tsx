@@ -115,7 +115,7 @@ const MiniForm = ({ title }: Props) => {
           name="publishingMonth"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Level</FormLabel>
+              <FormLabel>Publishing Month</FormLabel>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
                   <SelectTrigger>

@@ -76,11 +76,10 @@ const UserForm = (p: Props) => {
     queryFn: fetchFormDetails,
   });
   console.log(
-    `🚀 ~ file: form.tsx:115 ~ (data?.feedbackDetails.term_II_previous_year_peer_feedback +
-              data.feedbackDetails.term_I_current_year_peer_feedback) /
-              2:`,
+    `🚀 ~ filex: form.tsx:121 ~ data?.feedbackDetails?.term_II_previous_year_peer_feedback:`,
     data
   );
+
   return (
     <div id="printable" className="flex flex-col gap-4 px-8 flex-1">
       <Header data={data} />
@@ -113,12 +112,39 @@ const UserForm = (p: Props) => {
           )}
           averageResult={getMark(data.averageResult, markPgRanges)}
           averagePeerFeedback={getMark(
-            (data?.feedbackDetails.term_II_previous_year_peer_feedback +
-              data.feedbackDetails.term_I_current_year_peer_feedback) /
+            (data?.feedbackDetails?.term_II_previous_year_peer_feedback +
+              data?.feedbackDetails?.term_I_current_year_peer_feedback) /
               2,
             peerFeddbackRanges
           )}
-          averageStudentFeedback={getMark(data.averageResult, markPgRanges)}
+          averageStudentFeedback={getMark(
+            (data?.feedbackDetails?.term_II_previous_year_student_feedback +
+              data?.feedbackDetails?.term_I_current_year_student_feedback) /
+              2,
+            peerFeddbackRanges
+          )}
+          effortsScore={
+            (data?.efforts.length || 0) > 1
+              ? 10
+              : data?.efforts.length === 1
+              ? 5
+              : 0
+          }
+          journalScore={10}
+          conferenceScore={10}
+          bookScore={10}
+          kepAttendedScore={10}
+          kepOrganizedScore={10}
+          reasearchScore={10}
+          consultancyScore={10}
+          iprEffortScore={10}
+          dutiesScore={10}
+          activityScore={10}
+          responsibilityScore={10}
+          achievementScore={10}
+
+          // averageStudentFeedback={getMark(data.feedbackDetails., markPgRanges)}
+          // averagePeerFeedback={getMark(data.averageResult, markPgRanges)}
         />
       )}
     </div>
