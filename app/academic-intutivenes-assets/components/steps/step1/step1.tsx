@@ -13,19 +13,19 @@ const Step1 = ({ onNext }: Props) => {
   const fetchFormDetails = async () => {
     const config = { headers: { "Content-Type": "application/json" } };
     let data: AxiosResponse = await axios.get(
-      `${process.env.NEXT_PUBLIC_ROUTE}/api/form/publication`,
+      `${process.env.NEXT_PUBLIC_ROUTE}/api/form/journals`,
       config
     );
     return data.data;
   };
   const { data } = useQuery({
-    queryKey: ["form-details-publication"],
+    queryKey: ["form-details-journals"],
     queryFn: fetchFormDetails,
   });
   return (
     <div className="flex flex-col gap-4">
       <MiniForm title="Publications in Journals" />
-      <DataTable columns={columns} data={data?.publications || []} />
+      <DataTable columns={columns} data={data?.journals || []} />
     </div>
   );
 };

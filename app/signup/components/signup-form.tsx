@@ -1,5 +1,6 @@
 "use client";
 
+import Loader from "@/components/Loader/loader";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import {
@@ -87,7 +88,7 @@ export function LoginForm() {
     );
     return result.data;
   };
-  const { mutate } = useMutation({
+  const { mutate, isPending } = useMutation({
     mutationFn: addProfile,
     onSuccess: (data) => {
       console.log(`🚀 ~ file: signup-form.tsx:91 ~ data:`, data);
@@ -101,6 +102,9 @@ export function LoginForm() {
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     mutate(values);
+  }
+  if (isPending) {
+    <Loader />;
   }
   return (
     <Form {...form}>

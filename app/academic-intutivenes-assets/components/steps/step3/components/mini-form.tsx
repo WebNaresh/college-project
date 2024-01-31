@@ -2,12 +2,21 @@
 import { Button } from "@/components/ui/button";
 import {
   Form,
+  FormControl,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { bookSchema } from "@/lib/zObject";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios, { AxiosResponse } from "axios";
@@ -17,31 +26,11 @@ import toast from "react-hot-toast";
 import { z } from "zod";
 
 type Props = { title: string };
-const publishingMonthEnum = z.enum([
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December",
-]);
-const indexedInEnum = z.enum(["SCI", "SCOUPUS", "UGC_CARE", "PEER_REVIEWED"]);
-export const step1formSchema = z.object({
-  programmTitle: z.string(),
-  duration: z.string(),
-  place: z.string(),
-  organizer: z.string(),
-});
-const addProfile = async (data: z.infer<typeof step1formSchema>) => {
+
+const addProfile = async (data: z.infer<typeof bookSchema>) => {
   const config = { headers: { "Content-Type": "application/json" } };
   const result: AxiosResponse = await axios.put(
-    `${process.env.NEXT_PUBLIC_ROUTE}/api/form/kepAttended`,
+    `${process.env.NEXT_PUBLIC_ROUTE}/api/form/book`,
     data,
     config
   );
@@ -54,7 +43,7 @@ const MiniForm = ({ title }: Props) => {
     onSuccess: async (data) => {
       toast.success(data?.message);
       await queryClient.invalidateQueries({
-        queryKey: [`form-details-kepAttended`],
+        queryKey: [`form-details-book`],
       });
     },
     onError: (data: any) => {
@@ -62,17 +51,20 @@ const MiniForm = ({ title }: Props) => {
     },
   });
 
-  const form = useForm<z.infer<typeof step1formSchema>>({
-    resolver: zodResolver(step1formSchema),
+  const form = useForm<z.infer<typeof bookSchema>>({
+    resolver: zodResolver(bookSchema),
     defaultValues: {
-      programmTitle: undefined,
-      duration: undefined,
-      place: undefined,
-      organizer: undefined,
+      bookTitle: undefined,
+      publisherName: undefined,
+      editorName: undefined,
+      issnOrIssbnNo: undefined,
+      detailOfCoAuthors: undefined,
+      publishingMonth: undefined,
+      publishingYear: undefined,
     },
   });
 
-  const onSubmit = async (values: z.infer<typeof step1formSchema>) => {
+  const onSubmit = async (values: z.infer<typeof bookSchema>) => {
     mutate(values);
   };
   return (
@@ -84,49 +76,102 @@ const MiniForm = ({ title }: Props) => {
         <div className="text-primary text-sm font-bold underline">{title}</div>
         <FormField
           control={form.control}
-          name="programmTitle"
+          name="bookTitle"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Program Title</FormLabel>
-              <Input placeholder="Enter Your Program Title" {...field} />
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="duration"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Duration</FormLabel>
-              <Input placeholder="2 weeks..." {...field} />
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="place"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Place</FormLabel>
-              <Input placeholder="eg. Aurangabad .." {...field} />
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="organizer"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Organizer Name</FormLabel>
-              <Input placeholder="Enter Your Organizer Name" {...field} />
+              <FormLabel>Book Title</FormLabel>
+              <Input placeholder="Enter Your Book Title" {...field} />
               <FormMessage />
             </FormItem>
           )}
         />
 
+        <FormField
+          control={form.control}
+          name="publishingMonth"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Publishing Month</FormLabel>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Publishing Month" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  <SelectItem value="January">January</SelectItem>
+                  <SelectItem value="February">February</SelectItem>
+                  <SelectItem value="March">March</SelectItem>
+                  <SelectItem value="April">April</SelectItem>
+                  <SelectItem value="May">May</SelectItem>
+                  <SelectItem value="June">June</SelectItem>
+                  <SelectItem value="July">July</SelectItem>
+                  <SelectItem value="August">August</SelectItem>
+                  <SelectItem value="September">September</SelectItem>
+                  <SelectItem value="October">October</SelectItem>
+                  <SelectItem value="November">November</SelectItem>
+                  <SelectItem value="December">December</SelectItem>
+                </SelectContent>
+              </Select>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="publisherName"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Publisher Name</FormLabel>
+              <Input placeholder="Enter Your Publisher Name" {...field} />
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="editorName"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Editor Name</FormLabel>
+              <Input placeholder="Enter Your Editor Name" {...field} />
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="issnOrIssbnNo"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>ISSN / ISSBN</FormLabel>
+              <Input placeholder="Enter Your ISSN / ISSBN No" {...field} />
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="detailOfCoAuthors"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Enter Name of Co-Authors</FormLabel>
+              <Input placeholder="Enter Your Name of Co-Author" {...field} />
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="publishingYear"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Publishing Year</FormLabel>
+              <Input placeholder="Enter Your Publishing Year" {...field} />
+              <FormMessage />
+            </FormItem>
+          )}
+        />
         <Button
           type="submit"
           className="flex mx-auto rounded-full p-4 h-auto"

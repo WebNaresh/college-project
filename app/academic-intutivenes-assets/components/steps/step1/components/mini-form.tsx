@@ -17,6 +17,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { journalSchema } from "@/lib/zObject";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios, { AxiosResponse } from "axios";
@@ -27,24 +28,10 @@ import { z } from "zod";
 
 type Props = { title: string };
 
-const indexedInEnum = z.enum([
-  "SCI",
-  "SCOUPUS",
-  "UGC_CARE",
-  "PEER_REVIEWED",
-  "NO_INDEXED",
-]);
-export const step1formSchema = z.object({
-  nameOfJournal: z.string(),
-  issnOrIssbnNo: z.string(),
-  indexedIn: indexedInEnum,
-  mainAuthor: z.boolean(),
-});
-
-const addProfile = async (data: z.infer<typeof step1formSchema>) => {
+const addProfile = async (data: z.infer<typeof journalSchema>) => {
   const config = { headers: { "Content-Type": "application/json" } };
   const result: AxiosResponse = await axios.put(
-    `${process.env.NEXT_PUBLIC_ROUTE}/api/form/publication`,
+    `${process.env.NEXT_PUBLIC_ROUTE}/api/form/journals`,
     data,
     config
   );
@@ -57,7 +44,7 @@ const MiniForm = ({ title }: Props) => {
     onSuccess: async (data) => {
       toast.success(data?.message);
       await queryClient.invalidateQueries({
-        queryKey: [`form-details-publication`],
+        queryKey: [`form-details-journals`],
       });
     },
     onError: (data: any) => {
@@ -65,8 +52,8 @@ const MiniForm = ({ title }: Props) => {
     },
   });
 
-  const form = useForm<z.infer<typeof step1formSchema>>({
-    resolver: zodResolver(step1formSchema),
+  const form = useForm<z.infer<typeof journalSchema>>({
+    resolver: zodResolver(journalSchema),
     defaultValues: {
       nameOfJournal: undefined,
       issnOrIssbnNo: undefined,
@@ -75,7 +62,7 @@ const MiniForm = ({ title }: Props) => {
     },
   });
 
-  const onSubmit = async (values: z.infer<typeof step1formSchema>) => {
+  const onSubmit = async (values: z.infer<typeof journalSchema>) => {
     mutate(values);
   };
   return (

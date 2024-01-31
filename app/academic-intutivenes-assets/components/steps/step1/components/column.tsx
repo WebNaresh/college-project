@@ -5,17 +5,13 @@ import {
   MenubarMenu,
   MenubarTrigger,
 } from "@/components/ui/menubar";
-import { Publication } from "@prisma/client";
+import { Journals } from "@prisma/client";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ColumnDef } from "@tanstack/react-table";
 import axios, { AxiosResponse } from "axios";
 import { Check, MoreVertical, XIcon } from "lucide-react";
 
-export const columns: ColumnDef<Publication>[] = [
-  {
-    header: "Paper Title",
-    accessorKey: "paperTitle",
-  },
+export const columns: ColumnDef<Journals>[] = [
   {
     header: "Name Of Journal",
     accessorKey: "nameOfJournal",
@@ -47,13 +43,13 @@ export const columns: ColumnDef<Publication>[] = [
     cell: ({ row }) => <ActionsCell row={row.original} />,
   },
 ];
-const ActionsCell: React.FC<{ row: Publication }> = ({ row }) => {
+const ActionsCell: React.FC<{ row: Journals }> = ({ row }) => {
   const queryClient = useQueryClient();
 
   const addProfile = async (id: string) => {
     const config = { headers: { "Content-Type": "application/json" } };
     const result: AxiosResponse = await axios.delete(
-      `${process.env.NEXT_PUBLIC_ROUTE}/api/form/publication/${id}`,
+      `${process.env.NEXT_PUBLIC_ROUTE}/api/form/journals/${id}`,
       config
     );
     return result.data;
@@ -63,7 +59,7 @@ const ActionsCell: React.FC<{ row: Publication }> = ({ row }) => {
     onSuccess: async (data) => {
       // Invalidate the relevant queries in the queryClient after successful delete
       await queryClient.invalidateQueries({
-        queryKey: ["form-details-publication"],
+        queryKey: ["form-details-journals"],
       });
     },
   });

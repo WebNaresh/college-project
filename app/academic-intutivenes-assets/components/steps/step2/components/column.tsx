@@ -5,44 +5,33 @@ import {
   MenubarMenu,
   MenubarTrigger,
 } from "@/components/ui/menubar";
-import { Books } from "@prisma/client";
+import { Conferences } from "@prisma/client";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ColumnDef } from "@tanstack/react-table";
 import axios, { AxiosResponse } from "axios";
-import { MoreVertical } from "lucide-react";
+import { Check, MoreVertical, XIcon } from "lucide-react";
 
-export const columns: ColumnDef<Books>[] = [
+export const columns: ColumnDef<Conferences>[] = [
   {
-    header: "Book Title",
-    accessorKey: "bookTitle",
+    header: "Name Of Conference",
+    accessorKey: "nameOfConference",
   },
   {
-    header: "Page NO",
-    accessorKey: "titleWithPageNo",
+    header: "Indexed In",
+    accessorKey: "indexedIn",
   },
   {
-    header: "Publisher",
-    accessorKey: "publisherName",
-  },
-  {
-    header: "Editor",
-    accessorKey: "editorName",
-  },
-  {
-    header: "ISSN / ISSBN No",
-    accessorKey: "issnOrIssbnNo",
-  },
-  {
-    header: "Co-Authors",
-    accessorKey: "detailOfCoAuthors",
-  },
-  {
-    header: "Year",
-    accessorKey: "publishingYear",
-  },
-  {
-    header: "Month",
-    accessorKey: "publishingMonth",
+    header: "Main Author",
+    accessorKey: "mainAuthor",
+    cell: ({ row }) => (
+      <div className="flex justify-center">
+        {row.original.mainAuthor ? (
+          <Check className="text-primary" />
+        ) : (
+          <XIcon className="text-primary" />
+        )}
+      </div>
+    ),
   },
   {
     header: "Actions",
@@ -50,13 +39,13 @@ export const columns: ColumnDef<Books>[] = [
     cell: ({ row }) => <ActionsCell row={row.original} />,
   },
 ];
-const ActionsCell: React.FC<{ row: Books }> = ({ row }) => {
+const ActionsCell: React.FC<{ row: Conferences }> = ({ row }) => {
   const queryClient = useQueryClient();
 
   const addProfile = async (id: string) => {
     const config = { headers: { "Content-Type": "application/json" } };
     const result: AxiosResponse = await axios.delete(
-      `${process.env.NEXT_PUBLIC_ROUTE}/api/form/books/${id}`,
+      `${process.env.NEXT_PUBLIC_ROUTE}/api/form/conferences/${id}`,
       config
     );
     return result.data;
@@ -66,7 +55,7 @@ const ActionsCell: React.FC<{ row: Books }> = ({ row }) => {
     onSuccess: async (data) => {
       // Invalidate the relevant queries in the queryClient after successful delete
       await queryClient.invalidateQueries({
-        queryKey: ["form-details-books"],
+        queryKey: ["form-details-conferences"],
       });
     },
   });

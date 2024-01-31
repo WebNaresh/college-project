@@ -1,5 +1,6 @@
 "use client";
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Form,
   FormControl,
@@ -16,6 +17,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { conferenceSchema } from "@/lib/zObject";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios, { AxiosResponse } from "axios";
@@ -25,35 +27,11 @@ import toast from "react-hot-toast";
 import { z } from "zod";
 
 type Props = { title: string };
-const publishingMonthEnum = z.enum([
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December",
-]);
-const indexedInEnum = z.enum(["SCI", "SCOUPUS", "UGC_CARE", "PEER_REVIEWED"]);
-export const step1formSchema = z.object({
-  bookTitle: z.string(),
-  titleWithPageNo: z.string(),
-  publisherName: z.string(),
-  editorName: z.string(),
-  issnOrIssbnNo: z.string(),
-  detailOfCoAuthors: z.string(),
-  publishingYear: z.string().min(4).max(4),
-  publishingMonth: publishingMonthEnum,
-});
-const addProfile = async (data: z.infer<typeof step1formSchema>) => {
+
+const addProfile = async (data: z.infer<typeof conferenceSchema>) => {
   const config = { headers: { "Content-Type": "application/json" } };
   const result: AxiosResponse = await axios.put(
-    `${process.env.NEXT_PUBLIC_ROUTE}/api/form/books`,
+    `${process.env.NEXT_PUBLIC_ROUTE}/api/form/conferences`,
     data,
     config
   );
@@ -66,7 +44,7 @@ const MiniForm = ({ title }: Props) => {
     onSuccess: async (data) => {
       toast.success(data?.message);
       await queryClient.invalidateQueries({
-        queryKey: [`form-details-books`],
+        queryKey: [`form-details-conferences`],
       });
     },
     onError: (data: any) => {
@@ -74,21 +52,16 @@ const MiniForm = ({ title }: Props) => {
     },
   });
 
-  const form = useForm<z.infer<typeof step1formSchema>>({
-    resolver: zodResolver(step1formSchema),
+  const form = useForm<z.infer<typeof conferenceSchema>>({
+    resolver: zodResolver(conferenceSchema),
     defaultValues: {
-      bookTitle: undefined,
-      titleWithPageNo: undefined,
-      publisherName: undefined,
-      editorName: undefined,
-      issnOrIssbnNo: undefined,
-      detailOfCoAuthors: undefined,
-      publishingMonth: undefined,
-      publishingYear: undefined,
+      nameOfConference: undefined,
+      indexedIn: undefined,
+      mainAuthor: undefined,
     },
   });
 
-  const onSubmit = async (values: z.infer<typeof step1formSchema>) => {
+  const onSubmit = async (values: z.infer<typeof conferenceSchema>) => {
     mutate(values);
   };
   return (
@@ -100,41 +73,22 @@ const MiniForm = ({ title }: Props) => {
         <div className="text-primary text-sm font-bold underline">{title}</div>
         <FormField
           control={form.control}
-          name="bookTitle"
+          name="indexedIn"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Book Title</FormLabel>
-              <Input placeholder="Enter Your Book Title" {...field} />
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name="publishingMonth"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Publishing Month</FormLabel>
+              <FormLabel>Indexed In</FormLabel>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
                   <SelectTrigger>
-                    <SelectValue placeholder="Publishing Month" />
+                    <SelectValue placeholder="Indexed In" />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  <SelectItem value="January">January</SelectItem>
-                  <SelectItem value="February">February</SelectItem>
-                  <SelectItem value="March">March</SelectItem>
-                  <SelectItem value="April">April</SelectItem>
-                  <SelectItem value="May">May</SelectItem>
-                  <SelectItem value="June">June</SelectItem>
-                  <SelectItem value="July">July</SelectItem>
-                  <SelectItem value="August">August</SelectItem>
-                  <SelectItem value="September">September</SelectItem>
-                  <SelectItem value="October">October</SelectItem>
-                  <SelectItem value="November">November</SelectItem>
-                  <SelectItem value="December">December</SelectItem>
+                  <SelectItem value="SCI">SCI</SelectItem>
+                  <SelectItem value="SCOUPUS">SCOPUS</SelectItem>
+                  <SelectItem value="UGC_CARE">UGC CARE</SelectItem>
+                  <SelectItem value="PEER_REVIEWED">PEER REVIEWED</SelectItem>
+                  <SelectItem value="NO_INDEXED">NO INDEXED</SelectItem>
                 </SelectContent>
               </Select>
               <FormMessage />
@@ -143,67 +97,29 @@ const MiniForm = ({ title }: Props) => {
         />
         <FormField
           control={form.control}
-          name="titleWithPageNo"
+          name="nameOfConference"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Title with page no</FormLabel>
-              <Input placeholder="eg..New awakening page no 4" {...field} />
+              <FormLabel>Name of Journal</FormLabel>
+              <Input placeholder="Enter Your Journal Name" {...field} />
               <FormMessage />
             </FormItem>
           )}
         />
         <FormField
           control={form.control}
-          name="publisherName"
+          name="mainAuthor"
           render={({ field }) => (
-            <FormItem>
-              <FormLabel>Publisher Name</FormLabel>
-              <Input placeholder="Enter Your Publisher Name" {...field} />
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="editorName"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Editor Name</FormLabel>
-              <Input placeholder="Enter Your Editor Name" {...field} />
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="issnOrIssbnNo"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>ISSN / ISSBN</FormLabel>
-              <Input placeholder="Enter Your ISSN / ISSBN No" {...field} />
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="detailOfCoAuthors"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Enter Name of Co-Authors</FormLabel>
-              <Input placeholder="Enter Your Name of Co-Author" {...field} />
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="publishingYear"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Publishing Year</FormLabel>
-              <Input placeholder="Enter Your Publishing Year" {...field} />
-              <FormMessage />
+            <FormItem className="flex flex-row items-start space-x-3 space-y-0 p-4">
+              <FormControl>
+                <Checkbox
+                  checked={field.value}
+                  onCheckedChange={field.onChange}
+                />
+              </FormControl>
+              <div className="space-y-1 leading-none">
+                <FormLabel>Are you main author?</FormLabel>
+              </div>
             </FormItem>
           )}
         />

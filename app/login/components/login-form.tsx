@@ -1,4 +1,5 @@
 "use client";
+import Loader from "@/components/Loader/loader";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -10,7 +11,8 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { SignInResponse, signIn, useSession } from "next-auth/react";
+import { useMutation } from "@tanstack/react-query";
+import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
@@ -24,7 +26,6 @@ const formSchema = z.object({
 });
 
 export function LoginForm() {
-  const { data: session, status } = useSession();
   const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -33,31 +34,41 @@ export function LoginForm() {
       password: "",
     },
   });
+  const signInFunction = async (data: z.infer<typeof formSchema>) => {
+    const response = await signIn("credentials", {
+      redirect: false,
+      email: data?.email,
+      password: data?.password,
+      callbackUrl: "/",
+    });
+    return response;
+  };
+
+  const { mutate, isPending } = useMutation({
+    mutationFn: signInFunction,
+    onSuccess: async (data) => {
+      toast.success("Successfully signed in!");
+      router.push("/");
+    },
+    onError: (error) => {
+      console.error("Sign-in error:", error);
+      toast.error("An error occurred during sign-in");
+    },
+  });
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      // Use the signIn function directly from next-auth/react
-      const result: SignInResponse | undefined = await signIn("credentials", {
-        redirect: false,
-        email: values.email,
-        password: values.password,
-      });
-
-      if (result?.error) {
-        // Handle sign-in error
-        toast.error(result.error);
-      } else {
-        // Optionally, you can redirect the user after successful sign-in
-        // router.push('/dashboard');
-        toast.success("Successfully signed in!");
-        router.push("/");
-      }
+      // Use mutate function instead of calling signIn directly
+      mutate(values);
     } catch (error) {
       console.error("Sign-in error:", error);
       toast.error("An error occurred during sign-in");
     }
   };
 
+  if (isPending) {
+    return <Loader />;
+  }
   return (
     <Form {...form}>
       <form

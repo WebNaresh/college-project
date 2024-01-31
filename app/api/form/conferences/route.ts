@@ -1,9 +1,10 @@
 // import { hash } from "bcrypt";
 import { getForm } from "@/lib/functions";
 import { prisma } from "@/lib/prisma";
-import { indexLevel } from "@prisma/client";
+import { conferenceSchema } from "@/lib/zObject";
 import { NextApiResponse } from "next";
 import { NextRequest, NextResponse } from "next/server";
+import { z } from "zod";
 
 // Import necessary modules and types
 
@@ -32,16 +33,12 @@ export async function GET(req: NextRequest, res: NextApiResponse) {
     );
   }
 }
-export interface conferencesFormDetails {
-  nameOfConference: string;
-  indexedIn: indexLevel;
-  mainAuthor: boolean;
-}
 
 export async function PUT(req: NextRequest, res: NextApiResponse) {
   try {
+    ``;
     let { nameOfConference, indexedIn, mainAuthor } =
-      (await req.json()) as conferencesFormDetails;
+      (await req.json()) as z.infer<typeof conferenceSchema>;
     let form = await getForm();
 
     await prisma.conferences.create({

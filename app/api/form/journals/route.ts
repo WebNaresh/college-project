@@ -1,9 +1,10 @@
 // import { hash } from "bcrypt";
 import { getForm } from "@/lib/functions";
 import { prisma } from "@/lib/prisma";
-import { indexLevel } from "@prisma/client";
+import { journalSchema } from "@/lib/zObject";
 import { NextApiResponse } from "next";
 import { NextRequest, NextResponse } from "next/server";
+import { z } from "zod";
 
 // Import necessary modules and types
 
@@ -32,17 +33,10 @@ export async function GET(req: NextRequest, res: NextApiResponse) {
     );
   }
 }
-export interface journalsFormDetails {
-  nameOfJournal: string;
-  issnOrIssbnNo: string;
-  indexedIn: indexLevel;
-  mainAuthor: boolean;
-}
-
 export async function PUT(req: NextRequest, res: NextApiResponse) {
   try {
     let { nameOfJournal, issnOrIssbnNo, indexedIn, mainAuthor } =
-      (await req.json()) as journalsFormDetails;
+      (await req.json()) as z.infer<typeof journalSchema>;
     let form = await getForm();
 
     await prisma.journals.create({

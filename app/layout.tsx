@@ -1,5 +1,6 @@
 import NavBar from "@/components/Navbar/navbar";
 import { NextAuthProvider } from "@/wrappers/auth-provider";
+import Auth from "@/wrappers/loading-wrapper";
 import { QueryClientWrapper } from "@/wrappers/query-client-wrapper";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
@@ -34,7 +35,9 @@ export default function RootLayout({
             <QueryClientWrapper>
               <NavBar />
               <Toaster />
-              <div className="pt-[60px]">{children}</div>
+              <div className="pt-[60px]">
+                <Auth>{children}</Auth>
+              </div>
             </QueryClientWrapper>
           </ThemeProvider>
         </NextAuthProvider>

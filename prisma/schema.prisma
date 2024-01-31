@@ -96,10 +96,10 @@ model PerformanceEvalutationForm {
   cActivity                cActivity[]
   averageResult            Int                        @default(0)
   classEngagement          Int                        @default(0)
-  Journals                 Journals[]
-  Conferences              Conferences[]
-  Book                     Book[]
-  BookChaper               BookChaper[]
+  journals                 Journals[]
+  conferences              Conferences[]
+  book                     Book[]
+  bookChaper               BookChaper[]
 }
 
 model TeachingAndLearning {

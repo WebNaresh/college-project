@@ -5,28 +5,44 @@ import {
   MenubarMenu,
   MenubarTrigger,
 } from "@/components/ui/menubar";
-import { kepAttended } from "@prisma/client";
+import { Book } from "@prisma/client";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ColumnDef } from "@tanstack/react-table";
 import axios, { AxiosResponse } from "axios";
 import { MoreVertical } from "lucide-react";
 
-export const columns: ColumnDef<kepAttended>[] = [
+export const columns: ColumnDef<Book>[] = [
   {
-    header: "Programm Title",
-    accessorKey: "programmTitle",
+    header: "Book Title",
+    accessorKey: "bookTitle",
   },
   {
-    header: "Duration",
-    accessorKey: "duration",
+    header: "Page NO",
+    accessorKey: "titleWithPageNo",
   },
   {
-    header: "Place",
-    accessorKey: "place",
+    header: "Publisher",
+    accessorKey: "publisherName",
   },
   {
-    header: "Organizer",
-    accessorKey: "organizer",
+    header: "Editor",
+    accessorKey: "editorName",
+  },
+  {
+    header: "ISSN / ISSBN No",
+    accessorKey: "issnOrIssbnNo",
+  },
+  {
+    header: "Co-Authors",
+    accessorKey: "detailOfCoAuthors",
+  },
+  {
+    header: "Year",
+    accessorKey: "publishingYear",
+  },
+  {
+    header: "Month",
+    accessorKey: "publishingMonth",
   },
   {
     header: "Actions",
@@ -34,13 +50,13 @@ export const columns: ColumnDef<kepAttended>[] = [
     cell: ({ row }) => <ActionsCell row={row.original} />,
   },
 ];
-const ActionsCell: React.FC<{ row: kepAttended }> = ({ row }) => {
+const ActionsCell: React.FC<{ row: Book }> = ({ row }) => {
   const queryClient = useQueryClient();
 
   const addProfile = async (id: string) => {
     const config = { headers: { "Content-Type": "application/json" } };
     const result: AxiosResponse = await axios.delete(
-      `${process.env.NEXT_PUBLIC_ROUTE}/api/form/kepAttended/${id}`,
+      `${process.env.NEXT_PUBLIC_ROUTE}/api/form/book/${id}`,
       config
     );
     return result.data;
@@ -50,7 +66,7 @@ const ActionsCell: React.FC<{ row: kepAttended }> = ({ row }) => {
     onSuccess: async (data) => {
       // Invalidate the relevant queries in the queryClient after successful delete
       await queryClient.invalidateQueries({
-        queryKey: ["form-details-kepAttended"],
+        queryKey: ["form-details-book"],
       });
     },
   });

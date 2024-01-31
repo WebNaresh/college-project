@@ -1,9 +1,10 @@
 // import { hash } from "bcrypt";
 import { getForm } from "@/lib/functions";
 import { prisma } from "@/lib/prisma";
-import { indexLevel, publicationLevel } from "@prisma/client";
+import { bookSchema } from "@/lib/zObject";
 import { NextApiResponse } from "next";
 import { NextRequest, NextResponse } from "next/server";
+import { z } from "zod";
 
 // Import necessary modules and types
 
@@ -11,7 +12,7 @@ export async function GET(req: NextRequest, res: NextApiResponse) {
   try {
     let form = await getForm();
 
-    let publications = await prisma.publication.findMany({
+    let book = await prisma.book.findMany({
       where: {
         formId: form.id,
       },
@@ -19,7 +20,7 @@ export async function GET(req: NextRequest, res: NextApiResponse) {
 
     return NextResponse.json({
       status: "success",
-      publications,
+      book,
     });
   } catch (error: any) {
     console.error(`🚀 ~ file: route.ts:47 ~ error:`, error);
@@ -32,35 +33,15 @@ export async function GET(req: NextRequest, res: NextApiResponse) {
     );
   }
 }
-export interface publicationFormDetails {
-  paperTitle: string;
-  level: publicationLevel;
-  nameOfJournal: string;
-  issnOrIssbnNo: string;
-  indexedIn: indexLevel;
-  mainAuthor: boolean;
-}
 
 export async function PUT(req: NextRequest, res: NextApiResponse) {
   try {
-    let {
-      paperTitle,
-      level,
-      nameOfJournal,
-      issnOrIssbnNo,
-      indexedIn,
-      mainAuthor,
-    } = (await req.json()) as publicationFormDetails;
+    let bookDetail = (await req.json()) as z.infer<typeof bookSchema>;
     let form = await getForm();
 
-    await prisma.publication.create({
+    await prisma.book.create({
       data: {
-        paperTitle,
-        level,
-        nameOfJournal,
-        issnOrIssbnNo,
-        indexedIn,
-        mainAuthor,
+        ...bookDetail,
         formId: form.id,
       },
     });
