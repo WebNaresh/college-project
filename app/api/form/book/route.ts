@@ -11,6 +11,7 @@ import { z } from "zod";
 export async function GET(req: NextRequest, res: NextApiResponse) {
   try {
     let form = await getForm();
+    console.log(`🚀 ~ file: route.ts:14 ~ form:`, form);
 
     let book = await prisma.book.findMany({
       where: {

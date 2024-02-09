@@ -54,8 +54,14 @@ const NavBar = (props: Props) => {
       isVisible: data?.user?.role === "Teacher" ? false : true,
     },
     {
+      link: "/academic-intutivenes-assets",
+      title: "Academic Intuitiveness Assets",
+      icon: <NotebookPen />,
+      isVisible: data?.user?.role === "Teacher" ? false : true,
+    },
+    {
       link: "/academic-intutivenes",
-      title: "Academic Intutiveness",
+      title: "Academic Intuitiveness",
       icon: <NotebookPen />,
       isVisible: data?.user?.role === "Teacher" ? false : true,
     },
@@ -85,6 +91,7 @@ const NavBar = (props: Props) => {
     },
   ];
   const { data: session } = useSession();
+  console.log(`🚀 ~ file: navbar.tsx:88 ~ session:`, session);
 
   return (
     <div className="h-[60px] w-full flex justify-between bg-primary items-center fixed z-50">
@@ -115,16 +122,17 @@ const NavBar = (props: Props) => {
                 <div className="flex-1 border border-secondary rounded-lg">
                   {array.map((e, index) => {
                     return (
-                      <Link
-                        key={index}
-                        href={e.link}
-                        className={`${
-                          e.isVisible === true ? "hidden" : "flex"
-                        } w-full border-b border-secondary justify-between px-8 py-4 text-white flex-1`}
-                      >
-                        {e.title}
-                        {e.icon}
-                      </Link>
+                      <SheetClose key={index} asChild>
+                        <Link
+                          href={e.link}
+                          className={`${
+                            e.isVisible === true ? "hidden" : "flex"
+                          } w-full border-b border-secondary justify-between px-8 py-4 text-white flex-1`}
+                        >
+                          {e.title}
+                          {e.icon}
+                        </Link>
+                      </SheetClose>
                     );
                   })}
                 </div>
@@ -170,7 +178,7 @@ const NavBar = (props: Props) => {
               </>
             )}
 
-            {session === null && (
+            {(session?.user === null || session === null) && (
               <>
                 <Link className=" cursor-pointer" href={"/login"}>
                   <MenubarItem className="cursor-pointer">Login</MenubarItem>

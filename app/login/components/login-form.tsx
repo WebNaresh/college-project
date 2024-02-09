@@ -41,18 +41,22 @@ export function LoginForm() {
       password: data?.password,
       callbackUrl: "/",
     });
+    if (response?.status !== 200) {
+      throw new Error(response?.error as string);
+    }
     return response;
   };
 
   const { mutate, isPending } = useMutation({
     mutationFn: signInFunction,
     onSuccess: async (data) => {
+      console.log(`🚀 ~ file: login-form.tsx:50 ~ data:`, data);
       toast.success("Successfully signed in!");
       router.push("/");
     },
     onError: (error) => {
       console.error("Sign-in error:", error);
-      toast.error("An error occurred during sign-in");
+      toast.error(error.message || "An error occurred during sign-in");
     },
   });
 
