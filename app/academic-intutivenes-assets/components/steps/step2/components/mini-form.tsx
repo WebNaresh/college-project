@@ -55,7 +55,7 @@ const MiniForm = ({ title }: Props) => {
   const form = useForm<z.infer<typeof conferenceSchema>>({
     resolver: zodResolver(conferenceSchema),
     defaultValues: {
-      nameOfConference: undefined,
+      name: undefined,
       indexedIn: undefined,
       mainAuthor: undefined,
     },
@@ -97,7 +97,7 @@ const MiniForm = ({ title }: Props) => {
         />
         <FormField
           control={form.control}
-          name="nameOfConference"
+          name="name"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Name of Journal</FormLabel>
