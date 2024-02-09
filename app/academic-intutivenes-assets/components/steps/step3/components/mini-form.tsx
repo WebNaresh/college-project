@@ -30,7 +30,7 @@ type Props = { title: string };
 const addProfile = async (data: z.infer<typeof bookSchema>) => {
   const config = { headers: { "Content-Type": "application/json" } };
   const result: AxiosResponse = await axios.put(
-    `${process.env.NEXT_PUBLIC_ROUTE}/api/form/book`,
+    `${process.env.NEXT_PUBLIC_ROUTE}/api/form/books`,
     data,
     config
   );
@@ -43,7 +43,7 @@ const MiniForm = ({ title }: Props) => {
     onSuccess: async (data) => {
       toast.success(data?.message);
       await queryClient.invalidateQueries({
-        queryKey: [`form-details-book`],
+        queryKey: [`form-details-books`],
       });
     },
     onError: (data: any) => {
@@ -113,6 +113,27 @@ const MiniForm = ({ title }: Props) => {
                   <SelectItem value="October">October</SelectItem>
                   <SelectItem value="November">November</SelectItem>
                   <SelectItem value="December">December</SelectItem>
+                </SelectContent>
+              </Select>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="type"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Book Type</FormLabel>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Publishing Month" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  <SelectItem value="Book">Book</SelectItem>
+                  <SelectItem value="BookChapter">BookChapter</SelectItem>
                 </SelectContent>
               </Select>
               <FormMessage />

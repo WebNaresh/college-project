@@ -8,6 +8,7 @@ import { DataTable } from "./components/table";
 type Props = {
   onNext: () => void;
 };
+
 const Step3 = ({ onNext }: Props) => {
   const fetchFormDetails = async () => {
     const config = { headers: { "Content-Type": "application/json" } };

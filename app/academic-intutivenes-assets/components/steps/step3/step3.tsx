@@ -21,6 +21,7 @@ const Step3 = ({ onNext }: Props) => {
     queryKey: ["form-details-books"],
     queryFn: fetchFormDetails,
   });
+
   return (
     <div className="flex flex-col gap-4">
       <MiniForm title="Books(s)/Article/Chapter(s) published" />
