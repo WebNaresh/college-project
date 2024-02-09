@@ -35,11 +35,13 @@ const indexedInEnum = z.enum(["SCI", "SCOUPUS", "UGC_CARE", "PEER_REVIEWED"]);
 export const step1formSchema = z.object({
   programmTitle: z.string(),
   duration: z.string(),
+  place: z.string(),
+  organizer: z.string(),
 });
 const addProfile = async (data: z.infer<typeof step1formSchema>) => {
   const config = { headers: { "Content-Type": "application/json" } };
   const result: AxiosResponse = await axios.put(
-    `${process.env.NEXT_PUBLIC_ROUTE}/api/form/kepOrganized`,
+    `${process.env.NEXT_PUBLIC_ROUTE}/api/form/kepAttended`,
     data,
     config
   );
@@ -52,7 +54,7 @@ const MiniForm = ({ title }: Props) => {
     onSuccess: async (data) => {
       toast.success(data?.message);
       await queryClient.invalidateQueries({
-        queryKey: [`form-details-kepOrganized`],
+        queryKey: [`form-details-kepAttended`],
       });
     },
     onError: (data: any) => {
@@ -65,6 +67,8 @@ const MiniForm = ({ title }: Props) => {
     defaultValues: {
       programmTitle: undefined,
       duration: undefined,
+      place: undefined,
+      organizer: undefined,
     },
   });
 
@@ -95,11 +99,34 @@ const MiniForm = ({ title }: Props) => {
           render={({ field }) => (
             <FormItem>
               <FormLabel>Duration</FormLabel>
-              <Input placeholder="Enter Your Duration" {...field} />
+              <Input placeholder="2 weeks..." {...field} />
               <FormMessage />
             </FormItem>
           )}
         />
+        <FormField
+          control={form.control}
+          name="place"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Place</FormLabel>
+              <Input placeholder="eg. Aurangabad .." {...field} />
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="organizer"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Organizer Name</FormLabel>
+              <Input placeholder="Enter Your Organizer Name" {...field} />
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
         <Button
           type="submit"
           className="flex mx-auto rounded-full p-4 h-auto"

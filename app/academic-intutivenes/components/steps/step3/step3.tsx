@@ -8,26 +8,25 @@ import { DataTable } from "./components/table";
 type Props = {
   onNext: () => void;
 };
-
-const Step3 = ({ onNext }: Props) => {
+const Step5 = ({ onNext }: Props) => {
   const fetchFormDetails = async () => {
     const config = { headers: { "Content-Type": "application/json" } };
     let data: AxiosResponse = await axios.get(
-      `${process.env.NEXT_PUBLIC_ROUTE}/api/form/kepAttended`,
+      `${process.env.NEXT_PUBLIC_ROUTE}/api/form/reasearch`,
       config
     );
     return data.data;
   };
   const { data } = useQuery({
-    queryKey: ["form-details-kepAttended"],
+    queryKey: ["form-details-reasearch"],
     queryFn: fetchFormDetails,
   });
   return (
     <div className="flex flex-col gap-4">
-      <MiniForm title="Knowledge Enhancement Programs Attended" />
-      <DataTable columns={columns} data={data?.kepAttended || []} />
+      <MiniForm title="Sponsored Research " />
+      <DataTable columns={columns} data={data?.reasearch || []} />
     </div>
   );
 };
 
-export default Step3;
+export default Step5;
