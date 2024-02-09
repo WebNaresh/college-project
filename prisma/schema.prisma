@@ -160,12 +160,12 @@ model Journals {
 }
 
 model Conferences {
-  id               String                     @id @default(cuid())
-  formId           String
-  nameOfConference String
-  indexedIn        indexLevel
-  mainAuthor       Boolean
-  Performance      PerformanceEvalutationForm @relation(fields: [formId], references: [id], onDelete: Cascade)
+  id          String                     @id @default(cuid())
+  formId      String
+  name        String
+  indexedIn   indexLevel
+  mainAuthor  Boolean
+  Performance PerformanceEvalutationForm @relation(fields: [formId], references: [id], onDelete: Cascade)
 }
 
 model Books {
