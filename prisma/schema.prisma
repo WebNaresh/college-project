@@ -98,8 +98,6 @@ model PerformanceEvalutationForm {
   classEngagement          Int                        @default(0)
   journals                 Journals[]
   conferences              Conferences[]
-  book                     Book[]
-  bookChaper               BookChaper[]
 }
 
 model TeachingAndLearning {
@@ -180,34 +178,7 @@ model Books {
   detailOfCoAuthors String
   publishingMonth   monthEnum
   publishingYear    String
-  formId            String
   type              bookTypeEnum
-  Performance       PerformanceEvalutationForm @relation(fields: [formId], references: [id], onDelete: Cascade)
-}
-
-model Book {
-  id                String                     @id @default(cuid())
-  bookTitle         String
-  publisherName     String
-  editorName        String
-  issnOrIssbnNo     String
-  detailOfCoAuthors String
-  publishingMonth   monthEnum
-  publishingYear    String
-  formId            String
-  Performance       PerformanceEvalutationForm @relation(fields: [formId], references: [id], onDelete: Cascade)
-}
-
-model BookChaper {
-  id                String                     @id @default(cuid())
-  bookTitle         String
-  titleWithPageNo   String
-  publisherName     String
-  editorName        String
-  issnOrIssbnNo     String
-  detailOfCoAuthors String
-  publishingMonth   monthEnum
-  publishingYear    String
   formId            String
   Performance       PerformanceEvalutationForm @relation(fields: [formId], references: [id], onDelete: Cascade)
 }

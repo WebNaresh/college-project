@@ -36,6 +36,7 @@ export const conferenceSchema = z.object({
 export const bookSchema = z.object({
   bookTitle: z.string(),
   publisherName: z.string(),
+  titleWithPageNo: z.string(),
   editorName: z.string(),
   issnOrIssbnNo: z.string(),
   detailOfCoAuthors: z.string(),
