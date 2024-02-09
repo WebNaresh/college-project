@@ -34,6 +34,7 @@ import {
   MenubarSeparator,
   MenubarTrigger,
 } from "../ui/menubar";
+import { Notification } from "./Notification";
 
 type Props = {};
 
@@ -164,48 +165,53 @@ const NavBar = (props: Props) => {
         </Sheet>
         <h2 className="text-white font-bold">Modern College MCA Department</h2>
       </div>
-      <Menubar className="mx-2 rounded-full !h-[28px] !w-[28px] flex-shrink-0 justify-center ">
-        <MenubarMenu>
-          <MenubarTrigger className="rounded-full !h-full !w-full p-0 justify-center text-white active:text-primary cursor-pointer">
-            <User className=" text-primary text-lg" />
-          </MenubarTrigger>
-          <MenubarContent>
-            {session?.user && (
-              <>
-                <Link href={"/profile"}>
-                  <MenubarItem>Profile</MenubarItem>
-                </Link>
-              </>
-            )}
 
-            {(session?.user === null || session === null) && (
-              <>
-                <Link className=" cursor-pointer" href={"/login"}>
-                  <MenubarItem className="cursor-pointer">Login</MenubarItem>
-                </Link>
-                <MenubarSeparator />
-                <Link className=" cursor-pointer" href={"/signup"}>
-                  <MenubarItem className="cursor-pointer">Signup</MenubarItem>
-                </Link>
-              </>
-            )}
+      <div className="flex items-center gap-3">
+        {session?.user?.role === "HOD" && <Notification />}
 
-            {session?.user && (
-              <>
-                <MenubarItem
-                  className="cursor-pointer"
-                  onClick={async () => {
-                    await signOut({ redirect: false });
-                    router.push("/login");
-                  }}
-                >
-                  Sign-Out
-                </MenubarItem>
-              </>
-            )}
-          </MenubarContent>
-        </MenubarMenu>
-      </Menubar>
+        <Menubar className="mx-2 rounded-full !h-[28px] !w-[28px] flex-shrink-0 justify-center ">
+          <MenubarMenu>
+            <MenubarTrigger className="rounded-full !h-full !w-full p-0 justify-center text-white active:text-primary cursor-pointer">
+              <User className=" text-primary text-lg" />
+            </MenubarTrigger>
+            <MenubarContent>
+              {session?.user && (
+                <>
+                  <Link href={"/profile"}>
+                    <MenubarItem>Profile</MenubarItem>
+                  </Link>
+                </>
+              )}
+
+              {(session?.user === null || session === null) && (
+                <>
+                  <Link className=" cursor-pointer" href={"/login"}>
+                    <MenubarItem className="cursor-pointer">Login</MenubarItem>
+                  </Link>
+                  <MenubarSeparator />
+                  <Link className=" cursor-pointer" href={"/signup"}>
+                    <MenubarItem className="cursor-pointer">Signup</MenubarItem>
+                  </Link>
+                </>
+              )}
+
+              {session?.user && (
+                <>
+                  <MenubarItem
+                    className="cursor-pointer"
+                    onClick={async () => {
+                      await signOut({ redirect: false });
+                      router.push("/login");
+                    }}
+                  >
+                    Sign-Out
+                  </MenubarItem>
+                </>
+              )}
+            </MenubarContent>
+          </MenubarMenu>
+        </Menubar>
+      </div>
     </div>
   );
 };
