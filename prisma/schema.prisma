@@ -215,7 +215,7 @@ model irg {
 model reasearch {
   id            String                     @id @default(cuid())
   scheme        String
-  reasearchType reasearchTypeEnum
+   reasearchType reasearchTypeEnum
   agency        String
   status        statusEnum
   date          DateTime
