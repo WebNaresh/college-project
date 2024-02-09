@@ -45,6 +45,8 @@ export async function GET(req: NextRequest, res: NextApiResponse) {
           professtionalInfo: true,
           reasearch: true,
           cActivity: true,
+          conferences: true,
+          journals: true,
         },
       });
       if (form) {

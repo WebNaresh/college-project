@@ -1,7 +1,6 @@
-import { Publication } from "@prisma/client";
 import { ColumnDef } from "@tanstack/react-table";
 
-export const columns: ColumnDef<Publication>[] = [
+export const columns: ColumnDef<any>[] = [
   {
     header: "Sr No",
     accessorKey: "actions", // Use a different accessorKey for actions
