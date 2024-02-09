@@ -22,6 +22,7 @@ const Step1 = ({ onNext }: Props) => {
     queryKey: ["form-details-irg"],
     queryFn: fetchFormDetails,
   });
+  console.log(`🚀 ~ file: step1.sx:26 ~ data:`, data);
   return (
     <div className="flex flex-col gap-4">
       <MiniForm title="Consultancy Internal Revenue Generation (IRG)" />

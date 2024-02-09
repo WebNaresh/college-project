@@ -196,7 +196,6 @@ model kepAttended {
 model kepOrganized {
   id            String                     @id @default(cuid())
   programmTitle String
-  mainOrganizer Boolean
   duration      String
   Performance   PerformanceEvalutationForm @relation(fields: [formId], references: [id], onDelete: Cascade)
   formId        String
