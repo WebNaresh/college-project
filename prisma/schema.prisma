@@ -74,7 +74,7 @@ model PerformanceEvalutationForm {
   createdAt                DateTime                   @default(now())
   updatedAt                DateTime                   @updatedAt
   teachingAndLearning      TeachingAndLearning[]
-  feedbackDetails          FeedbackDetails?           @relation(fields: [feedbackDetailsId], references: [id])
+  feedbackDetails          FeedbackDetails?
   feedbackDetailsId        String?
   efforts                  Efforts[]
   publication              Publication[]
@@ -117,15 +117,15 @@ model TeachingAndLearning {
 }
 
 model FeedbackDetails {
-  id                                     String                       @id @default(cuid())
-  formId                                 String                       @unique
-  term_I_current_year_student_feedback   Int                          @default(0)
-  term_II_previous_year_student_feedback Int                          @default(0)
-  term_I_current_year_peer_feedback      Int                          @default(0)
-  term_II_previous_year_peer_feedback    Int                          @default(0)
-  createdAt                              DateTime                     @default(now())
-  updatedAt                              DateTime                     @updatedAt
-  PerformanceEvalutationForm             PerformanceEvalutationForm[]
+  id                                     String                     @id @default(cuid())
+  formId                                 String                     @unique
+  term_I_current_year_student_feedback   Int                        @default(0)
+  term_II_previous_year_student_feedback Int                        @default(0)
+  term_I_current_year_peer_feedback      Int                        @default(0)
+  term_II_previous_year_peer_feedback    Int                        @default(0)
+  createdAt                              DateTime                   @default(now())
+  updatedAt                              DateTime                   @updatedAt
+  PerformanceEvalutationForm             PerformanceEvalutationForm @relation(fields: [formId], references: [id])
 }
 
 model Efforts {

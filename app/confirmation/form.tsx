@@ -1,11 +1,12 @@
 "use client";
 import {
   Books,
+  Conferences,
   Efforts,
   FeedbackDetails,
+  Journals,
   PerformanceEvalutationForm,
   ProfesstionalInfo,
-  Publication,
   TeachingAndLearning,
   achievements,
   cActivity,
@@ -45,7 +46,8 @@ export interface PerformanceEvalutationFormDetails
   teachingAndLearning: TeachingAndLearning[];
   feedbackDetails: FeedbackDetails;
   efforts: Efforts[];
-  publication: Publication[];
+  conferences: Conferences[];
+  journals: Journals[];
   books: Books[];
   kepAttended: kepAttended[];
   kepOrganized: kepOrganized[];
@@ -87,7 +89,10 @@ const UserForm = (p: Props) => {
       <AcademicAppraisel data={data} />
       <Feedback data={data} />
       <EffortsForm data={data} />
-      <PublicationForm data={data?.publication || []} />
+      <PublicationForm
+        data={data?.journals || []}
+        data2={data?.conferences || []}
+      />
       <BooksForm data={data?.books || []} />
       <KepAttendedForm data={data?.kepAttended || []} />
       <SponsorReasearchForm data={data?.reasearch || []} />
