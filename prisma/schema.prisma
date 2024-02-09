@@ -142,7 +142,7 @@ model Publication {
   formId        String
   paperTitle    String
   level         publicationLevel
-  nameOfJournal String
+  name          String
   issnOrIssbnNo String
   indexedIn     indexLevel
   mainAuthor    Boolean
@@ -152,7 +152,7 @@ model Publication {
 model Journals {
   id            String                     @id @default(cuid())
   formId        String
-  nameOfJournal String
+  name          String
   issnOrIssbnNo String
   indexedIn     indexLevel
   mainAuthor    Boolean
