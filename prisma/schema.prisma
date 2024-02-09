@@ -181,6 +181,7 @@ model Books {
   publishingMonth   monthEnum
   publishingYear    String
   formId            String
+  type              bookTypeEnum
   Performance       PerformanceEvalutationForm @relation(fields: [formId], references: [id], onDelete: Cascade)
 }
 
@@ -359,6 +360,11 @@ enum courseHeadEnum {
   TH
   PR
   T
+}
+
+enum bookTypeEnum {
+  Book
+  BookChapter
 }
 
 enum termEnum {

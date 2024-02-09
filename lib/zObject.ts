@@ -7,6 +7,7 @@ const indexedInEnum = z.enum([
   "PEER_REVIEWED",
   "NO_INDEXED",
 ]);
+const bookTypeEnum = z.enum(["Book", "BookChapter"]);
 const publishingMonthEnum = z.enum([
   "January",
   "February",
@@ -40,4 +41,5 @@ export const bookSchema = z.object({
   detailOfCoAuthors: z.string(),
   publishingMonth: publishingMonthEnum,
   publishingYear: z.string().min(4).max(4),
+  type: bookTypeEnum,
 });
