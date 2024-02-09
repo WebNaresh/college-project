@@ -35,13 +35,13 @@ export async function GET(req: NextRequest, res: NextApiResponse) {
 }
 export async function PUT(req: NextRequest, res: NextApiResponse) {
   try {
-    let { nameOfJournal, issnOrIssbnNo, indexedIn, mainAuthor } =
+    let { name, issnOrIssbnNo, indexedIn, mainAuthor } =
       (await req.json()) as z.infer<typeof journalSchema>;
     let form = await getForm();
 
     await prisma.journals.create({
       data: {
-        nameOfJournal,
+        name,
         issnOrIssbnNo,
         indexedIn,
         mainAuthor,

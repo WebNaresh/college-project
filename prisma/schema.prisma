@@ -162,7 +162,7 @@ model Journals {
 model Conferences {
   id               String                     @id @default(cuid())
   formId           String
-  nameOfConference String
+  name String
   indexedIn        indexLevel
   mainAuthor       Boolean
   Performance      PerformanceEvalutationForm @relation(fields: [formId], references: [id], onDelete: Cascade)
