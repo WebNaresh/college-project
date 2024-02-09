@@ -1,17 +1,33 @@
 "use client";
 import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
 import {
   Form,
+  FormControl,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios, { AxiosResponse } from "axios";
-import { Plus } from "lucide-react";
+import { format } from "date-fns";
+import { CalendarIcon, Plus } from "lucide-react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { z } from "zod";
@@ -33,15 +49,16 @@ const publishingMonthEnum = z.enum([
 ]);
 const indexedInEnum = z.enum(["SCI", "SCOUPUS", "UGC_CARE", "PEER_REVIEWED"]);
 export const step1formSchema = z.object({
-  programmTitle: z.string(),
-  duration: z.string(),
-  place: z.string(),
-  organizer: z.string(),
+  scheme: z.string(),
+  agency: z.string(),
+  status: z.enum(["Awarded", "Submitted"]),
+  date: z.date(),
+  grantRecieved: z.string(),
 });
 const addProfile = async (data: z.infer<typeof step1formSchema>) => {
   const config = { headers: { "Content-Type": "application/json" } };
   const result: AxiosResponse = await axios.put(
-    `${process.env.NEXT_PUBLIC_ROUTE}/api/form/kepAttended`,
+    `${process.env.NEXT_PUBLIC_ROUTE}/api/form/reasearch`,
     data,
     config
   );
@@ -54,7 +71,7 @@ const MiniForm = ({ title }: Props) => {
     onSuccess: async (data) => {
       toast.success(data?.message);
       await queryClient.invalidateQueries({
-        queryKey: [`form-details-kepAttended`],
+        queryKey: [`form-details-reasearch`],
       });
     },
     onError: (data: any) => {
@@ -65,10 +82,11 @@ const MiniForm = ({ title }: Props) => {
   const form = useForm<z.infer<typeof step1formSchema>>({
     resolver: zodResolver(step1formSchema),
     defaultValues: {
-      programmTitle: undefined,
-      duration: undefined,
-      place: undefined,
-      organizer: undefined,
+      scheme: undefined,
+      agency: undefined,
+      status: undefined,
+      date: undefined,
+      grantRecieved: undefined,
     },
   });
 
@@ -84,49 +102,107 @@ const MiniForm = ({ title }: Props) => {
         <div className="text-primary text-sm font-bold underline">{title}</div>
         <FormField
           control={form.control}
-          name="programmTitle"
+          name="scheme"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Program Title</FormLabel>
-              <Input placeholder="Enter Your Program Title" {...field} />
+              <FormLabel>Scheme Title</FormLabel>
+              <Input placeholder="Enter Your Scheme Title" {...field} />
               <FormMessage />
             </FormItem>
           )}
         />
         <FormField
           control={form.control}
-          name="duration"
+          name="agency"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Duration</FormLabel>
-              <Input placeholder="2 weeks..." {...field} />
+              <FormLabel>Agency Name</FormLabel>
+              <Input placeholder="Enter Your Agency Name" {...field} />
               <FormMessage />
             </FormItem>
           )}
         />
         <FormField
           control={form.control}
-          name="place"
+          name="grantRecieved"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Place</FormLabel>
-              <Input placeholder="eg. Aurangabad .." {...field} />
+              <FormLabel>Grant Recieved</FormLabel>
+              <Input
+                placeholder="Enter Your Grant Recieved"
+                {...field}
+                type="number"
+              />
               <FormMessage />
             </FormItem>
           )}
         />
         <FormField
           control={form.control}
-          name="organizer"
+          name="status"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Organizer Name</FormLabel>
-              <Input placeholder="Enter Your Organizer Name" {...field} />
+              <FormLabel>Status</FormLabel>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Status (Awarded/ Submitted)" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  <SelectItem value="Awarded">Awarded</SelectItem>
+                  <SelectItem value="Submitted">Submitted</SelectItem>
+                </SelectContent>
+              </Select>
               <FormMessage />
             </FormItem>
           )}
         />
-
+        <FormField
+          control={form.control}
+          name="date"
+          render={({ field }) => (
+            <FormItem className="my-4 flex w-full flex-col">
+              <FormLabel>Date of Starting</FormLabel>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <FormControl>
+                    <Button
+                      variant={"outline"}
+                      className={cn(
+                        "w-full pl-3 text-left font-normal",
+                        !field.value && "text-muted-foreground"
+                      )}
+                    >
+                      {field.value ? (
+                        format(field.value, "PPP")
+                      ) : (
+                        <span>Pick date of Start</span>
+                      )}
+                      <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                    </Button>
+                  </FormControl>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0 bg-card" align="start">
+                  <Calendar
+                    captionLayout="dropdown"
+                    mode="single"
+                    className=""
+                    fromYear={1900}
+                    toYear={2035}
+                    selected={field.value}
+                    onSelect={field.onChange}
+                    disabled={(date) =>
+                      date > new Date() || date < new Date("1900-01-01")
+                    }
+                    initialFocus
+                  />
+                </PopoverContent>
+              </Popover>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
         <Button
           type="submit"
           className="flex mx-auto rounded-full p-4 h-auto"
