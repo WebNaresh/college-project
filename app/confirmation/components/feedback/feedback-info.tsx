@@ -23,6 +23,7 @@ const Feedback = ({ data }: Props) => {
         data?.feedbackDetails?.term_I_current_year_peer_feedback) /
       2
     : 0;
+
   return (
     <div className="w-full">
       <HeaderText title="b).Average Feedback Score:" className=" mb-2" />

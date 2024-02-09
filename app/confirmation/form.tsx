@@ -77,7 +77,7 @@ const UserForm = (p: Props) => {
   });
   console.log(
     `🚀 ~ filex: form.tsx:121 ~ data?.feedbackDetails?.term_II_previous_year_peer_feedback:`,
-    data
+    data?.feedbackDetails
   );
 
   return (

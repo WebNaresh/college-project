@@ -80,6 +80,7 @@ export async function POST(req: NextRequest, res: NextApiResponse) {
       averageResult: number;
       classEngagement: number;
     };
+
     let form = await getForm();
 
     let updatedForm = await prisma.performanceEvalutationForm.update({
