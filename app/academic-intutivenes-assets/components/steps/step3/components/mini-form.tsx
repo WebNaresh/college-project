@@ -174,6 +174,17 @@ const MiniForm = ({ title }: Props) => {
             </FormItem>
           )}
         />
+        <FormField
+          control={form.control}
+          name="titleWithPageNo"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Title with page no</FormLabel>
+              <Input placeholder="eg..New awakening page no 4" {...field} />
+              <FormMessage />
+            </FormItem>
+          )}
+        />
         <Button
           type="submit"
           className="flex mx-auto rounded-full p-4 h-auto"
