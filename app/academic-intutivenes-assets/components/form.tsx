@@ -15,7 +15,7 @@ const AcademicEvaluationForm: FC = () => {
     isLastStep,
     totalSteps,
     goToStep,
-  } = useMultiStepForm(5);
+  } = useMultiStepForm(3);
 
   const useSwitch = (step: number) => {
     switch (step) {
