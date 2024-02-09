@@ -61,6 +61,8 @@ const MiniForm = ({ title }: Props) => {
       detailOfCoAuthors: undefined,
       publishingMonth: undefined,
       publishingYear: undefined,
+      titleWithPageNo: undefined,
+      type: undefined,
     },
   });
 
