@@ -31,7 +31,7 @@ const Step4 = ({ nextStep }: Props) => {
       {!isFetching && (
         <MiniForm
           nextStep={nextStep}
-          data={data.form as PerformanceEvalutationForm}
+          data={data?.form as PerformanceEvalutationForm}
         />
       )}
     </div>

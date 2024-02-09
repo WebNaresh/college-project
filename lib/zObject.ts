@@ -23,13 +23,13 @@ const publishingMonthEnum = z.enum([
   "December",
 ]);
 export const journalSchema = z.object({
-  nameOfJournal: z.string(),
+  name: z.string(),
   issnOrIssbnNo: z.string(),
   indexedIn: indexedInEnum,
   mainAuthor: z.boolean(),
 });
 export const conferenceSchema = z.object({
-  nameOfConference: z.string(),
+  name: z.string(),
   indexedIn: indexedInEnum,
   mainAuthor: z.boolean(),
 });
