@@ -37,13 +37,14 @@ export async function GET(req: NextRequest, res: NextApiResponse) {
 export async function PUT(req: NextRequest, res: NextApiResponse) {
   try {
     ``;
-    let { nameOfConference, indexedIn, mainAuthor } =
-      (await req.json()) as z.infer<typeof conferenceSchema>;
+    let { name, indexedIn, mainAuthor } = (await req.json()) as z.infer<
+      typeof conferenceSchema
+    >;
     let form = await getForm();
 
     await prisma.conferences.create({
       data: {
-        nameOfConference,
+        name,
         indexedIn,
         mainAuthor,
         formId: form.id,
