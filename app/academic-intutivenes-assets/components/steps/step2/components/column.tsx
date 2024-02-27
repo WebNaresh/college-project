@@ -14,7 +14,7 @@ import { Check, MoreVertical, XIcon } from "lucide-react";
 export const columns: ColumnDef<Conferences>[] = [
   {
     header: "Name Of Conference",
-    accessorKey: "nameOfConference",
+    accessorKey: "name",
   },
   {
     header: "Indexed In",

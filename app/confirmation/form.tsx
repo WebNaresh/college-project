@@ -79,7 +79,7 @@ const UserForm = (p: Props) => {
   });
   console.log(
     `🚀 ~ filex: form.tsx:121 ~ data?.feedbackDetails?.term_II_previous_year_peer_feedback:`,
-    data?.feedbackDetails
+    data?.cActivity
   );
 
   return (
@@ -135,21 +135,60 @@ const UserForm = (p: Props) => {
               ? 5
               : 0
           }
-          journalScore={10}
-          conferenceScore={10}
-          bookScore={10}
-          kepAttendedScore={10}
-          kepOrganizedScore={10}
-          reasearchScore={10}
-          consultancyScore={10}
-          iprEffortScore={10}
-          dutiesScore={10}
-          activityScore={10}
-          responsibilityScore={10}
-          achievementScore={10}
-
-          // averageStudentFeedback={getMark(data.feedbackDetails., markPgRanges)}
-          // averagePeerFeedback={getMark(data.averageResult, markPgRanges)}
+          journalScore={
+            data?.journals.some((item) => ["No Index"].includes(item.indexedIn))
+              ? 10
+              : 20
+          }
+          conferenceScore={
+            data?.journals.some((item) => ["No Index"].includes(item.indexedIn))
+              ? 10
+              : 20
+          }
+          bookScore={
+            data?.books.some((item) => item.type.includes("Book")) ? 10 : 5
+          }
+          kepAttendedScore={
+            data?.kepAttended.some((item) => parseInt(item.duration) > 6)
+              ? 10
+              : 5
+          }
+          kepOrganizedScore={
+            data?.kepOrganized.some((item) => item.formId) ? 10 : 5
+          }
+          reasearchScore={
+            data?.reasearch.some((item) => item.status === "Submitted")
+              ? 20
+              : 10
+          }
+          consultancyScore={determineValue(data.iRG)}
+          iprEffortScore={returnCount(data)}
+          dutiesScore={
+            data.duties[0].ifsDuty.includes("Institute") ||
+            data.duties[0].esDuty.includes("Institute") ||
+            data.duties[0].qpsDuty.includes("Institute")
+              ? 10
+              : 5
+          }
+          activityScore={
+            data?.cActivity.length > 2 ? 10 : data?.cActivity.length > 2 ? 5 : 0
+          }
+          responsibilityScore={
+            [...data?.responsibilityDepartment, data.responsibilityInsitute]
+              .length > 2
+              ? 10
+              : [...data?.responsibilityDepartment, data.responsibilityInsitute]
+                  .length > 2
+              ? 5
+              : 0
+          }
+          achievementScore={
+            data?.achievements.length > 2
+              ? 10
+              : data?.achievements.length > 1
+              ? 5
+              : 0
+          }
         />
       )}
     </div>
@@ -194,3 +233,45 @@ function getMark(totalMark: number, array: any[]): number {
   // Default case (if totalMark doesn't fall into any range)
   return 0;
 }
+function determineValue(array: irg[]) {
+  // Check if any item has amountRecieved greater than 200000 (2 lakh)
+  const greaterThan2Lakh = array.some(
+    (item) => parseInt(item.amountRecieved) > 200000
+  );
+
+  // Check if any item has amountRecieved greater than 100000 (1 lakh)
+  const greaterThan1Lakh = array.some(
+    (item) => parseInt(item.amountRecieved) > 100000
+  );
+
+  // Check if any item has amountRecieved greater than 50000
+  const greaterThan50K = array.some(
+    (item) => parseInt(item.amountRecieved) > 50000
+  );
+
+  // Return the appropriate value based on the conditions
+  if (greaterThan2Lakh) {
+    return 10;
+  } else if (greaterThan1Lakh) {
+    return 5;
+  } else if (greaterThan50K) {
+    return 3;
+  } else {
+    return 2;
+  }
+}
+const returnCount = (data: PerformanceEvalutationFormDetails) => {
+  let count: number = 0;
+
+  if (data.patent.length > 0) {
+    count = count + 20;
+  }
+  if (data.copyRight.length > 0) {
+    count = count + 10;
+  }
+  if (data.tradeMark.length > 0) {
+    count = count + 10;
+  }
+
+  return count;
+};

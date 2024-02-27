@@ -1,3 +1,4 @@
+import Loader from "@/components/Loader/loader";
 import { useQuery } from "@tanstack/react-query";
 import axios, { AxiosResponse } from "axios";
 import { columns } from "../components/column";
@@ -21,10 +22,13 @@ const Step3 = ({ nextStep }: Props) => {
     );
     return data.data;
   };
-  const { data } = useQuery({
+  const { data, isFetching } = useQuery({
     queryKey: ["form-details-II-Current"],
     queryFn: fetchFormDetails,
   });
+  if (isFetching) {
+    <Loader />;
+  }
   return (
     <div className="flex flex-col gap-4">
       <MiniForm nextStep={nextStep} />

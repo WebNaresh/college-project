@@ -7,12 +7,8 @@ export const columns: ColumnDef<any>[] = [
     cell: ({ row }) => <div>{parseInt(row.id) + 1}</div>,
   },
   {
-    header: "Paper Title",
-    accessorKey: "paperTitle",
-  },
-  {
     header: "Name Of Journal",
-    accessorKey: "nameOfJournal",
+    accessorKey: "name",
   },
   {
     header: "ISSN / ISSBN No",

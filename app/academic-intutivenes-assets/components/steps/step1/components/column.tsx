@@ -14,7 +14,7 @@ import { Check, MoreVertical, XIcon } from "lucide-react";
 export const columns: ColumnDef<Journals>[] = [
   {
     header: "Name Of Journal",
-    accessorKey: "nameOfJournal",
+    accessorKey: "name",
   },
   {
     header: "ISSN / ISSBN No",

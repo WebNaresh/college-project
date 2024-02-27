@@ -638,7 +638,7 @@ const EvaluationForm = ({
           ]}
         />,
         "10",
-        effortsScore,
+        iprEffortScore,
       ],
     },
     {
