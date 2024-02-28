@@ -20,6 +20,7 @@ import {
   KanbanSquareDashed,
   LogOut,
   NotebookPen,
+  TrendingUp,
   User,
 } from "lucide-react";
 import { signOut, useSession } from "next-auth/react";
@@ -88,6 +89,12 @@ const NavBar = (props: Props) => {
       link: "/hod",
       title: "Application",
       icon: <CreditCard />,
+      isVisible: data?.user?.role === "HOD" ? false : true,
+    },
+    {
+      link: "/hod/get-report",
+      title: "Get report",
+      icon: <TrendingUp />,
       isVisible: data?.user?.role === "HOD" ? false : true,
     },
   ];
