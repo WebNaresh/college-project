@@ -1,5 +1,4 @@
 "use client";
-import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -51,7 +50,7 @@ const MiniForm = ({ nextStep }: Props) => {
         onSubmit={form.handleSubmit(onSubmit)}
         className="space-y-8 flex-1 flex flex-col"
       >
-        <div className="text-primary text-sm font-bold underline">
+        <div className="text-brand/brand-neutrals-black text-sm font-bold">
           Term I of Current Academic Year (2022-23)
         </div>
         <FormField
@@ -173,13 +172,13 @@ const MiniForm = ({ nextStep }: Props) => {
             </FormItem>
           )}
         />
-        <Button
+        <button
           type="submit"
           className="flex mx-auto rounded-full p-4 h-auto"
-          variant={"outline"}
+          // variant={"outline"}
         >
-          <Plus className=" text-xl text-primary" />
-        </Button>
+          <Plus className=" text-xl text-brand/brand-background/brand-background-9" />
+        </button>
       </form>
     </Form>
   );

@@ -48,7 +48,7 @@ const MiniForm = ({ nextStep }: Props) => {
   const form = useForm<z.infer<typeof step1formSchema>>({
     resolver: zodResolver(step1formSchema),
     defaultValues: {
-      subjectName: "",
+      subjectName: undefined,
       level: undefined,
       courseHead: undefined,
       noOfHrsWeek: undefined,
@@ -67,18 +67,20 @@ const MiniForm = ({ nextStep }: Props) => {
         onSubmit={form.handleSubmit(onSubmit)}
         className="space-y-8 flex-1 flex flex-col"
       >
-        <div className="text-primary text-sm font-bold underline">
+        <div className="text-brand/brand-neutrals-black text-sm font-bold">
           Term II of previous Academic Year <CurrentYear />
         </div>
         <FormField
           control={form.control}
           name="subjectName"
           render={({ field }) => (
-            <FormItem>
-              <FormLabel>Subject Name</FormLabel>
-              <Input placeholder="Enter Your Subject Name" {...field} />
-              <FormMessage />
-            </FormItem>
+            <FormControl>
+              <FormItem>
+                <FormLabel>Subject Name</FormLabel>
+                <Input placeholder="Enter Your Subject Name" {...field} />
+                <FormMessage />
+              </FormItem>
+            </FormControl>
           )}
         />
 
@@ -191,10 +193,10 @@ const MiniForm = ({ nextStep }: Props) => {
         />
         <Button
           type="submit"
-          className="flex mx-auto rounded-full p-4 h-auto"
+          className="flex mx-auto rounded-full p-4 h-auto border-brand/brand-background/brand-background-9"
           variant={"outline"}
         >
-          <Plus className=" text-xl text-primary" />
+          <Plus className=" text-xl text-brand/brand-background/brand-background-9" />
         </Button>
       </form>
     </Form>

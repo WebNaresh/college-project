@@ -99,7 +99,6 @@ const NavBar = (props: Props) => {
     },
   ];
   const { data: session } = useSession();
-  console.log(`🚀 ~ file: navbar.tsx:88 ~ session:`, session);
 
   return (
     <div className="h-[60px] w-full flex justify-between bg-primary items-center fixed z-50">

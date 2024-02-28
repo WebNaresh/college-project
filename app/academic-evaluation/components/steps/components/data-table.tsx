@@ -37,7 +37,7 @@ export function DataTable<TData, TValue>({
               {headerGroup.headers.map((header) => {
                 return (
                   <TableHead
-                    className="text-primary text-center"
+                    className="text-brand/brand-neutrals-black bg-brand/brand-background text-center"
                     key={header.id}
                   >
                     {header.isPlaceholder
@@ -60,7 +60,10 @@ export function DataTable<TData, TValue>({
                 data-state={row.getIsSelected() && "selected"}
               >
                 {row.getVisibleCells().map((cell) => (
-                  <TableCell className="text-center" key={cell.id}>
+                  <TableCell
+                    className="text-center text-brand/brand-background/brand-background-9"
+                    key={cell.id}
+                  >
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </TableCell>
                 ))}

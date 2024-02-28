@@ -34,7 +34,6 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import validator from "validator";
 import * as z from "zod";
 
 const formSchema = z.object({
@@ -53,9 +52,7 @@ const formSchema = z.object({
     "Assistant Professor",
   ]),
   profileImage: z.string().min(0, { message: "profile image is required" }),
-  contact: z.string().refine(validator.isMobilePhone, {
-    message: "Enter a valid phone number",
-  }),
+  contact: z.string().length(10, { message: "Enter 10 digit number" }),
   role: z.enum(["HOD", "Teacher"]),
   dateOfJoining: z.date(),
 });
@@ -194,6 +191,7 @@ export function LoginForm() {
                       date > new Date() || date < new Date("1900-01-01")
                     }
                     initialFocus
+                    // closeComponent={<PopoverClose />}
                   />
                 </PopoverContent>
               </Popover>

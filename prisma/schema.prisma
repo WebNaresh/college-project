@@ -90,7 +90,7 @@ model PerformanceEvalutationForm {
   responsibilityInsitute   responsibilityInsitute[]
   achievements             achievements[]
   professtionalInfoId      String
-  professtionalInfo        ProfesstionalInfo          @relation(fields: [professtionalInfoId], references: [id])
+  professtionalInfo        ProfesstionalInfo          @relation(fields: [professtionalInfoId], references: [id], onDelete: Cascade)
   User                     User                       @relation(fields: [userId], references: [id], onDelete: Cascade)
   reasearch                reasearch[]
   cActivity                cActivity[]
@@ -113,7 +113,7 @@ model TeachingAndLearning {
   year                 yearEnum
   createdAt            DateTime                   @default(now())
   updatedAt            DateTime                   @updatedAt
-  Form                 PerformanceEvalutationForm @relation(fields: [formId], references: [id])
+  Form                 PerformanceEvalutationForm @relation(fields: [formId], references: [id], onDelete: Cascade)
 }
 
 model FeedbackDetails {
@@ -125,7 +125,7 @@ model FeedbackDetails {
   term_II_previous_year_peer_feedback    Int                        @default(0)
   createdAt                              DateTime                   @default(now())
   updatedAt                              DateTime                   @updatedAt
-  PerformanceEvalutationForm             PerformanceEvalutationForm @relation(fields: [formId], references: [id])
+  PerformanceEvalutationForm             PerformanceEvalutationForm @relation(fields: [formId], references: [id], onDelete: Cascade)
 }
 
 model Efforts {
@@ -134,7 +134,7 @@ model Efforts {
   efforts   String
   createdAt DateTime                   @default(now())
   updatedAt DateTime                   @updatedAt
-  Form      PerformanceEvalutationForm @relation(fields: [formId], references: [id])
+  Form      PerformanceEvalutationForm @relation(fields: [formId], references: [id], onDelete: Cascade)
 }
 
 model Publication {

@@ -43,6 +43,7 @@ const AcademicEvaluationForm: FC = () => {
         isLastStep,
         nextStep,
         prevStep,
+        // arrayOfIcons,
       }}
     >
       {useSwitch(step)}
