@@ -164,9 +164,9 @@ const UserForm = (p: Props) => {
           consultancyScore={determineValue(data.iRG)}
           iprEffortScore={returnCount(data)}
           dutiesScore={
-            data.duties[0].ifsDuty.includes("Institute") ||
-            data.duties[0].esDuty.includes("Institute") ||
-            data.duties[0].qpsDuty.includes("Institute")
+            data?.duties[0]?.ifsDuty?.includes("Institute") ||
+            data?.duties[0]?.esDuty?.includes("Institute") ||
+            data?.duties[0]?.qpsDuty?.includes("Institute")
               ? 10
               : 5
           }
