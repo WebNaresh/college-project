@@ -16,17 +16,17 @@ const AcademicAppraisel = ({ data }: Props) => {
 
       <div className="border-[1px] border-black m-0">
         <AcademicCellTermICurrent
-          title={`Term II of previous Academic Year ${
+          title={`Term I of Current Academic Year ${
             new Date().getFullYear() - 1
           } `}
         />
         <AcademicCellTermIICurrent
-          title={`Term I of Current Academic Year ${
+          title={`Term II of Current Academic Year ${
             new Date().getFullYear() - 1
           } - ${new Date().getFullYear()}  `}
         />
         <AcademicCellTermIIPrevious
-          title={`Term II of Current Academic Year ${
+          title={`Term II of Previous Academic Year ${
             new Date().getFullYear() - 1
           } - ${new Date().getFullYear()}  `}
         />
