@@ -8,8 +8,8 @@ const AcademicCellTermIIPrevious = ({ title }: Props) => {
     let data: AxiosResponse = await axios.post(
       `${process.env.NEXT_PUBLIC_ROUTE}/api/form/teaching-learning`,
       {
-        term: "I",
-        year: "Current",
+        term: "II",
+        year: "Previous",
       },
       config
     );

@@ -9,7 +9,7 @@ const AcademicCellTermIICurrent = ({ title }: Props) => {
     let data: AxiosResponse = await axios.post(
       `${process.env.NEXT_PUBLIC_ROUTE}/api/form/teaching-learning`,
       {
-        term: "I",
+        term: "II",
         year: "Current",
       },
       config
