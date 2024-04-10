@@ -6,7 +6,6 @@ import "react-day-picker/dist/style.css";
 
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { PopoverClose } from "@radix-ui/react-popover";
 import { ChevronsLeftIcon, ChevronsRightIcon } from "lucide-react";
 
 export type CalendarProps = React.ComponentProps<typeof DayPicker>;
@@ -18,7 +17,7 @@ function Calendar({
   ...props
 }: CalendarProps) {
   return (
-    <PopoverClose>
+    <div>
       <DayPicker
         showOutsideDays={showOutsideDays}
         className={cn("p-3", className)}
@@ -70,7 +69,7 @@ function Calendar({
         }}
         {...props}
       />
-    </PopoverClose>
+    </div>
   );
 }
 Calendar.displayName = "Calendar";
