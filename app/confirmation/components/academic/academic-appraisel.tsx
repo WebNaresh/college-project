@@ -21,10 +21,14 @@ const AcademicAppraisel = ({ data }: Props) => {
           } `}
         />
         <AcademicCellTermIICurrent
-          title={`Term I of Current Academic Year  ${new Date().getFullYear()} `}
+          title={`Term I of Current Academic Year ${
+            new Date().getFullYear() - 1
+          } - ${new Date().getFullYear()}  `}
         />
         <AcademicCellTermIIPrevious
-          title={`Term II of Current Academic Year  ${new Date().getFullYear()}`}
+          title={`Term II of Current Academic Year ${
+            new Date().getFullYear() - 1
+          } - ${new Date().getFullYear()}  `}
         />
       </div>
     </div>

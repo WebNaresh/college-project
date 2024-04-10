@@ -16,7 +16,7 @@ const AcademicCellTermIIPrevious = ({ title }: Props) => {
     return data.data;
   };
   const { data } = useQuery({
-    queryKey: [`form-details-I-Current`],
+    queryKey: [`form-details-II-Previous`],
     queryFn: fetchFormDetails,
   });
 

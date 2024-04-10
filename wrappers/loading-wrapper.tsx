@@ -11,16 +11,11 @@ const Auth = ({ children }: Props) => {
   const router = useRouter();
   const pathname = usePathname();
 
-  const { status } = useSession();
+  const { status, data } = useSession();
   if (status === "loading") {
     return <Loader />;
   }
   if (status === "unauthenticated") {
-    console.log(
-      `🚀 ~ file: loading-wrapper.tsx:25 ~ pathname === ("/login" || "signup":`,
-      pathname === ("/login" || "/signup"),
-      pathname
-    );
     if (pathname === ("/signup" || "/login" || "/waiting")) {
     } else {
       router.push("/login");
