@@ -53,7 +53,7 @@ const EvaluationForm = ({
     },
     {
       className: "bg-[#ffff66] text-left font-bold p-2 border-b",
-      data: ["1", "Teaching & Learning", "[95]", ""],
+      data: ["1", "Teaching & Learning", "[35]", ""],
     },
     {
       data: [
@@ -121,7 +121,7 @@ const EvaluationForm = ({
           ]}
         />,
         "6",
-        "",
+        averageResult,
       ],
     },
 
