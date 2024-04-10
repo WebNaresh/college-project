@@ -51,7 +51,8 @@ const MiniForm = ({ nextStep }: Props) => {
         className="space-y-8 flex-1 flex flex-col"
       >
         <div className="text-brand/brand-neutrals-black text-sm font-bold">
-          Term I of Current Academic Year (2022-23)
+          Term I of Current Academic Year {new Date().getFullYear() - 1} -{" "}
+          {new Date().getFullYear()}
         </div>
         <FormField
           control={form.control}
