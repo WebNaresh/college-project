@@ -21,7 +21,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Plus } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import CurrentYear from "../../../year";
 
 type Props = {
   nextStep: () => void;
@@ -68,7 +67,8 @@ const MiniForm = ({ nextStep }: Props) => {
         className="space-y-8 flex-1 flex flex-col"
       >
         <div className="text-brand/brand-neutrals-black text-sm font-bold">
-          Term II of previous Academic Year <CurrentYear />
+          Term II of previous Academic Year {new Date().getFullYear() - 2} -{" "}
+          {new Date().getFullYear() - 1}
         </div>
         <FormField
           control={form.control}
