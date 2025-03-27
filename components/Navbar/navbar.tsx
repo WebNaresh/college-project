@@ -50,6 +50,17 @@ const NavBar = (props: Props) => {
     isVisible?: Boolean;
   }[] = [
     {
+      link:
+        data?.user?.role === "Teacher"
+          ? "/teacher"
+          : data?.user?.role === "HOD"
+          ? "/hod"
+          : "/",
+      title: "Home",
+      icon: <GraduationCap />,
+      isVisible: false,
+    },
+    {
       link: "/teacher",
       title: "Dashboard",
       icon: <GraduationCap />,
@@ -98,7 +109,7 @@ const NavBar = (props: Props) => {
       isVisible: data?.user?.role === "HOD" ? false : true,
     },
     {
-      link: "/hod/get-report",
+      link: "/report",
       title: "Get report",
       icon: <TrendingUp />,
       isVisible: data?.user?.role === "HOD" ? false : true,

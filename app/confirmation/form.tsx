@@ -40,7 +40,9 @@ import PublicationForm from "./components/publication/publication";
 import SponsorReasearchForm from "./components/reasearch/reasearch";
 import ResponsibilityForm from "./components/responsibility/responsibilty";
 
-type Props = {};
+type Props = {
+  id?: string;
+};
 export interface PerformanceEvalutationFormDetails
   extends PerformanceEvalutationForm {
   teachingAndLearning: TeachingAndLearning[];
@@ -68,7 +70,9 @@ const UserForm = (p: Props) => {
   const fetchFormDetails = async () => {
     const config = { headers: { "Content-Type": "application/json" } };
     let data: AxiosResponse = await axios.get(
-      `${process.env.NEXT_PUBLIC_ROUTE}/api/form`,
+      p.id
+        ? `${process.env.NEXT_PUBLIC_ROUTE}/api/form/${p.id}`
+        : `${process.env.NEXT_PUBLIC_ROUTE}/api/form`,
       config
     );
     return data.data.form as PerformanceEvalutationFormDetails;

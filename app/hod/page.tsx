@@ -12,7 +12,6 @@ import {
   CheckCircle2,
   ClipboardList,
   FileText,
-  GraduationCap,
   Users,
 } from "lucide-react";
 import { useSession } from "next-auth/react";
@@ -34,16 +33,10 @@ export default function HODPage() {
       title: "Reports",
       description: "View and generate department reports",
       icon: <BarChart className="h-8 w-8" />,
-      link: "/hod/get-report",
+      link: "/report",
       color: "bg-green-500",
     },
-    {
-      title: "Teacher Evaluations",
-      description: "Review teacher performance evaluations",
-      icon: <GraduationCap className="h-8 w-8" />,
-      link: "/academic-evaluation",
-      color: "bg-purple-500",
-    },
+
     {
       title: "Department Overview",
       description: "View department statistics and status",
@@ -101,7 +94,7 @@ export default function HODPage() {
             <Button
               variant="outline"
               className="h-24 flex flex-col items-center justify-center gap-2"
-              onClick={() => router.push("/hod/get-report")}
+              onClick={() => router.push("/report")}
             >
               <CheckCircle2 className="h-6 w-6" />
               <span>Generate Reports</span>
