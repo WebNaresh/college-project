@@ -31,12 +31,12 @@ const MiniForm = ({ nextStep }: Props) => {
   const form = useForm<z.infer<typeof step1formSchema>>({
     resolver: zodResolver(step1formSchema),
     defaultValues: {
-      subjectName: "",
-      level: undefined,
-      courseHead: undefined,
-      noOfHrsWeek: undefined,
-      noOfClassesConducted: undefined,
-      result: undefined,
+      subjectName: "Computer Networks",
+      level: "UG",
+      courseHead: "TH",
+      noOfHrsWeek: 3,
+      noOfClassesConducted: 40,
+      result: 82,
       term: "I",
       year: "Current",
     },

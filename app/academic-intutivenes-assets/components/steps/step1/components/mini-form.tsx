@@ -55,10 +55,10 @@ const MiniForm = ({ title }: Props) => {
   const form = useForm<z.infer<typeof journalSchema>>({
     resolver: zodResolver(journalSchema),
     defaultValues: {
-      name: undefined,
-      issnOrIssbnNo: undefined,
-      indexedIn: undefined,
-      mainAuthor: false,
+      name: "International Journal of Computer Science",
+      issnOrIssbnNo: "ISSN-1234-5678",
+      indexedIn: "SCOUPUS",
+      mainAuthor: true,
     },
   });
 

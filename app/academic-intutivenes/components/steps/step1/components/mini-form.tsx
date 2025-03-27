@@ -65,10 +65,10 @@ const MiniForm = ({ title }: Props) => {
   const form = useForm<z.infer<typeof step1formSchema>>({
     resolver: zodResolver(step1formSchema),
     defaultValues: {
-      programmTitle: undefined,
-      duration: undefined,
-      place: undefined,
-      organizer: undefined,
+      programmTitle: "Advanced Web Development Workshop",
+      duration: "2 weeks",
+      place: "Mumbai, Maharashtra",
+      organizer: "Tech Education Foundation",
     },
   });
 

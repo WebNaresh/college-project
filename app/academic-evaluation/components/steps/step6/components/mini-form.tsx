@@ -29,7 +29,8 @@ const MiniForm = ({ nextStep }: Props) => {
   const form = useForm<z.infer<typeof step1formSchema>>({
     resolver: zodResolver(step1formSchema),
     defaultValues: {
-      effort: "",
+      effort:
+        "Implemented interactive learning methods and conducted regular doubt sessions to improve student engagement and understanding.",
     },
   });
 

@@ -50,8 +50,8 @@ const MiniForm = ({ data, nextStep }: Props) => {
   const form = useForm<z.infer<typeof feedbackFormSchema>>({
     resolver: zodResolver(feedbackFormSchema),
     defaultValues: {
-      averageResult: data?.averageResult,
-      classEngagement: data?.classEngagement,
+      averageResult: 85,
+      classEngagement: 90,
     },
   });
 

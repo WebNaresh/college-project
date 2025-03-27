@@ -55,9 +55,9 @@ const MiniForm = ({ title }: Props) => {
   const form = useForm<z.infer<typeof conferenceSchema>>({
     resolver: zodResolver(conferenceSchema),
     defaultValues: {
-      name: undefined,
-      indexedIn: undefined,
-      mainAuthor: undefined,
+      name: "International Conference on Advanced Computing",
+      indexedIn: "SCI",
+      mainAuthor: true,
     },
   });
 

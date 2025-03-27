@@ -55,15 +55,15 @@ const MiniForm = ({ data, nextStep }: Props) => {
     resolver: zodResolver(feedbackFormSchema),
     defaultValues: {
       term_I_current_year_student_feedback:
-        data?.term_I_current_year_student_feedback,
+        data?.term_I_current_year_student_feedback || 85,
       term_II_previous_year_student_feedback:
-        data?.term_II_previous_year_student_feedback,
+        data?.term_II_previous_year_student_feedback || 82,
       term_I_current_year_peer_feedback:
-        data?.term_I_current_year_peer_feedback,
+        data?.term_I_current_year_peer_feedback || 88,
       term_II_previous_year_peer_feedback:
-        data?.term_II_previous_year_peer_feedback,
-      formId: data?.formId,
-      id: data?.id,
+        data?.term_II_previous_year_peer_feedback || 85,
+      formId: data?.formId || "",
+      id: data?.id || "",
     },
   });
 

@@ -47,7 +47,7 @@ const MiniForm = ({ title }: Props) => {
   const form = useForm<z.infer<typeof step1formSchema>>({
     resolver: zodResolver(step1formSchema),
     defaultValues: {
-      responsibility: undefined,
+      responsibility: "Institute Research Committee Member",
     },
   });
 

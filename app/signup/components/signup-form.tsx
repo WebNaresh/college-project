@@ -63,15 +63,15 @@ export function LoginForm() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: "",
-      email: "",
-      password: "",
+      name: "Teacher",
+      email: "teacher@gmail.com",
+      password: "Pass@123",
       role: "Teacher",
-      dateOfJoining: undefined,
+      dateOfJoining: new Date("2023-08-15"),
       departmentName: "Master of Computer Application",
-      facaultyName: "",
-      contact: undefined,
-      designation: undefined,
+      facaultyName: "Faculty of Computer Science",
+      contact: "9876543210",
+      designation: "Assistant Professor",
       profileImage: "/biglogo.svg",
     },
   });

@@ -65,9 +65,9 @@ const MiniForm = ({ title }: Props) => {
   const form = useForm<z.infer<typeof step1formSchema>>({
     resolver: zodResolver(step1formSchema),
     defaultValues: {
-      dateOfApplication: undefined,
-      rightStatus: undefined,
-      isCommercialized: false,
+      dateOfApplication: new Date("2024-02-15"),
+      rightStatus: "Applied",
+      isCommercialized: true,
     },
   });
 

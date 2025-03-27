@@ -8,47 +8,46 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import {
-  BarChart,
-  CheckCircle2,
+  BookOpen,
   ClipboardList,
-  FileText,
   GraduationCap,
-  Users,
+  NotebookPen,
+  User,
 } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
-export default function HODPage() {
+export default function TeacherPage() {
   const router = useRouter();
   const { data: session } = useSession();
 
   const cards = [
     {
-      title: "Applications",
-      description: "Review and manage teacher applications",
-      icon: <FileText className="h-8 w-8" />,
-      link: "/hod",
+      title: "Academic Evaluation",
+      description: "Submit your teaching performance evaluation",
+      icon: <GraduationCap className="h-8 w-8" />,
+      link: "/academic-evaluation",
       color: "bg-blue-500",
     },
     {
-      title: "Reports",
-      description: "View and generate department reports",
-      icon: <BarChart className="h-8 w-8" />,
-      link: "/hod/get-report",
+      title: "Academic Assets",
+      description: "Manage your academic publications and research",
+      icon: <BookOpen className="h-8 w-8" />,
+      link: "/academic-assets",
       color: "bg-green-500",
     },
     {
-      title: "Teacher Evaluations",
-      description: "Review teacher performance evaluations",
-      icon: <GraduationCap className="h-8 w-8" />,
-      link: "/academic-evaluation",
+      title: "Academic Duties",
+      description: "View and manage your academic responsibilities",
+      icon: <ClipboardList className="h-8 w-8" />,
+      link: "/academic-duties",
       color: "bg-purple-500",
     },
     {
-      title: "Department Overview",
-      description: "View department statistics and status",
-      icon: <Users className="h-8 w-8" />,
-      link: "/department-overview",
+      title: "Profile",
+      description: "Update your professional information",
+      icon: <User className="h-8 w-8" />,
+      link: "/profile",
       color: "bg-orange-500",
     },
   ];
@@ -61,7 +60,7 @@ export default function HODPage() {
             Welcome, {session?.user?.name}
           </h1>
           <p className="text-muted-foreground mt-2">
-            Department Head Dashboard
+            Manage your academic activities and evaluations
           </p>
         </div>
 
@@ -93,18 +92,18 @@ export default function HODPage() {
             <Button
               variant="outline"
               className="h-24 flex flex-col items-center justify-center gap-2"
-              onClick={() => router.push("/hod")}
+              onClick={() => router.push("/academic-evaluation")}
             >
-              <ClipboardList className="h-6 w-6" />
-              <span>Review Applications</span>
+              <NotebookPen className="h-6 w-6" />
+              <span>Submit Evaluation</span>
             </Button>
             <Button
               variant="outline"
               className="h-24 flex flex-col items-center justify-center gap-2"
-              onClick={() => router.push("/hod/get-report")}
+              onClick={() => router.push("/profile")}
             >
-              <CheckCircle2 className="h-6 w-6" />
-              <span>Generate Reports</span>
+              <User className="h-6 w-6" />
+              <span>Update Profile</span>
             </Button>
           </div>
         </div>

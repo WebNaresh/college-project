@@ -30,8 +30,8 @@ export function LoginForm() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      email: "",
-      password: "",
+      email: "teacher@gmail.com",
+      password: "Pass@123",
     },
   });
   const signInFunction = async (data: z.infer<typeof formSchema>) => {
@@ -52,7 +52,17 @@ export function LoginForm() {
     onSuccess: async (data) => {
       console.log(`🚀 ~ file: login-form.tsx:50 ~ data:`, data);
       toast.success("Successfully signed in!");
-      router.push("/");
+      // Get the session to check user role
+      const session = await fetch("/api/auth/session").then((res) =>
+        res.json()
+      );
+      if (session?.user?.role === "Teacher") {
+        router.push("/teacher");
+      } else if (session?.user?.role === "HOD") {
+        router.push("/hod");
+      } else {
+        router.push("/");
+      }
     },
     onError: (error) => {
       console.error("Sign-in error:", error);

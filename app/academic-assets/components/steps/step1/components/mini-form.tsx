@@ -60,11 +60,11 @@ const MiniForm = ({ title }: Props) => {
   const form = useForm<z.infer<typeof step1formSchema>>({
     resolver: zodResolver(step1formSchema),
     defaultValues: {
-      natureOfWork: undefined,
-      agency: undefined,
-      amountRecieved: undefined,
-      startDate: undefined,
-      endDate: undefined,
+      natureOfWork: "Research Project on AI Technology",
+      agency: "Department of Computer Science",
+      amountRecieved: "75000",
+      startDate: new Date("2024-03-01"),
+      endDate: new Date("2024-08-31"),
     },
   });
 

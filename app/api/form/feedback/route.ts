@@ -7,6 +7,15 @@ import { NextRequest, NextResponse } from "next/server";
 export async function GET(req: NextRequest, res: NextApiResponse) {
   try {
     let form = await getForm();
+    if (!form) {
+      return new NextResponse(
+        JSON.stringify({
+          status: "error",
+          message: "No form found",
+        }),
+        { status: 404 }
+      );
+    }
     const feedback = await getFeedback(form);
     return NextResponse.json({
       status: "success",
@@ -27,6 +36,22 @@ export async function GET(req: NextRequest, res: NextApiResponse) {
 export async function POST(req: NextRequest, res: NextApiResponse) {
   try {
     let feedbackDetails = (await req.json()) as FeedbackDetails;
+
+    // First verify that the form exists
+    const form = await prisma.performanceEvalutationForm.findUnique({
+      where: { id: feedbackDetails.formId }
+    });
+
+    if (!form) {
+      return new NextResponse(
+        JSON.stringify({
+          status: "error",
+          message: "Form not found",
+        }),
+        { status: 404 }
+      );
+    }
+
     const feedback = await updateFeedback(feedbackDetails);
     return NextResponse.json({
       status: "success",
@@ -43,6 +68,7 @@ export async function POST(req: NextRequest, res: NextApiResponse) {
     );
   }
 }
+
 const getFeedback = async (
   form: PerformanceEvalutationForm
 ): Promise<FeedbackDetails | null> => {
@@ -51,13 +77,19 @@ const getFeedback = async (
       formId: form.id,
     },
   });
+
   if (!feedbackDetails) {
     feedbackDetails = await prisma.feedbackDetails.create({
       data: {
-        formId: form?.id,
+        formId: form.id,
+        term_I_current_year_student_feedback: 0,
+        term_II_previous_year_student_feedback: 0,
+        term_I_current_year_peer_feedback: 0,
+        term_II_previous_year_peer_feedback: 0,
       },
     });
-    const form2 = prisma.performanceEvalutationForm.update({
+
+    await prisma.performanceEvalutationForm.update({
       where: {
         id: form.id,
       },
@@ -66,34 +98,22 @@ const getFeedback = async (
       },
     });
   }
+
   return feedbackDetails;
 };
+
 const updateFeedback = async (
-  form: FeedbackDetails
+  feedback: FeedbackDetails
 ): Promise<FeedbackDetails | null> => {
-  let feedbackDetails = await prisma.feedbackDetails.upsert({
+  const feedbackDetails = await prisma.feedbackDetails.update({
     where: {
-      id: form.id,
+      id: feedback.id,
     },
-    update: {
-      term_I_current_year_student_feedback:
-        form.term_I_current_year_student_feedback,
-      term_II_previous_year_student_feedback:
-        form.term_II_previous_year_student_feedback,
-      term_I_current_year_peer_feedback: form.term_I_current_year_peer_feedback,
-      term_II_previous_year_peer_feedback:
-        form.term_II_previous_year_peer_feedback,
-      formId: form.formId,
-    },
-    create: {
-      term_I_current_year_student_feedback:
-        form.term_I_current_year_student_feedback,
-      term_II_previous_year_student_feedback:
-        form.term_II_previous_year_student_feedback,
-      term_I_current_year_peer_feedback: form.term_I_current_year_peer_feedback,
-      term_II_previous_year_peer_feedback:
-        form.term_II_previous_year_peer_feedback,
-      formId: form.formId,
+    data: {
+      term_I_current_year_student_feedback: feedback.term_I_current_year_student_feedback,
+      term_II_previous_year_student_feedback: feedback.term_II_previous_year_student_feedback,
+      term_I_current_year_peer_feedback: feedback.term_I_current_year_peer_feedback,
+      term_II_previous_year_peer_feedback: feedback.term_II_previous_year_peer_feedback,
     },
   });
 

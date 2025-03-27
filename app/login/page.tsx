@@ -20,7 +20,7 @@ const Page = (props: Props) => {
           </div>
         </div>
         <Button variant={"link"}>
-          <Link href={"/login"}>Login with Credentials</Link>
+          <Link href={"/signup"}>Signup</Link>
         </Button>
       </div>
       <div className="col-span-1 px-4 flex flex-col gap-2">

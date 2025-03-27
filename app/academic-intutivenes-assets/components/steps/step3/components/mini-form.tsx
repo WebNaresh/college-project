@@ -54,15 +54,15 @@ const MiniForm = ({ title }: Props) => {
   const form = useForm<z.infer<typeof bookSchema>>({
     resolver: zodResolver(bookSchema),
     defaultValues: {
-      bookTitle: undefined,
-      publisherName: undefined,
-      editorName: undefined,
-      issnOrIssbnNo: undefined,
-      detailOfCoAuthors: undefined,
-      publishingMonth: undefined,
-      publishingYear: undefined,
-      titleWithPageNo: undefined,
-      type: undefined,
+      bookTitle: "Advanced Algorithms and Data Structures",
+      publisherName: "Tech Publications Ltd",
+      editorName: "Dr. John Smith",
+      issnOrIssbnNo: "ISBN-978-0-123456-47-2",
+      detailOfCoAuthors: "Dr. Sarah Johnson, Dr. Michael Brown",
+      publishingMonth: "March",
+      publishingYear: "2024",
+      titleWithPageNo: "Chapter 3: Graph Algorithms, pages 45-78",
+      type: "BookChapter",
     },
   });
 
