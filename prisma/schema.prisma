@@ -1,0 +1,388 @@
+datasource db {
+  provider          = "postgresql"
+  url               = env("DATABASE_URL")
+  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+// Student Related Info
+
+model User {
+  id                         String                       @id @default(cuid())
+  name                       String
+  email                      String                       @unique
+  contact                    String
+  verified                   Boolean
+  profileImage               String                       @default("/default-user.png")
+  role                       roleEnum
+  professionalInfo           ProfesstionalInfo?
+  accounts                   Account[]
+  sessions                   Session[]
+  password                   String
+  createdAt                  DateTime                     @default(now())
+  updatedAt                  DateTime                     @updatedAt
+  PerformanceEvalutationForm PerformanceEvalutationForm[]
+}
+
+model ProfesstionalInfo {
+  id                         String                       @id @default(cuid())
+  dateOfJoining              DateTime
+  facaultyName               String
+  designation                String
+  departmentName             String
+  userId                     String                       @unique
+  User                       User                         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  PerformanceEvalutationForm PerformanceEvalutationForm[]
+  createdAt                  DateTime                     @default(now())
+  updatedAt                  DateTime                     @updatedAt
+}
+
+model PerformanceEvalutationForm {
+  id                       String                     @id @default(cuid())
+  userId                   String
+  isSubmitted              Boolean                    @default(false)
+  createdAt                DateTime                   @default(now())
+  updatedAt                DateTime                   @updatedAt
+  teachingAndLearning      TeachingAndLearning[]
+  feedbackDetails          FeedbackDetails?
+  feedbackDetailsId        String?
+  efforts                  Efforts[]
+  publication              Publication[]
+  books                    Books[]
+  kepAttended              kepAttended[]
+  kepOrganized             kepOrganized[]
+  iRG                      irg[]
+  copyRight                copyRight[]
+  tradeMark                tradeMark[]
+  patent                   patent[]
+  duties                   duties[]
+  responsibilityDepartment responsibilityDepartment[]
+  responsibilityInsitute   responsibilityInsitute[]
+  achievements             achievements[]
+  professtionalInfoId      String
+  professtionalInfo        ProfesstionalInfo          @relation(fields: [professtionalInfoId], references: [id], onDelete: Cascade)
+  User                     User                       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  reasearch                reasearch[]
+  cActivity                cActivity[]
+  averageResult            Int                        @default(0)
+  classEngagement          Int                        @default(0)
+  journals                 Journals[]
+  conferences              Conferences[]
+}
+
+model TeachingAndLearning {
+  id                   String                     @id @default(cuid())
+  formId               String
+  subjectName          String
+  level                levelEnum
+  courseHead           courseHeadEnum
+  noOfHrsWeek          Int
+  noOfClassesConducted Int
+  result               Int
+  term                 termEnum
+  year                 yearEnum
+  createdAt            DateTime                   @default(now())
+  updatedAt            DateTime                   @updatedAt
+  Form                 PerformanceEvalutationForm @relation(fields: [formId], references: [id], onDelete: Cascade)
+}
+
+model FeedbackDetails {
+  id                                     String                     @id @default(cuid())
+  formId                                 String                     @unique
+  term_I_current_year_student_feedback   Int                        @default(0)
+  term_II_previous_year_student_feedback Int                        @default(0)
+  term_I_current_year_peer_feedback      Int                        @default(0)
+  term_II_previous_year_peer_feedback    Int                        @default(0)
+  createdAt                              DateTime                   @default(now())
+  updatedAt                              DateTime                   @updatedAt
+  PerformanceEvalutationForm             PerformanceEvalutationForm @relation(fields: [formId], references: [id], onDelete: Cascade)
+}
+
+model Efforts {
+  id        String                     @id @default(cuid())
+  formId    String
+  efforts   String
+  createdAt DateTime                   @default(now())
+  updatedAt DateTime                   @updatedAt
+  Form      PerformanceEvalutationForm @relation(fields: [formId], references: [id], onDelete: Cascade)
+}
+
+model Publication {
+  id            String                     @id @default(cuid())
+  formId        String
+  paperTitle    String
+  level         publicationLevel
+  name          String
+  issnOrIssbnNo String
+  indexedIn     indexLevel
+  mainAuthor    Boolean
+  Performance   PerformanceEvalutationForm @relation(fields: [formId], references: [id], onDelete: Cascade)
+}
+
+model Journals {
+  id            String                     @id @default(cuid())
+  formId        String
+  name          String
+  issnOrIssbnNo String
+  indexedIn     indexLevel
+  mainAuthor    Boolean
+  Performance   PerformanceEvalutationForm @relation(fields: [formId], references: [id], onDelete: Cascade)
+}
+
+model Conferences {
+  id          String                     @id @default(cuid())
+  formId      String
+  name        String
+  indexedIn   indexLevel
+  mainAuthor  Boolean
+  Performance PerformanceEvalutationForm @relation(fields: [formId], references: [id], onDelete: Cascade)
+}
+
+model Books {
+  id                String                     @id @default(cuid())
+  bookTitle         String
+  titleWithPageNo   String
+  publisherName     String
+  editorName        String
+  issnOrIssbnNo     String
+  detailOfCoAuthors String
+  publishingMonth   monthEnum
+  publishingYear    String
+  type              bookTypeEnum
+  formId            String
+  Performance       PerformanceEvalutationForm @relation(fields: [formId], references: [id], onDelete: Cascade)
+}
+
+model kepAttended {
+  id            String                     @id @default(cuid())
+  programmTitle String
+  duration      String
+  place         String
+  organizer     String
+  formId        String
+  Performance   PerformanceEvalutationForm @relation(fields: [formId], references: [id], onDelete: Cascade)
+}
+
+model kepOrganized {
+  id            String                     @id @default(cuid())
+  programmTitle String
+  duration      String
+  Performance   PerformanceEvalutationForm @relation(fields: [formId], references: [id], onDelete: Cascade)
+  formId        String
+}
+
+model irg {
+  id             String                     @id @default(cuid())
+  natureOfWork   String
+  agency         String
+  amountRecieved String
+  startDate      DateTime
+  endDate        DateTime
+  Performance    PerformanceEvalutationForm @relation(fields: [formId], references: [id], onDelete: Cascade)
+  formId         String
+}
+
+model reasearch {
+  id            String                     @id @default(cuid())
+  scheme        String
+  // reasearchType reasearchTypeEnum
+  agency        String
+  status        statusEnum
+  date          DateTime
+  grantRecieved String
+  Performance   PerformanceEvalutationForm @relation(fields: [formId], references: [id], onDelete: Cascade)
+  formId        String
+}
+
+model patent {
+  id                String                     @id @default(cuid())
+  dateOfApplication DateTime
+  isCommercialized  Boolean
+  rightStatus       rigthStatusEnum
+  Performance       PerformanceEvalutationForm @relation(fields: [formId], references: [id], onDelete: Cascade)
+  formId            String
+}
+
+model copyRight {
+  id                String                     @id @default(cuid())
+  dateOfApplication DateTime
+  isCommercialized  Boolean
+  rightStatus       rigthStatusEnum
+  Performance       PerformanceEvalutationForm @relation(fields: [formId], references: [id], onDelete: Cascade)
+  formId            String
+}
+
+model tradeMark {
+  id                String                     @id @default(cuid())
+  dateOfApplication DateTime
+  isCommercialized  Boolean
+  rightStatus       rigthStatusEnum
+  Performance       PerformanceEvalutationForm @relation(fields: [formId], references: [id], onDelete: Cascade)
+  formId            String
+}
+
+// ifsDuty Invigilation , flying squad duties/ any exam related duties
+// es Evaluation of Answer Scripts
+// qps Question Paper Setting
+model duties {
+  id          String                     @id @default(cuid())
+  ifsDuty     dutyEnum
+  esDuty      dutyEnum
+  qpsDuty     dutyEnum
+  Performance PerformanceEvalutationForm @relation(fields: [formId], references: [id], onDelete: Cascade)
+  formId      String
+}
+
+model cActivity {
+  id             String                     @id @default(cuid())
+  nameOfActivity String
+  duration       String
+  type           activityType
+  Performance    PerformanceEvalutationForm @relation(fields: [formId], references: [id], onDelete: Cascade)
+  formId         String
+}
+
+model responsibilityDepartment {
+  id             String                     @id @default(cuid())
+  responsibility String
+  Performance    PerformanceEvalutationForm @relation(fields: [formId], references: [id], onDelete: Cascade)
+  formId         String
+}
+
+model responsibilityInsitute {
+  id             String                     @id @default(cuid())
+  responsibility String
+  Performance    PerformanceEvalutationForm @relation(fields: [formId], references: [id], onDelete: Cascade)
+  formId         String
+}
+
+model achievements {
+  id           String                     @id @default(cuid())
+  achievements String
+  Performance  PerformanceEvalutationForm @relation(fields: [formId], references: [id], onDelete: Cascade)
+  formId       String
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+enum roleEnum {
+  Teacher
+  HOD
+}
+
+enum levelEnum {
+  UG
+  PG
+}
+
+enum monthEnum {
+  January
+  February
+  March
+  April
+  May
+  June
+  July
+  August
+  September
+  October
+  November
+  December
+}
+
+enum courseHeadEnum {
+  TH
+  PR
+  T
+}
+
+enum bookTypeEnum {
+  Book
+  BookChapter
+}
+
+enum termEnum {
+  I
+  II
+}
+
+enum yearEnum {
+  Current
+  Previous
+}
+
+enum publicationLevel {
+  Local
+  State
+  National
+  InterNational
+}
+
+enum indexLevel {
+  SCI
+  SCOUPUS
+  UGC_CARE
+  PEER_REVIEWED
+  NO_INDEXED
+}
+
+enum rigthStatusEnum {
+  Applied
+  Granted
+}
+
+enum dutyEnum {
+  University
+  Institute
+}
+
+enum statusEnum {
+  Awarded
+  Submitted
+}
+
+enum activityType {
+  CoCurricular
+  ExtraCurricular
+}
+
+enum reasearchTypeEnum {
+  InHouse
+  External
+}
